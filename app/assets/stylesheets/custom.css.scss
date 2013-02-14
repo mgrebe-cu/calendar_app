@@ -1,13 +1,13 @@
 /* Override bootstrap variables for site specific colors, etc. */
-$navbarInverseBackground:           #000077;
-$navbarInverseBackgroundHighlight:  #000099;
-$navbarInverseLinkColor:            #fff;
-$navbarInverseLinkColorHover:       #f00;
+$navbarInverseBackground:           #0000AA;
+$navbarInverseBackgroundHighlight:  #000066;
+$navbarInverseLinkColor:            #ccc;
+$navbarInverseLinkColorHover:       white;
+$bodyBackground:                    #ccc;
 
 @import "bootstrap";
 
 /* mixins, variables, etc. */
-
 $grayMediumLight: #eaeaea;
 
 @mixin box_sizing {
