@@ -7,6 +7,15 @@ $bodyBackground:                    #ccc;
 
 @import "bootstrap";
 
+/* This needs to be here to make navbar work correctly with
+   responsive bootstrap */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+
+@import "bootstrap-responsive";
+
 /* mixins, variables, etc. */
 $grayMediumLight: #eaeaea;
 
@@ -20,10 +29,6 @@ $grayMediumLight: #eaeaea;
 
 html {
   overflow-y: scroll;
-}
-
-body {
-  padding-top: 60px;
 }
 
 section {
