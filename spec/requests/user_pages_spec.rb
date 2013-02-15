@@ -39,5 +39,18 @@ describe "UserPages" do
                 it { should have_link('Sign out') }
             end
         end
+
+        describe "with invalid information" do
+            it "should not create a user" do
+                expect { click_button submit_button }.not_to change(User, :count)
+            end
+      
+            describe "error messages" do
+                before { click_button submit_button }
+
+                it { should have_selector('title', text: 'Create New Account') }
+                it { should have_content('error') }
+            end
+        end
     end
 end
