@@ -1,6 +1,23 @@
-<% provide(:title, 'Create Account') %>
+<% provide(:title, 'Create New Account') %>
 
 <div class="center hero-unit">
     <h1>Create Account</h1>
-    <p>Find me in app/views/users/new.html.erb</p>
+    <div class="row">
+            <%= form_for(@user) do |f| %>
+                <%= render 'shared/error_messages', object: f.object %>
+                <%= f.label :full_name %>
+                <%= f.text_field :full_name %>
+
+                <%= f.label :username %>
+                <%= f.text_field :username %>
+
+                <%= f.label :password %>
+                <%= f.password_field :password %>
+
+                <%= f.label :password_confirmation, "Confirmation" %>
+                <%= f.password_field :password_confirmation %>
+                <br><br>
+                <%= f.submit "Create Account", class: "btn btn-large btn-primary" %>
+            <% end %>
+    </div>
 </div>
