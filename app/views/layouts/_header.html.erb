@@ -7,10 +7,33 @@
           <% if signed_in? %>
             <li><%= link_to "Sign Out", signout_path, method: "delete" %></li>
           <% else %>
-            <li><%= link_to "Sign In", signin_path %></li>
+             <% if !current_page?(controller:'sessions', action:'new') %>
+              <li><a href="#signinModal" data-toggle="modal">Sign In</a></li>
+             <% end %>
           <% end %>
         </ul>
       </nav>
     </div>
   </div>
+  <!-- Modal for signup -->
+  <div id="signinModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="signinLabel" aria-hidden="true">
+    <div class="modal-header">
+      <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+      <h3 id="signinLabel">Sign In</h3>
+    </div>
+    <div class="modal-body">
+        <%= form_for(:session, url: sessions_path) do |f| %>
+          <%= f.label :username %>
+          <%= f.text_field :username %>
+
+          <%= f.label :password %>
+          <%= f.password_field :password %>
+          <br>
+          <%= f.submit "Sign In", class: "btn btn-large btn-primary" %>
+        <% end %>
+    </div>
+  </div>
 </header>
+
+
+ 
