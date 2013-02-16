@@ -19,10 +19,10 @@ describe "UserPages" do
 
         describe "with valid information" do
             before do
-                fill_in "Full name",    with: "John Doe"
+                fill_in "Full Name",    with: "John Doe"
                 fill_in "Username",     with: "johnd"
-                fill_in "Password",     with: "foobar"
-                fill_in "Confirmation", with: "foobar"
+                fill_in "Password",     with: "foobar1"
+                fill_in "Confirmation", with: "foobar1"
             end
 
             it "should create a user" do
