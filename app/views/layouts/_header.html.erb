@@ -5,9 +5,13 @@
       <nav>
         <ul class="nav pull-right">
           <% if signed_in? %>
-            <li><%= link_to "Sign Out", signout_path, method: "delete" %></li>
+            <li>
+              <%= link_to signout_path, method: "delete" do %>
+                <i class="icon-user icon-white"></i> Sign Out
+              <% end %>
+            </li>
           <% else %>
-             <% if !current_page?(controller:'sessions', action:'new') %>
+             <% if request[:PATH_INFO] != '/signin' %>
               <li><%= link_to "Sign In", signin_path %></li>
              <% end %>
           <% end %>
