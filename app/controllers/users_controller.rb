@@ -1,8 +1,8 @@
 class UsersController < ApplicationController
     before_filter :signed_in_user, 
-                only: [:show]
+                only: [:edit, :show]
     before_filter :correct_user,   
-                only: [:show]
+                only: [:edit, :show]
 
     def new
         @user = User.new
@@ -21,6 +21,9 @@ class UsersController < ApplicationController
         else
             render 'new'
         end
+    end
+
+    def edit
     end
 
   private
