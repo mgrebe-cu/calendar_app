@@ -5,10 +5,16 @@
       <nav>
         <ul class="nav pull-right">
           <% if signed_in? %>
-            <li>
-              <%= link_to signout_path, method: "delete" do %>
-                <i class="icon-user icon-white"></i> Sign Out
-              <% end %>
+            <li id="fat-menu" class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                <i class="icon-user icon-white"></i><b class="caret"></b>
+              </a>
+              <ul class="dropdown-menu">
+                <li><%= link_to "Settings", edit_user_path(current_user) %></li>
+                <li><%= link_to signout_path, method: "delete" do %>
+                    Signout <i class="icon-off icon-white"></i>
+                    <% end %></li>
+              </ul>
             </li>
           <% else %>
              <% if request[:PATH_INFO] != '/signin' %>
