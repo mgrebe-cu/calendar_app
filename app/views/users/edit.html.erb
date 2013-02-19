@@ -1,4 +1,4 @@
-<% provide(:title, "Edit user") %> 
+<% provide(:title, "Edit settings") %> 
 <h1>Update your settings:</h1>
 
 <div class="center hero-unit">
@@ -7,12 +7,6 @@
 
       <%= f.label :full_name %>
       <%= f.text_field :full_name %>
-
-      <%= f.label :password %>
-      <%= f.password_field :password %>
-
-      <%= f.label :password_confirmation, "Confirm Password" %>
-      <%= f.password_field :password_confirmation %>
       <br>
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>
