@@ -66,13 +66,7 @@ describe "UserPages" do
             it { should have_selector('title', text: "Edit settings") }
         end
 
-        describe "with invalid information" do
-            before { click_button "Save changes" }
-
-            it { should have_content('error') }
-        end
-
-        describe "with valid information" do
+        describe "with full name change" do
             let(:new_name)  { "New Name" }
             before do
                 fill_in "Full name",        with: new_name
@@ -82,7 +76,7 @@ describe "UserPages" do
             it { should have_selector('title', text: new_name) }
             it { should have_selector('div.alert.alert-success') }
             it { should have_link('Signout', href: signout_path) }
-            specify { user.reload.name.should  == new_name }
+            specify { user.reload.full_name.should  == new_name }
         end
     end
 end
