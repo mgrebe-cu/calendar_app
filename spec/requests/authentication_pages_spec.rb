@@ -32,7 +32,7 @@ describe "Authentication" do
 
 
             it { should have_selector('title', text: user.full_name) }
-            it { should have_link('Sign Out', href: signout_path) }
+            it { should have_link('Signout', href: signout_path) }
             it { should_not have_link('Sign In', href: signin_path) }
         end
     end

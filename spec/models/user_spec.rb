@@ -65,4 +65,13 @@ describe User do
         it { should be_invalid }
     end
 
+    describe "when username is already taken" do
+        before do
+            user_with_same_name = @user.dup
+            user_with_same_name.save
+        end
+
+        it { should_not be_valid}
+    end
+
 end
