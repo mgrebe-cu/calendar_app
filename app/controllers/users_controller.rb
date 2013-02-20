@@ -30,7 +30,7 @@ class UsersController < ApplicationController
         # Settings Update (non-password)
         if params[:user][:password] == nil
             params[:user].each do |name, value|
-                @user.update_column(name, value)
+                @user.update_attribute(name, value)
             end
             flash[:success] = "Settings updated"
             redirect_to @user

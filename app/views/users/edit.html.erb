@@ -7,11 +7,11 @@
       <%= f.text_field :full_name %>
 
       <%= f.label :default_view %>
-      <%= select_tag :default_view, options_for_select( { 0 => "Month", 1 => "Week" }), 0 %>
-      <br>
+      <%= f.select :default_view, User.default_view.options %>
+      <br><br>
       <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
     <% end %>
-
+<br>
   <%= form_for(@user) do |f| %>
       <%= render 'shared/error_messages', object: f.object %>
 
@@ -21,7 +21,7 @@
 
       <%= f.label :password_confirmation, "Password Confirmation" %>
       <%= f.password_field :password_confirmation %>
-      <br>
+      <br><br>
       <%= f.submit "Change password", class: "btn btn-large btn-primary" %>
     <% end %>
 </div>
