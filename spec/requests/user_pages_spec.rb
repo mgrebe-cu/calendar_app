@@ -78,5 +78,16 @@ describe "UserPages" do
             it { should have_link('Signout', href: signout_path) }
             specify { user.reload.full_name.should  == new_name }
         end
+
+        describe "with default view change" do
+            before do
+                select 'Day', :from => 'Default view'
+                click_button "Save changes"
+                visit edit_user_path(user)
+            end
+
+            it { should have_field('Default view', text: 'Day') }
+            specify { user.reload.default_view.should  == 'day' }
+        end
     end
 end
