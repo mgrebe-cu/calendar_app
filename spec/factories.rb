@@ -6,4 +6,8 @@ FactoryGirl.define do
         password_confirmation "foo1bar"
     end
 
+    factory :calendar do
+        default true
+        user_id 1
+    end
 end

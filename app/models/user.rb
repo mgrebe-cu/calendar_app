@@ -7,6 +7,8 @@ class User < ActiveRecord::Base
                     :password_confirmation, :default_view
     has_secure_password
 
+    has_many :calendars
+
     validates :full_name,  presence: true, length: { maximum: 50 }
     validates :username,  presence: true, length: { maximum: 20 }, uniqueness: true
     validates :password, length: { minimum: 6, maximum: 20 }, 
