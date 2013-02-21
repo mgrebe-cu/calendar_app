@@ -4,13 +4,15 @@ describe Event do
 
     let(:calendar) { FactoryGirl.create(:calendar)}
     before do
-        @event = calendar.events.build(all_day: false, date: "11-09-2001",
+        @event = calendar.events.build(title: 'New Event',
+                        all_day: false, date: "11-09-2001",
                         start: "10:00", end: "11:00", location: 'Home',
                         notes: nil)
     end
 
     subject(@event)
 
+    it { should respond_to(:title) }
     it { should respond_to(:all_day) }
     it { should respond_to(:date) }
     it { should respond_to(:start) }
@@ -23,6 +25,11 @@ describe Event do
 
     describe "when calendar id is not present" do
         before { @event.calendar_id = nil }
+        it { should_not be_valid }
+    end
+
+    describe "when title is not present" do
+        before { @event.title = nil }
         it { should_not be_valid }
     end
 
