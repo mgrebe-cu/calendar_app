@@ -7,12 +7,12 @@ describe Calendar do
         @calendar = user.calendars.build(default: true)
     end
 
-    subject(@calendar)
+    subject( @calendar )
 
     it { should respond_to(:default) }
     it { should respond_to(:user_id) }
 
-    it { should be_valid }
+    specify { @calendar.valid? }
 
     describe "when user id is not present" do
         before { @calendar.user_id = nil }

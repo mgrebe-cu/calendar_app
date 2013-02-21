@@ -19,7 +19,7 @@ describe Event do
     it { should respond_to(:notes) }
     it { should respond_to(:calendar_id) }
 
-    it { should be_valid }
+    specify { @event.valid? }
 
     describe "when calendar id is not present" do
         before { @event.calendar_id = nil }
