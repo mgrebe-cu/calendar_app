@@ -67,10 +67,10 @@ describe "UserPages" do
         end
 
         describe "with full name change" do
-            let(:new_name)  { "New Name" }
+            let(:new_name)  { 'New Name' }
             before do
-                fill_in "Full name",        with: new_name
-                click_button "Save changes"
+                fill_in 'Full name',        with: new_name
+                click_button 'Save changes'
             end
 
             it { should have_selector('title', text: new_name) }
@@ -82,12 +82,32 @@ describe "UserPages" do
         describe "with default view change" do
             before do
                 select 'Day', :from => 'Default view'
-                click_button "Save changes"
+                click_button 'Save changes'
                 visit edit_user_path(user)
             end
 
             it { should have_field('Default view', text: 'Day') }
             specify { user.reload.default_view.should  == 'day' }
+        end
+
+        describe "with new password" do
+            describe "with invalid information" do
+                before { click_button 'Change password' }
+
+                it { should have_selector('title', text: 'Edit settings') }
+                it { should have_content('error') }
+            end
+
+            describe "with valid information" do
+                before do
+                    fill_in "Password",     with: "foobar2"
+                    fill_in "Confirmation", with: "foobar2"
+                    click_button 'Change password'
+                end
+
+                it { should have_selector('title', text: user.full_name) }
+                it { should have_selector('div.alert.alert-success') }
+            end
         end
     end
 end
