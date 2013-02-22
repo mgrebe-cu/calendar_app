@@ -5,8 +5,10 @@ describe Event do
     let(:calendar) { FactoryGirl.create(:calendar)}
     before do
         @event = calendar.events.build(title: 'New Event',
-                        all_day: false, date: "11-09-2001",
-                        start: "10:00", end: "11:00", location: 'Home',
+                        all_day: false, date: "11-09-2001".to_date,
+                        start: "11-09-2001 10:00".to_time(:local), 
+                        end: "11-09-2001 11:00".to_time(:local), 
+                        location: 'Home',
                         notes: nil)
     end
 
@@ -43,8 +45,8 @@ describe Event do
 
     describe "when not all day and end < start" do
         before do
-            @event.start == "10:00"
-            @event.end == "9:00"
+            @event.start == "11-09-2001 10:00".to_time(:local)
+            @event.end == "11-09-2001 9:00".to_time(:local)
         end
         it { should_not be_valid }
     end

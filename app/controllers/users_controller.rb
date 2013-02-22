@@ -10,6 +10,8 @@ class UsersController < ApplicationController
 
     def show
         @user = User.find(params[:id])
+        @calendar = Calendar.where(default: true, user_id: @user.id)[0]
+        @event = @calendar.events.build
     end
 
     def create

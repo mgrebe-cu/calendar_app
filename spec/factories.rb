@@ -8,6 +8,6 @@ FactoryGirl.define do
 
     factory :calendar do
         default true
-        user_id 1
+        user
     end
 end

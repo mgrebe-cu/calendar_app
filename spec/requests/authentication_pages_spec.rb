@@ -23,8 +23,10 @@ describe "Authentication" do
 
         describe "With valid information" do
             let(:user) { FactoryGirl.create(:user) }
+            let(:calendar) { FactoryGirl.create(:calendar, user: user) }
 
             before do
+                calendar.save
                 fill_in "Username", with: user.username
                 fill_in "Password", with: user.password
                 click_button "Sign In"

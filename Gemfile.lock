@@ -30,8 +30,12 @@ GEM
       multi_json (~> 1.0)
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
+    bootstrap-datepicker-rails (0.6.42)
+      railties (>= 3.0)
     bootstrap-sass (2.2.2.0)
       sass (~> 3.2)
+    bootstrap-timepicker-rails (0.1.2)
+      railties (>= 3.0)
     bootstrap-will_paginate (0.0.6)
       will_paginate
     builder (3.0.4)
@@ -192,7 +196,9 @@ PLATFORMS
 
 DEPENDENCIES
   bcrypt-ruby (= 3.0.1)
+  bootstrap-datepicker-rails
   bootstrap-sass (= 2.2.2.0)
+  bootstrap-timepicker-rails
   bootstrap-will_paginate (= 0.0.6)
   capybara (= 1.1.2)
   coffee-rails (= 3.2.2)

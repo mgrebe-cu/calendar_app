@@ -1,0 +1,32 @@
+<%= form_for(@event, :html => { :class => "form-horizontal"}) do |f| %>
+    <div class="control-group">
+        <%= f.label :title, class: "control-label" %>
+        <div class="controls">
+            <%= f.text_field :title %>
+        </div>
+         <%= f.label :date, class: "control-label" %> 
+        <div class="controls">
+            <%= f.text_field :date ,  class: "datepicker input-small" %>
+        </div>
+        <%= f.label :all_day, class: "control-label" %>
+        <div class="controls">
+            <%= f.check_box :all_day %>
+        </div>
+        <%= f.label 'Start Time', class: "control-label" %>
+        <div class="controls">
+            <%= f.text_field :start, class: "timepicker input-small" %>
+        </div>
+        <%= f.label 'End Time', class: "control-label" %>
+        <div class="controls">
+            <%= f.text_field :end, class: "timepicker input-small"  %>
+        </div>
+    </div>
+    <br>
+    <%= f.submit "Save", class: "btn btn-large btn-primary" %>
+<% end %>
+
+<script type="text/javascript">
+  $('.timepicker').timepicker({minuteStep: 5})
+  $('.datepicker').datepicker()
+</script>
+

@@ -56,7 +56,10 @@ describe "UserPages" do
 
     describe "settings" do
         let(:user) { FactoryGirl.create(:user) }
+        let(:calendar) { FactoryGirl.create(:calendar, user: user) }
+
         before do
+            calendar.save
             sign_in user
             visit edit_user_path(user)
         end
