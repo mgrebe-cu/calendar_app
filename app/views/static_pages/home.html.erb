@@ -1,7 +1,7 @@
 <% if signed_in? %>
     <% provide(:title, current_user.full_name) %>
 
-    <h1><%= current_user.full_name %></h1>
+    <%= render 'shared/event_form' %>
 <% else %>
     <div class="center hero-unit">
         <h1>Welcome to the CSCI6800 Calendaring Application</h1>

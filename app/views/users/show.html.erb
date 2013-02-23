@@ -1,17 +1,4 @@
 <% provide(:title, @user.full_name) %>
 
-    <h1><%= @user.full_name %></h1>
+<%= render 'shared/event_form' %>
 
-<!-- Button to trigger modal -->
-<a href="#eventModal" role="button" class="btn" data-toggle="modal">New Event</a>
- 
-<!-- Modal -->
-<div id="eventModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>New Event</h3>
-    </div>
-    <div class="modal-body">
-        <%= render 'shared/event_form' %>
-    </div>
-</div>
