@@ -49,7 +49,7 @@ describe "UserPages" do
                 before { click_button submit_button }
 
                 it { should have_selector('title', text: 'Create New Account') }
-                it { should have_content('error') }
+                it { should have_content("can't be blank") }
             end
         end
     end
@@ -110,6 +110,44 @@ describe "UserPages" do
 
                 it { should have_selector('title', text: user.full_name) }
                 it { should have_selector('div.alert.alert-success') }
+            end
+        end
+    end
+
+    describe "home" do
+        let(:user) { FactoryGirl.create(:user) }
+        let(:calendar) { FactoryGirl.create(:calendar, user: user) }
+
+        before do
+            calendar.save
+            sign_in user
+            visit user_path(user)
+        end
+
+        describe "page" do
+            it { should have_link('New Event', href: '#eventModal') }
+            it { should have_selector('title', text: "GrebeCalendarApp: " + user.full_name) }
+        end
+
+        describe "new event" do
+            describe "with invalid information" do
+                before do
+                    click_button 'Save'
+                end
+
+                specify { calendar.events.count == 0 }
+            end
+
+            describe "with valid information" do
+                before do
+                    fill_in "Title", with: "Test Event"
+                    fill_in "Date",  with: "02/27/2013"
+                    fill_in "Start Time",  with: "10:00 AM"
+                    fill_in "End Time",  with: "11:00 AM"
+                    click_button 'Save'
+                end
+
+                specify { calendar.events.count == 1 }
             end
         end
     end

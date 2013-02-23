@@ -3,29 +3,35 @@
  
 <!-- Modal -->
 <div id="eventModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3>New Event</h3>
-    </div>
-    <div class="modal-body">
-        <%= bootstrap_form_for(@event, html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
+    <%= bootstrap_form_for(@event, html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
+        <div class="modal-header">
+            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>New Event</h3>
+        </div>
+        <div class="modal-body">
             <%= f.text_field :title, label: 'Title' %>
             <%= f.text_field :location, label: 'Location' %>
             <%= f.text_field :date, class: "datepicker input-small", label: 'Date' %>
             <%= f.control_group :all_day do %>
                 <%= f.check_box :all_day, label: 'All Day Event' %>
             <% end %>
-            <%= f.text_field :start, class: "timepicker input-small", label: 'State Time' %>
+            <%= f.text_field :start, class: "timepicker input-small", label: 'Start Time' %>
             <%= f.text_field :end, class: "timepicker input-small", label: 'End Time' %>
             <%= f.text_area :notes, label: 'Notes', :id => "message_area", :cols => 10, :rows => 3 %>
-            <%= f.submit "Save", class: "btn btn-large btn-primary" %>
-        <% end %>
-    </div>
+        </div>
+        <div class="modal-footer">
+            <%= f.submit "Save", class: "btn btn-primary pull-right" %>
+        </div>
+    <% end %>
 </div>
 
 <script type="text/javascript">
   $('.timepicker').timepicker({minuteStep: 5})
   $('.datepicker').datepicker({autoclose: true, todayBtn: true})
+  // $('#event_all_day').click(function() {
+  //   $('event_start').attr('disabled',true);
+  //   $('event_end').attr('disabled',true);
+  // });
   // $(document).ready(function() {
   // $('#event-form').validate({
   //   rules: {
