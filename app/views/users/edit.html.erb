@@ -1,27 +1,38 @@
 <% provide(:title, "Edit settings") %> 
 <h1>Update your settings:</h1>
 
-<div class="center hero-unit">
-  <%= form_for(@user) do |f| %>
-      <%= f.label :full_name %>
-      <%= f.text_field :full_name %>
+<%= bootstrap_form_for(@user, html: { class: 'form-horizontal', id: 'settings-form' }) do |f| %>
+    <div class="row">
+        <div class="span2">
+        </div>
+        <div class="span10">
+            <%= f.text_field :full_name, label: 'Full Name' %>
+            <%= f.select :default_view, User.default_view.options %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span5">
+        </div>
+        <div class="span4">
+            <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
+        </div>
+    </div>
+<% end %>
 
-      <%= f.label :default_view %>
-      <%= f.select :default_view, User.default_view.options %>
-      <br><br>
-      <%= f.submit "Save changes", class: "btn btn-large btn-primary" %>
-    <% end %>
-<br>
-  <%= form_for(@user) do |f| %>
-      <%= render 'shared/error_messages', object: f.object %>
-
-      <%= f.label :password %>
-      <%= f.label "(Must be 6-20 chars with a letter and a number)" %>
-      <%= f.password_field :password %> 
-
-      <%= f.label :password_confirmation, "Password Confirmation" %>
-      <%= f.password_field :password_confirmation %>
-      <br><br>
-      <%= f.submit "Change password", class: "btn btn-large btn-primary" %>
-    <% end %>
-</div>
+<%= bootstrap_form_for(@user, html: { class: 'form-horizontal', id: 'password-form' }) do |f| %>
+    <div class="row">
+        <div class="span2">
+        </div>
+        <div class="span10">
+             <%= f.password_field :password, label: 'Password' %>
+            <%= f.password_field :password_confirmation, label: 'Password Confirmation' %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span5">
+        </div>
+        <div class="span4">
+            <%= f.submit "Change password", class: "btn btn-large btn-primary" %>
+        </div>
+    </div>
+<% end %>

@@ -72,7 +72,7 @@ describe "UserPages" do
         describe "with full name change" do
             let(:new_name)  { 'New Name' }
             before do
-                fill_in 'Full name',        with: new_name
+                fill_in 'Full Name',        with: new_name
                 click_button 'Save changes'
             end
 
@@ -98,7 +98,7 @@ describe "UserPages" do
                 before { click_button 'Change password' }
 
                 it { should have_selector('title', text: 'Edit settings') }
-                it { should have_content('error') }
+                it { should have_content("can't be blank") }
             end
 
             describe "with valid information" do
