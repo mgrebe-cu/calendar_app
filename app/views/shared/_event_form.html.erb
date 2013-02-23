@@ -1,32 +1,31 @@
-<%= form_for(@event, :html => { :class => "form-horizontal"}) do |f| %>
-    <div class="control-group">
-        <%= f.label :title, class: "control-label" %>
-        <div class="controls">
-            <%= f.text_field :title %>
-        </div>
-         <%= f.label :date, class: "control-label" %> 
-        <div class="controls">
-            <%= f.text_field :date ,  class: "datepicker input-small" %>
-        </div>
-        <%= f.label :all_day, class: "control-label" %>
-        <div class="controls">
-            <%= f.check_box :all_day %>
-        </div>
-        <%= f.label 'Start Time', class: "control-label" %>
-        <div class="controls">
-            <%= f.text_field :start, class: "timepicker input-small" %>
-        </div>
-        <%= f.label 'End Time', class: "control-label" %>
-        <div class="controls">
-            <%= f.text_field :end, class: "timepicker input-small"  %>
-        </div>
-    </div>
-    <br>
+<%= bootstrap_form_for(@event, html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
+    <%= f.text_field :title, label: 'Title' %>
+    <%= f.text_field :location, label: 'Location' %>
+    <%= f.text_field :date, class: "datepicker input-small", label: 'Date' %>
+    <%= f.control_group :all_day do %>
+        <%= f.check_box :all_day, label: 'All Day Event' %>
+    <% end %>
+    <%= f.text_field :start, class: "timepicker input-small", label: 'State Time' %>
+    <%= f.text_field :end, class: "timepicker input-small", label: 'End Time' %>
+    <%= f.text_area :notes, label: 'Notes', :id => "message_area", :cols => 10, :rows => 3 %>
     <%= f.submit "Save", class: "btn btn-large btn-primary" %>
 <% end %>
 
 <script type="text/javascript">
   $('.timepicker').timepicker({minuteStep: 5})
   $('.datepicker').datepicker()
+  // $(document).ready(function() {
+  // $('#event-form').validate({
+  //   rules: {
+  //       title: 'required',
+  //       date: {
+  //           required: true,
+  //           date: true
+  //       },
+  //       start: 'required',
+  //       end: 'required'
+  //   }
+  // })
+  // };
 </script>
 

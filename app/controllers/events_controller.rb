@@ -4,19 +4,19 @@ class EventsController < ApplicationController
         calendar = Calendar.where(default: true, user_id: current_user.id)[0]
         @event = calendar.events.build(params[:event])
         begin 
-            @event.date = params[:event][:date].to_date
+            @event.date = Date.strptime(params[:event][:date],'%m/%d/%y')
         rescue
             @event.date = nil
         end
         begin
-            @event.start = (params[:event][:date] + ' ' + 
-                            params[:event][:start]).to_time(:local)
+            start_t = params[:event][:date] + ' ' + params[:event][:start]
+            @event.start = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p").to_time
         rescue
             @event.start = nil
         end
         begin
-            @event.end = (params[:event][:date] + ' ' + 
-                          params[:event][:end]).to_time(:local)
+            end_t = params[:event][:date] + ' ' + params[:event][:end]
+            @event.end = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p").to_time
         rescue
             @event.end = nil
         end

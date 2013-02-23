@@ -10,6 +10,8 @@ gem 'jquery-rails', '2.0.2'
 gem 'enumerize'
 gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-timepicker-rails'
+gem 'bootstrap_form'
+gem 'jquery-validation-rails'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'

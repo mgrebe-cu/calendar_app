@@ -12,4 +12,5 @@
  *= require_tree .
  *= require bootstrap-datepicker
  *= require bootstrap-timepicker
- */
+ *= require bootstrap_form
+*/
