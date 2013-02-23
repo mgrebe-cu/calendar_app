@@ -1,24 +1,22 @@
 <% provide(:title, 'Create New Account') %>
 
-<div class="center hero-unit">
-    <h1>Create Account</h1>
+<h1>Create Account</h1>
+<%= bootstrap_form_for(@user, html: { class: 'form-horizontal', id: 'user-form' }) do |f| %>
     <div class="row">
-            <%= form_for(@user) do |f| %>
-                <%= render 'shared/error_messages', object: f.object %>
-                <%= f.label :full_name, "Full Name" %>
-                <%= f.text_field :full_name %>
-
-                <%= f.label :username, "Account Username" %>
-                <%= f.text_field :username %>
-
-                <%= f.label :password %>
-                <%= f.label "(Must be 6-20 chars with a letter and a number)" %>
-                <%= f.password_field :password %> 
-
-                <%= f.label :password_confirmation, "Password Confirmation" %>
-                <%= f.password_field :password_confirmation %>
-                <br><br>
-                <%= f.submit "Create Account", class: "btn btn-large btn-primary" %>
-            <% end %>
+        <div class="span2">
+        </div>
+        <div class="span10">
+            <%= f.text_field :full_name, label: 'Full Name' %>
+            <%= f.text_field :username, label: 'Account Username' %>
+            <%= f.text_field :password, label: 'Password' %>
+            <%= f.text_field :password_confirmation, label: 'Password Confirmation' %>
+        </div>
     </div>
-</div>
+    <div class="row">
+        <div class="span5">
+        </div>
+        <div class="span4">
+            <%= f.submit "Create Account", class: "btn btn-large btn-primary" %>
+        </div>
+    </div>
+<% end %>
