@@ -3,7 +3,8 @@ require 'spec_helper'
 describe User do
     before do
         @user = User.new(full_name: "Example User", username: "user", 
-                         password: "foobar1", password_confirmation: "foobar1")
+                         password: "foobar1", password_confirmation: "foobar1",
+                         time_zone: 'Central Time (US & Canada)')
     end
 
     subject { @user }

@@ -1,10 +1,12 @@
 class User < ActiveRecord::Base
+    before_create :set_default_time_zone
+
     extend Enumerize
     enumerize :default_view, in: {month:  0, week: 1, 
                                   day: 2, list: 3}, default: :month
 
     attr_accessible :full_name, :username, :password, 
-                    :password_confirmation, :default_view
+                    :password_confirmation, :default_view, :time_zone
     has_secure_password
 
     has_many :calendars
@@ -16,4 +18,10 @@ class User < ActiveRecord::Base
                                    :message => "must contain a number and a letter" }
     validates :password_confirmation, presence: true
  
+  def set_default_time_zone
+    self.time_zone = 'Central Time (US & Canada)'
+  end
+
 end
+
+

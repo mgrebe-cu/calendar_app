@@ -8,6 +8,12 @@
         <div class="span10">
             <%= f.text_field :full_name, label: 'Full Name' %>
             <%= f.select :default_view, User.default_view.options %>
+            <div class="control-group">
+                <label class="control-label" for="user_time_zone">Time Zone</label>
+                <div class="controls">
+                <%= f.time_zone_select :time_zone, ActiveSupport::TimeZone.us_zones %>
+                </div>
+            </div>
         </div>
     </div>
     <div class="row">
