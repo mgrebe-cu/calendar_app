@@ -1,0 +1,16 @@
+<li>
+    <span class="content">
+        <%= event.date %>
+        <br>
+        <%= event.title %>
+        <% if !event.location.nil? && event.location.size != 0 %>
+            at <%= event.location %>
+        <% end %>
+        <br>
+        <% if event.all_day %>
+            All day
+        <% else %>
+            <%= event.start.strftime('%I:%M %p') %> to <%= event.end.strftime('%I:%M %p') %>
+        <% end %>
+    </span>
+</li>

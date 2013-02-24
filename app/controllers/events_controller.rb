@@ -4,7 +4,7 @@ class EventsController < ApplicationController
         calendar = Calendar.where(default: true, user_id: current_user.id)[0]
         @event = calendar.events.build(params[:event])
         begin 
-            @event.date = Date.strptime(params[:event][:date],'%m/%d/%y')
+            @event.date = Date.strptime(params[:event][:date],'%m/%d/%Y')
         rescue
             @event.date = nil
         end
@@ -22,7 +22,7 @@ class EventsController < ApplicationController
         end
 
         if @event.save
-            flash[:success] = "Event created!"
+            #flash[:success] = "Event created!"
             redirect_to current_user
         else
             flash[:error] = "Event creation failed!"

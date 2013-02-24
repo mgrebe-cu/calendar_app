@@ -12,6 +12,7 @@ class UsersController < ApplicationController
         @user = User.find(params[:id])
         @calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @event = @calendar.events.build
+        @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
     end
 
     def create
