@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130221233838) do
+ActiveRecord::Schema.define(:version => 20130224020324) do
 
   create_table "calendars", :force => true do |t|
     t.boolean  "default"
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(:version => 20130221233838) do
     t.datetime "updated_at",                     :null => false
     t.string   "password_digest"
     t.integer  "default_view",    :default => 0
+    t.string   "time_zone"
   end
 
   add_index "users", ["username"], :name => "index_users_on_username", :unique => true
