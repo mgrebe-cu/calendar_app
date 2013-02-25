@@ -148,6 +148,9 @@ describe "UserPages" do
                 end
 
                 specify { calendar.events.count == 1 }
+                it { should have_content('Test Event')}
+                it { should have_content('2013-02-27')}
+                it { should have_content('10:00 AM to 11:00 AM')}
             end
         end
     end
