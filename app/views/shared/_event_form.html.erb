@@ -26,24 +26,37 @@
 </div>
 
 <script type="text/javascript">
-  $('.timepicker').timepicker({minuteStep: 5})
-  $('.datepicker').datepicker({autoclose: true, todayBtn: true})
-  // $('#event_all_day').click(function() {
-  //   $('event_start').attr('disabled',true);
-  //   $('event_end').attr('disabled',true);
-  // });
-  // $(document).ready(function() {
+  $('.timepicker').timepicker({minuteStep: 5});
+  $('.datepicker').datepicker({autoclose: true, todayBtn: true});
+
+  $('#event_all_day').click(function() {
+      if (!this.checked) {
+          $('#event_start').attr('disabled',false);
+          $('#event_end').attr('disabled',false);
+      } else {
+          $('#event_start').attr('disabled',true);
+          $('#event_end').attr('disabled',true);
+          $('#event_start').val('');
+          $('#event_end').val('');
+      }
+  });
+
   // $('#event-form').validate({
   //   rules: {
-  //       title: 'required',
-  //       date: {
-  //           required: true,
-  //           date: true
-  //       },
-  //       start: 'required',
-  //       end: 'required'
+  //       event_title: 'required',
   //   }
-  // })
-  // };
+  // });
+
+  // $(document).ready(function() {
+  //   $("#event-form").submit(function() {
+  //       return $("#event-form").validate({
+  //         debug: true,            
+  //           rules: {
+  //             event_title: {required: true},
+  //           }
+  //       });
+  //   });
+  // });
+
 </script>
 
