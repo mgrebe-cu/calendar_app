@@ -9,14 +9,24 @@ class EventsController < ApplicationController
             @event.date = nil
         end
         begin
-            start_t = params[:event][:date] + ' ' + params[:event][:start]
-            @event.start = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p").to_time
+            if @event.all_day
+                start_t = params[:event][:date]
+                @event.start = DateTime.strptime(start_t, "%m/%d/%Y").to_time
+            else
+                start_t = params[:event][:date] + ' ' + params[:event][:start]
+                @event.start = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p").to_time
+            end
         rescue
             @event.start = nil
         end
         begin
-            end_t = params[:event][:date] + ' ' + params[:event][:end]
-            @event.end = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p").to_time
+            if @event.all_day
+                end_t = params[:event][:date]
+                @event.end = DateTime.strptime(end_t, "%m/%d/%Y").to_time
+            else
+                end_t = params[:event][:date] + ' ' + params[:event][:end]
+                @event.end = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p").to_time
+            end
         rescue
             @event.end = nil
         end
