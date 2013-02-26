@@ -33,10 +33,17 @@
               <li>
             <% end %>
             <%= link_to "List", current_url(:format => :list ) %></li>
+            <li>
+            <li><%= link_to '#eventModal', :data => {:toggle => "modal"} do %>
+                <i class="icon-plus icon-white"></i>New Event</a>
+            <% end %></li>
           </ul>
         <% end %>
         <ul class="nav pull-right">
           <% if signed_in? %>
+            <li><%= link_to user_path(current_user) do %>
+              <i class="icon-home icon-white"></i>
+            <% end %></li>
             <li id="fat-menu" class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                 <i class="icon-user icon-white"></i><b class="caret"></b>
