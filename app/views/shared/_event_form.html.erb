@@ -1,6 +1,3 @@
-<!-- Button to trigger modal -->
-<a href="#eventModal" role="button" class="btn" data-toggle="modal">New Event</a>
- 
 <!-- Modal -->
 <div id="eventModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <%= bootstrap_form_for(@event, html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
@@ -24,39 +21,3 @@
         </div>
     <% end %>
 </div>
-
-<script type="text/javascript">
-  $('.timepicker').timepicker({minuteStep: 5});
-  $('.datepicker').datepicker({autoclose: true, todayBtn: true});
-
-  $('#event_all_day').click(function() {
-      if (!this.checked) {
-          $('#event_start').attr('disabled',false);
-          $('#event_end').attr('disabled',false);
-      } else {
-          $('#event_start').attr('disabled',true);
-          $('#event_end').attr('disabled',true);
-          $('#event_start').val('');
-          $('#event_end').val('');
-      }
-  });
-
-  // $('#event-form').validate({
-  //   rules: {
-  //       event_title: 'required',
-  //   }
-  // });
-
-  // $(document).ready(function() {
-  //   $("#event-form").submit(function() {
-  //       return $("#event-form").validate({
-  //         debug: true,            
-  //           rules: {
-  //             event_title: {required: true},
-  //           }
-  //       });
-  //   });
-  // });
-
-</script>
-
