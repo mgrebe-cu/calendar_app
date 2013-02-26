@@ -8,11 +8,31 @@
       <% end %>
       <nav>
         <% if params[:controller] == 'users' && params[:action] == 'show' %>
-          <ul class="nav pull-left">
-            <li><%= link_to "Month", current_url(:format => :month )  %></li>
-            <li><%= link_to "Week", current_url(:format => :week ) %></li>
-            <li><%= link_to "Day", current_url(:format => :day ) %></li>
-            <li><%= link_to "List", current_url(:format => :list ) %></li>
+          <ul class="nav pull-left nav-pills">
+            <% if @format == :month %>
+              <li class="active">
+            <% else %>
+              <li>
+            <% end %>
+            <%= link_to "Month", current_url(:format => :month ) %></li>
+            <% if @format == :week %>
+              <li class="active">
+            <% else %>
+              <li>
+            <% end %>
+            <%= link_to "Week", current_url(:format => :week ) %></li>
+            <% if @format == :day %>
+              <li class="active">
+            <% else %>
+              <li>
+            <% end %>
+            <%= link_to "Day", current_url(:format => :day ) %></li>
+            <% if @format == :list %>
+              <li class="active">
+            <% else %>
+              <li>
+            <% end %>
+            <%= link_to "List", current_url(:format => :list ) %></li>
           </ul>
         <% end %>
         <ul class="nav pull-right">

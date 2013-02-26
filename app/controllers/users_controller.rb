@@ -15,10 +15,10 @@ class UsersController < ApplicationController
         @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
         @events.sort! { |a,b| a.date <=> b.date }
         if (params[:format].nil?)
-            @format = @user.default_view
+            @format = @user.default_view.to_sym
         else
             @format = params[:format].to_sym
-        end            
+        end    
     end
 
     def create
@@ -41,6 +41,9 @@ class UsersController < ApplicationController
         # Settings Update (non-password)
         if params[:user][:password] == nil
             params[:user].each do |name, value|
+                if name == 'default_view'
+                    value = value.to_sym
+                end
                 @user.update_attribute(name, value)
             end
             flash[:success] = "Settings updated"
