@@ -14,6 +14,11 @@ class UsersController < ApplicationController
         @event = @calendar.events.build
         @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
         @events.sort! { |a,b| a.date <=> b.date }
+        if (params[:format].nil?)
+            @format = @user.default_view
+        else
+            @format = params[:format].to_sym
+        end            
     end
 
     def create

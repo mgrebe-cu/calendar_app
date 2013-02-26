@@ -46,13 +46,4 @@ class EventsController < ApplicationController
         redirect_to user_path(current_user)
     end
 
-    def update
-        @event = Event.find(params[:id])
-        respond_to do |format|
-        if @event.update_attributes(params[:house])
-            format.js 
-        else
-            format.js
-        end
-    end
 end
