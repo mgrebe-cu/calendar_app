@@ -151,6 +151,15 @@ describe "UserPages" do
                 it { should have_content('Test Event')}
                 it { should have_content('2013-02-27')}
                 it { should have_content('10:00 AM to 11:00 AM')}
+
+                describe "delete event" do
+                    before do
+                        click_link 'delete'
+                    end
+                    
+                    specify { calendar.events.count == 0 }
+                    it { should_not have_content('Test Event')}
+                end
             end
         end
     end

@@ -2,7 +2,7 @@
     <span class="content">
         <%= event.date %>
         <br>
-        <%= event.title %>
+        <%= link_to event.title, edit_event_path(event), :remote => true, :class => 'edit_event_link' %>
         <% if !event.location.nil? && event.location.size != 0 %>
             at <%= event.location %>
         <% end %>
@@ -12,5 +12,9 @@
         <% else %>
             <%= event.start.strftime('%I:%M %p') %> to <%= event.end.strftime('%I:%M %p') %>
         <% end %>
+        <%= link_to "delete", event, method: :delete,
+                            data: { confirm: 'You sure?' },
+                            title: event.title %>
+
     </span>
 </li>

@@ -7,7 +7,7 @@ CalendarApp::Application.routes.draw do
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   resources :calendars, only: [:create, :destroy]
-  resources :events, only: [:create, :destroy]
+  resources :events, only: [:create, :edit, :destroy]
  
   root to: 'static_pages#home'
 
