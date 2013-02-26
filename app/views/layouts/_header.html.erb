@@ -29,7 +29,7 @@
               </ul>
             </li>
           <% else %>
-             <% if request[:PATH_INFO] != '/signin' %>
+             <% if params[:controller] != 'sessions' || params[:action] != 'new' %>
               <li><%= link_to "Sign In", signin_path %></li>
              <% end %>
           <% end %>
