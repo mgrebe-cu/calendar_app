@@ -11,9 +11,11 @@ class UsersController < ApplicationController
     def show
         @user = User.find(params[:id])
         @calendar = Calendar.where(default: true, user_id: @user.id)[0]
+        @date = params[:date] ? Date.parse(params[:date]) : Date.today
         @event = @calendar.events.build
         @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
         @events.sort! { |a,b| a.date <=> b.date }
+        @events_by_date = @events.group_by(&:date)
         if (params[:format].nil?)
             @format = @user.default_view.to_sym
         else
@@ -27,7 +29,7 @@ class UsersController < ApplicationController
             cal = @user.calendars.build(default: true)
             cal.save
             sign_in @user
-            flash[:success] = "Welcome to Calendaring!"
+            flash[:success] = "Welcome to Calendaring, " + @user.full_name + "!"
             redirect_to @user
         else
             render 'new'

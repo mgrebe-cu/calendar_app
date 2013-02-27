@@ -32,7 +32,6 @@ class EventsController < ApplicationController
         end
 
         if @event.save
-            #flash[:success] = "Event created!"
             redirect_to current_user
         else
             flash[:error] = "Event creation failed!"

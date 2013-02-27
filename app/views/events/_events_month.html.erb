@@ -1,6 +1,22 @@
-<% if @user.get_event_count != 0 %>
-    <h3>Month Events (<%= @user.get_event_count %>)</h3>
-    <ol class="events">
-        <%= render @events %>
-    </ol>
-<% end %>
+<div id="events">
+    <h2 id="month">
+        <%= link_to current_url(format: :month, date: @date.prev_month) do %>
+            <i class="icon-arrow-left"></i>
+        <% end %>
+        <%= @date.strftime("%B %Y") %>
+        <%= link_to current_url(format: :month, date: @date.next_month)  do %>
+            <i class="icon-arrow-right"></i>
+        <% end %>
+    </h2>
+    <%= calendar @date do |date| %>
+        <%= date.day %>
+        <% if @events_by_date[date] %>
+            <ul class="unstyled">
+            <% @events_by_date[date].each do |event| %>
+                <li><%= event.title %></li>
+                <% end %>
+            </ul>
+        <% end %>
+    <% end %>
+</div>
+

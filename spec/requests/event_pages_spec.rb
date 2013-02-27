@@ -3,18 +3,26 @@ require 'spec_helper'
 describe "EventPages" do
     subject { page }
 
+    let(:user) { FactoryGirl.create(:user) }
+    let(:calendar) { FactoryGirl.create(:calendar, user: user) }
+
+    before do
+        calendar.save
+        sign_in user
+    end
+
     describe "home" do
-        let(:user) { FactoryGirl.create(:user) }
-        let(:calendar) { FactoryGirl.create(:calendar, user: user) }
 
         before do
-            calendar.save
-            sign_in user
             visit user_path(user)
         end
 
         describe "page" do
             it { should have_link('New Event', href: '#eventModal') }
+            it { should have_link('Month') }
+            it { should have_link('Week') }
+            it { should have_link('Day') }
+            it { should have_link('List') }
             it { should have_selector('title', text: "GrebeCalendarApp: " + user.full_name) }
         end
 
@@ -52,5 +60,17 @@ describe "EventPages" do
             end
         end
     end
+
+    describe "month" do
+        before do
+            click_link "Month"
+        end
+
+        describe "page" do
+            time = Time.now
+            heading = time.strftime("%B %Y")
+            it { should have_content(heading) }
+        end
+    end 
 
 end

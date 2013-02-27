@@ -1,7 +1,7 @@
 <% provide(:title, @user.full_name) %>
 
 <div class="row">
-    <aside class="span2">
+    <aside class="span1">
         <section>
             <%= render 'shared/event_form' %>
 
@@ -23,7 +23,7 @@
             </script>
         </section>
     </aside>
-    <div class="span10">
+    <div class="span11">
         <% if @format == :month %>
             <%= render 'events/events_month' %>
         <% elsif @format == :week %>
