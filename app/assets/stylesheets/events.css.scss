@@ -27,7 +27,37 @@
     font-size: 16px;
   }
 
-  .notmonth, .notmonth a { color: #CCC; }
+  a:link {
+    color:#000000;
+    text-decoration:none;
+  } 
+
+  a:visited {
+    color:#000000;
+    text-decoration:none;
+  } 
+
+  a:hover {
+    color:#00C;
+    background:#EEE;
+    text-decoration:none;
+  } 
+
+  .notmonth { 
+    color: #CCC; 
+    a:link {
+      color:#CCC;
+      text-decoration:none;
+    } 
+    a:visited {
+      color:#CCC;
+      text-decoration:none;
+    } 
+    a:hover {
+      color:#00C;
+      text-decoration:none;
+    } 
+  }
   .today { background-color: #D7F2FF; }
 }
 
@@ -52,3 +82,4 @@
 #events li {
   text-align: left;   
 }
+

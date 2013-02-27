@@ -9,14 +9,20 @@
         <% end %>
     </h2>
     <%= calendar @date do |date| %>
-        <%= date.day %>
+        <%= link_to current_url(format: :day, date: date)  do %>
+            <%= date.day %>
+        <% end %>
         <% if @events_by_date[date] %>
             <ul class="unstyled">
             <% @events_by_date[date].each do |event| %>
-                <li><%= event.title %></li>
+                <li>
+<a href="#" class="event-popover" data-toggle="popover" title="<%= "#{event.title}:#{event.location}:#{event.when}" %>"  data-content="And here's some amazing content" data-trigger="hover" data-animation="">                    
+                <%= event.title %></a></li>
                 <% end %>
             </ul>
         <% end %>
     <% end %>
 </div>
+
+
 

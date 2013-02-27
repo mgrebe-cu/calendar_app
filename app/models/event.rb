@@ -16,4 +16,12 @@ class Event < ActiveRecord::Base
         end
     end
 
+    def when
+        if self.all_day
+            "All Day"
+        else
+            self.start.strftime('%I:%M %p') + " to " + self.end.strftime('%I:%M %p')
+        end
+    end
+
 end
