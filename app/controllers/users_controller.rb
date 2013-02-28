@@ -9,6 +9,8 @@ class UsersController < ApplicationController
     end
 
     def show
+        #todo This needs to be refactored should only get events for 
+        #     required days.
         @user = User.find(params[:id])
         @calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @date = params[:date] ? Date.parse(params[:date]) : Date.today
@@ -20,7 +22,10 @@ class UsersController < ApplicationController
             @format = @user.default_view.to_sym
         else
             @format = params[:format].to_sym
-        end    
+        end   
+        if @format == :day
+            @events = @events_by_date[@date]
+        end 
     end
 
     def create

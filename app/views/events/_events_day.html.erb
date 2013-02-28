@@ -1,6 +1,8 @@
 <% if @user.get_event_count != 0 %>
     <h3>Day Events (<%= @user.get_event_count %>)</h3>
-    <ol class="events">
-        <%= render @events %>
-    </ol>
+    <% if !@events.nil? %>
+        <ol class="events">
+            <%= render @events %>
+        </ol>
+    <% end %>
 <% end %>
