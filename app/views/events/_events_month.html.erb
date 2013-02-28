@@ -19,20 +19,21 @@
             <% @events_by_date[date].each do |event| %>
                 <% if event_count <= 3 || count <= 1 %>
                     <li>
-                    <a href="#" class="event-popover" data-toggle="popover" 
-                       title="<%= "#{event.title}" %>"  
-                       data-content="<%="#{event.where}#{event.when}#{event.my_notes}" %>" 
-                       data-trigger="hover" data-html="true">
                     <% if event.all_day %>                    
                         <div class="events-allday">
                     <% else %>
                         <div class="events-times">
                     <% end %>
+                    <a href="#" class="event-popover" data-toggle="popover" 
+                       title="<%= "#{event.title}" %>"  
+                       data-content="<%="#{event.where}#{event.when}#{event.my_notes}" %>" 
+                       data-trigger="hover" data-html="true">
                         <i class="icon-plus-sign"></i><%= event.short_title %>
+                    </a>
                     <% if event.all_day %>                    
                         </div>
                     <% end %>
-                    </a></li>
+                    </li>
                 <% end %>
                 <% if event_count > 3 && count > 1 %>
                     <% event_list += "<b>" + event.title + "</b><br>" %>
