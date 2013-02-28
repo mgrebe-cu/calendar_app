@@ -1,4 +1,6 @@
 class Event < ActiveRecord::Base
+    SHORT_LENGTH=15
+
     attr_accessible :title, :all_day, :calendar_id, :date, :end, :location, :notes, :start
 
     belongs_to :calendar
@@ -18,9 +20,34 @@ class Event < ActiveRecord::Base
 
     def when
         if self.all_day
-            "All Day"
+            "When: All Day"
         else
-            self.start.strftime('%I:%M %p') + " to " + self.end.strftime('%I:%M %p')
+            "When: From " + self.start.strftime('%I:%M %p') + 
+            " To " + self.end.strftime('%I:%M %p')
+        end
+    end
+
+    def where
+        if self.location.nil? || self.location.size == 0
+            ""
+        else
+            "Where: " + self.location + "<br>"
+        end
+    end
+
+    def my_notes
+        if self.notes.nil? || self.notes.size == 0
+            ""
+        else
+            "<br>Notes: " + self.notes
+        end
+    end
+
+    def short_title
+        if self.title.size > SHORT_LENGTH
+            self.title[0..11] + '...'
+        else
+            self.title
         end
     end
 

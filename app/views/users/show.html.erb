@@ -8,8 +8,8 @@
             <script type="text/javascript">
                 $('.timepicker').timepicker({minuteStep: 5});
                 $('.datepicker').datepicker({autoclose: true, todayBtn: true});
-                $('.event-popover').popover();
-
+                $(document).ready(function(){ $('.event-popover').popover();}) 
+                
                 $('#event_all_day').click(function() {
                     if (!this.checked) {
                         $('#event_start').attr('disabled',false);

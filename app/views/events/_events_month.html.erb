@@ -13,11 +13,40 @@
             <%= date.day %>
         <% end %>
         <% if @events_by_date[date] %>
+            <% event_count = @events_by_date[date].size %>
+            <% count = 0; event_list = "" %>
             <ul class="unstyled">
             <% @events_by_date[date].each do |event| %>
-                <li>
-<a href="#" class="event-popover" data-toggle="popover" title="<%= "#{event.title}:#{event.location}:#{event.when}" %>"  data-content="And here's some amazing content" data-trigger="hover" data-animation="">                    
-                <%= event.title %></a></li>
+                <% if event_count <= 3 || count <= 1 %>
+                    <li>
+                    <a href="#" class="event-popover" data-toggle="popover" 
+                       title="<%= "#{event.title}" %>"  
+                       data-content="<%="#{event.where}#{event.when}#{event.my_notes}" %>" 
+                       data-trigger="hover" data-html="true">
+                    <% if event.all_day %>                    
+                        <div class="events-allday">
+                    <% else %>
+                        <div class="events-times">
+                    <% end %>
+                        <i class="icon-plus-sign"></i><%= event.short_title %>
+                    <% if event.all_day %>                    
+                        </div>
+                    <% end %>
+                    </a></li>
+                <% end %>
+                <% if event_count > 3 && count > 1 %>
+                    <% event_list += "<b>" + event.title + "</b><br>" %>
+                    <% event_list += "#{event.where}#{event.when}#{event.my_notes}<br><br>" %>
+                <% end %>
+                <% count = count + 1 %>
+            <% end %>
+                <% if event_count > 3 %>
+                    <li>
+                    <a href="#" class="event-popover" data-toggle="popover" 
+                       title="<%= date.strftime("%B %e") %>"  
+                       data-content="<%= event_list %>" 
+                       data-trigger="hover" data-html="true">                    
+                       <%= "#{event_count - 2} more..."%></li>
                 <% end %>
             </ul>
         <% end %>

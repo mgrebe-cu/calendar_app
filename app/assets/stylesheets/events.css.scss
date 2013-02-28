@@ -38,7 +38,7 @@
   } 
 
   a:hover {
-    color:#00C;
+    color:#FFF;
     background:#EEE;
     text-decoration:none;
   } 
@@ -54,7 +54,8 @@
       text-decoration:none;
     } 
     a:hover {
-      color:#00C;
+      color:#FFF;
+      background:#EEE;
       text-decoration:none;
     } 
   }
@@ -81,5 +82,13 @@
 
 #events li {
   text-align: left;   
+}
+
+.events-allday  {
+  background-color:#DDD;   
+}
+
+.events-times  {
+  background-color:#FFF;   
 }
 
