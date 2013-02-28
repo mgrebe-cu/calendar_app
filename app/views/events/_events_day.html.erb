@@ -1,5 +1,17 @@
 <% if @user.get_event_count != 0 %>
-    <h3>Day Events (<%= @user.get_event_count %>)</h3>
+    <h2 id="day">
+        <div class="daytitle" >
+        <%= link_to current_url(format: :day, date: @date.prev_day) do %>
+            <i class="icon-arrow-left"></i>
+        <% end %>
+        <%= link_to current_url(format: :month, date: @date) do %>
+            <%= @date.strftime("%B %e") %>
+        <% end %>
+        <%= link_to current_url(format: :day, date: @date.next_day)  do %>
+            <i class="icon-arrow-right"></i>
+        <% end %>
+        </div>
+    </h2>
     <% if !@events.nil? %>
         <ol class="events">
             <%= render @events %>
