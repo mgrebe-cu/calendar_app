@@ -12,6 +12,7 @@
         <% end %>
         </div>
     </h2>
+    <%= day_calendar @date, @events %>
     <% if !@events.nil? %>
         <ol class="events">
             <%= render @events %>

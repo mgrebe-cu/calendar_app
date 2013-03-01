@@ -8,7 +8,10 @@
             <script type="text/javascript">
                 $('.timepicker').timepicker({minuteStep: 5});
                 $('.datepicker').datepicker({autoclose: true, todayBtn: true});
-                $(document).ready(function(){ $('.event-popover').popover();}) 
+                $(document).ready(function(){ 
+                    $('.day_cal_div').attr("scrollTop",200);
+                    $('.event-popover').popover();
+                }) ;
                 
                 $('#event_all_day').click(function() {
                     if (!this.checked) {

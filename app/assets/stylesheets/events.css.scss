@@ -106,3 +106,48 @@
   } 
 }
 
+.day_cal_div {
+  max-height: 800px;
+  overflow: auto;
+}
+
+.day_cal_header {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFF #444 #444 #FFF;
+  background-color: #DDD;
+  padding: 2px 10px 2px 5px;
+  font-family: Tahoma, Helvetica;
+  font-size: 11px;
+}
+
+.day_cal_hour_cell {
+  font: 18px bold Tahoma, Helvetica;
+  vertical-align: top;
+  text-align: center;
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFF #444 #444 #FFF;
+  background-color: #DDDDDD;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.day_cal_min_cell {
+  border-style: solid;
+  border-width: 1px;
+  border-color: #FFF #444 #444 #FFF;
+  background-color: #DDDDDD;
+  padding: 0px 5px 0px 5px;
+  font: 8px Tahoma, Helvetica;
+}
+
+.day_cal_free_time {
+  border-bottom: 1px solid #444;
+  padding: 2px 10px 2px 5px;
+  font-size: 8px;
+  background-color: #EEEEEE;
+  height: 15px;
+}
+
+
