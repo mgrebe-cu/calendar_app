@@ -35,8 +35,11 @@ module DayCalendarHelper
     def calc_max_cols
       @max_cols = 1
       (0..NUM_QUARTER_HOURS-1).each do |qh|
-        row_time = date.midnight + qh * 15 * 60
-        cols = calc_time_cols(row_time)
+        # Set the row time boundaries so that an event must extend
+        # into the row, not just start or end on the boundary.
+        row_time_start = date.midnight + qh * 15 * 60 + 1
+        row_time_end = row_time_start + 15 * 60 - 2
+        cols = calc_time_cols(row_time_start, row_time_end)
         if cols > @max_cols
           @max_cols = cols
         end
@@ -44,11 +47,11 @@ module DayCalendarHelper
       @col_width = (100.0/@max_cols + 0.5).to_i
     end
 
-    def calc_time_cols(row_time)
+    def calc_time_cols(row_time_start, row_time_end)
       cols = 0
       if !events.nil?
         events.each do |event|
-          if event.start <= row_time && event.end >= row_time
+          if event.start <= row_time_end && event.end >= row_time_start
             cols = cols + 1 
           end
         end
@@ -195,7 +198,6 @@ module DayCalendarHelper
                 :width =>  @col_width.to_s + '%' do
               event.title
             end
-            free_count = 1
             cols << newcol
           # Otherwise it is free time in this column
           else
@@ -208,21 +210,25 @@ module DayCalendarHelper
                   :width => (@col_width).to_s + '%' do
                 ''
               end
+              cols << newcol
+              free_count = 1
             # Otherwise incease the count of free columns
             else
               free_count = free_count + 1
             end
-            cols << newcol
           end
-        else
-          # See if the event ends in this row
-          if @events_end.member?(qh) && @events_end[qh].size != 0
-            # Unreserve the column
-            @col_event.delete(col)
-            # Remove the event end from the list
-            @events_end[qh].delete_at(0)
-            if @events_end[qh].size == 0
-              @events_end.delete(qh)
+        end
+      end
+      # Check if any events end in this row
+      if @events_end.member?(qh)
+        @events_end[qh].each do |event|
+          # Find the column the ending event is in
+          for col in 0..(@max_cols-1) do
+            if @col_event.member?(col)
+              if @col_event[col] == event
+                # And remove the event from the column
+                @col_event.delete(col)
+              end
             end
           end
         end
