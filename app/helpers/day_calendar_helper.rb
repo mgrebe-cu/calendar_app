@@ -41,14 +41,13 @@ module DayCalendarHelper
           @max_cols = cols
         end
       end
-      raise @max_cols.inspect
+      @col_width = (100.0/@max_cols + 0.5).to_i
     end
 
     def calc_time_cols(row_time)
       cols = 0
       if !events.nil?
         events.each do |event|
-          raise event.start.inspect
           if event.start <= row_time && event.end >= row_time
             cols = cols + 1 
           end
@@ -69,23 +68,15 @@ module DayCalendarHelper
           else
             @events_start[start_row] = [event]
           end
-          end_row = (event.start.seconds_since_midnight / (60*15)).to_i
+          end_row = ((event.end.seconds_since_midnight-1) / (60*15)).to_i
           if @events_end.member?(end_row)
-            @events_start[end_row] << event
+            @events_end[end_row] << event
           else
-            @events_start[end_row] = [event]
+            @events_end[end_row] = [event]
           end
           @event_span[event] = end_row - start_row + 1
         end
       end
-    end
-
-    def start_in_row?(event, row_time)
-      event.start >= row_time && event.start <= (row_time + 15*60)
-    end
-
-    def end_in_row?(event, row_time)
-      event.end >= row_time && event.start <= (row_time + 15*60)
     end
 
     def all_day_events
@@ -184,18 +175,34 @@ module DayCalendarHelper
           if @events_start.member?(qh) && @events_start[qh].size != 0
             event = @events_start[qh].delete_at(0)
             @col_event[col] = event
-            col = content_tag :td, :class => "day_cal_appointment", 
-                :colspan => @event_span[event].to_s do
+            newcol = content_tag :td, 
+                :class => "day_cal_appointment", 
+                :colspan => "1", 
+                :rowspan => @event_span[event].to_s do
+                #:width =>  @col_width.to_s + '%' do
               event.title
             end
-            cols << col
+            cols << newcol
           # Otherwise it is free time in this column
           else
-            col = content_tag :td, :class => "day_cal_free_time", 
-                :colspan => "1" do
+            num_cols = 1
+            # Calculate how many columns free time extends
+            for next_col in (col+1)..(@max_cols-1) do
+              if @col_event.member?(next_col)
+                 break
+              else
+                 num_cols = num_cols + 1
+              end
+            end
+            newcol = content_tag :td, 
+                :class => "day_cal_free_time", 
+                :colspan => num_cols.to_s do
+                #:width => (@col_width).to_s + '%' do
               ''
             end
-            cols << col
+            # Skip following free time cols
+            col += num_cols-1
+            cols << newcol
           end
         else
           # See if the event ends in this row

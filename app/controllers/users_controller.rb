@@ -15,16 +15,16 @@ class UsersController < ApplicationController
         @calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @date = params[:date] ? Date.parse(params[:date]) : Date.today
         @event = @calendar.events.build
-        @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
-        @events.sort! { |a,b| a.start <=> b.start }
-        @events_by_date = @events.group_by(&:start_date)
         if (params[:format].nil?)
             @format = @user.default_view.to_sym
         else
             @format = params[:format].to_sym
         end   
+        @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
+        @events.sort! { |a,b| a.start <=> b.start }
+        @events_by_date = @events.group_by(&:start_date)
         if @format == :day
-            @events = @events_by_date[@start_date]
+            @events = @events_by_date[@date]
         end 
     end
 
