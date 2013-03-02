@@ -168,40 +168,38 @@ module DayCalendarHelper
 
     def event_cells(qh)
       cols = []
+      free_count = 1
       for col in 0..(@max_cols-1) do
         # If the column is empty
         if !@col_event.member?(col)
           # See if an event starts in this row and fill it in
           if @events_start.member?(qh) && @events_start[qh].size != 0
             event = @events_start[qh].delete_at(0)
+            if @events_start[qh].size == 0
+              @events_start.delete(qh)
+            end
             @col_event[col] = event
             newcol = content_tag :td, 
                 :class => "day_cal_appointment", 
                 :colspan => "1", 
-                :rowspan => @event_span[event].to_s do
-                #:width =>  @col_width.to_s + '%' do
+                :rowspan => @event_span[event].to_s,
+                :width =>  @col_width.to_s + '%' do
               event.title
             end
+            free_count = 1
             cols << newcol
           # Otherwise it is free time in this column
           else
-            num_cols = 1
-            # Calculate how many columns free time extends
-            for next_col in (col+1)..(@max_cols-1) do
-              if @col_event.member?(next_col)
-                 break
-              else
-                 num_cols = num_cols + 1
+            if col == @max_cols-1 || @col_event.member?(col+1)
+              newcol = content_tag :td, 
+                  :class => "day_cal_free_time", 
+                  :colspan => free_count.to_s,
+                  :width => (@col_width).to_s + '%' do
+                ''
               end
+            else
+              free_count = free_count + 1
             end
-            newcol = content_tag :td, 
-                :class => "day_cal_free_time", 
-                :colspan => num_cols.to_s do
-                #:width => (@col_width).to_s + '%' do
-              ''
-            end
-            # Skip following free time cols
-            col += num_cols-1
             cols << newcol
           end
         else
