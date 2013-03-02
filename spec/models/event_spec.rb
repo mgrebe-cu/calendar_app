@@ -5,7 +5,7 @@ describe Event do
     let(:calendar) { FactoryGirl.create(:calendar)}
     before do
         @event = calendar.events.build(title: 'New Event',
-                        all_day: false, date: "11-09-2001".to_date,
+                        all_day: false, 
                         start: "11-09-2001 10:00".to_time(:local), 
                         end: "11-09-2001 11:00".to_time(:local), 
                         location: 'Home',
@@ -16,9 +16,10 @@ describe Event do
 
     it { should respond_to(:title) }
     it { should respond_to(:all_day) }
-    it { should respond_to(:date) }
     it { should respond_to(:start) }
     it { should respond_to(:end) }
+    it { should respond_to(:start_date) }
+    it { should respond_to(:end_date) }
     it { should respond_to(:location) }
     it { should respond_to(:notes) }
     it { should respond_to(:calendar_id) }

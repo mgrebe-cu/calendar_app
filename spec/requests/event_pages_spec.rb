@@ -7,6 +7,8 @@ describe "EventPages" do
     let(:calendar) { FactoryGirl.create(:calendar, user: user) }
 
     before do
+        user.default_view = :list
+        user.save
         calendar.save
         sign_in user
     end
@@ -38,7 +40,8 @@ describe "EventPages" do
             describe "with valid information" do
                 before do
                     fill_in "Title", with: "Test Event"
-                    fill_in "Date",  with: "02/27/2013"
+                    fill_in "Start Date",  with: "02/27/2013"
+                    fill_in "End Date",  with: "02/27/2013"
                     fill_in "Start Time",  with: "10:00 AM"
                     fill_in "End Time",  with: "11:00 AM"
                     click_button 'Save'
