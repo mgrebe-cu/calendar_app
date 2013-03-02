@@ -1,4 +1,4 @@
-# Based on code by Ryan Bates from railscasts.com
+# 
 module DayCalendarHelper
   def day_calendar(date = Date.today, events)
     DayCalendar.new(self, date, events).table
@@ -11,11 +11,24 @@ module DayCalendarHelper
 
     def table
       calc_max_cols
+      calc_event_rows
       @col_event = {}
+      content_tag :div do
+        all_day_table + hour_table
+      end
+    end
+ 
+    def hour_table
       content_tag :div, :class => "day_cal_div" do
         content_tag :table do
           header + time_body
         end
+      end
+    end
+ 
+    def all_day_table
+      content_tag :table do
+        header_all_day + all_day_events
       end
     end
  
@@ -28,18 +41,43 @@ module DayCalendarHelper
           @max_cols = cols
         end
       end
+      raise @max_cols.inspect
     end
 
     def calc_time_cols(row_time)
       cols = 0
       if !events.nil?
         events.each do |event|
+          raise event.start.inspect
           if event.start <= row_time && event.end >= row_time
             cols = cols + 1 
           end
         end
       end
       cols
+    end
+
+    def calc_event_rows
+      @events_start = {}
+      @events_end = {}
+      @event_span = {}
+      events.each do |event|
+        if !event.all_day
+          start_row = (event.start.seconds_since_midnight / (60*15)).to_i
+          if @events_start.member?(start_row)
+            @events_start[start_row] << event
+          else
+            @events_start[start_row] = [event]
+          end
+          end_row = (event.start.seconds_since_midnight / (60*15)).to_i
+          if @events_end.member?(end_row)
+            @events_start[end_row] << event
+          else
+            @events_start[end_row] = [event]
+          end
+          @event_span[event] = end_row - start_row + 1
+        end
+      end
     end
 
     def start_in_row?(event, row_time)
@@ -50,23 +88,41 @@ module DayCalendarHelper
       event.end >= row_time && event.start <= (row_time + 15*60)
     end
 
+    def all_day_events
+      rows = []
+      events.each do |event|
+        if event.all_day
+          row = content_tag :tr do
+            content_tag :td, :class => "day_cal_free_time" do
+              event.title
+            end
+          end
+          rows << row
+        end
+      end
+      rows.join.html_safe
+    end
+
     def header
       content_tag :tr do
-        header_time + header_event
-      end
-    end
-
-    def header_time
-      content_tag :th, :width => "1%", :colspan => "2", 
-          :class => "day_cal_header"  do
-            'Time' 
-      end
-    end
-
-    def header_event
-      content_tag :th, :style => "width: 100%", :width => "100%", 
+        c1 = content_tag :th, :width => "1%", :colspan => "2", 
+            :class => "day_cal_header"  do
+              'Time' 
+        end
+        c2 = content_tag :th, :style => "width: 100%", :width => "100%", 
             :colspan => @max_cols.to_s, :class => "day_cal_header" do
-        ''
+              ''
+        end
+        c1 + c2
+      end
+    end
+
+    def header_all_day
+      content_tag :tr do
+        content_tag :th, :style => "width: 100%", :width => "100%", 
+            :class => "day_cal_header" do
+          'All Day Events'
+        end
       end
     end
 
@@ -120,10 +176,36 @@ module DayCalendarHelper
     end
 
     def event_cells(qh)
-      content_tag :td, :class => "day_cal_free_time", 
-        :colspan => @max_cols.to_s do
-          ''
+      cols = []
+      for col in 0..(@max_cols-1) do
+        # If the column is empty
+        if !@col_event.member?(col)
+          # See if an event starts in this row and fill it in
+          if @events_start.member?(qh) && @events_start[qh].size != 0
+            event = @events_start[qh].delete_at(0)
+            @col_event[col] = event
+            col = content_tag :td, :class => "day_cal_appointment", 
+                :colspan => @event_span[event].to_s do
+              event.title
+            end
+            cols << col
+          # Otherwise it is free time in this column
+          else
+            col = content_tag :td, :class => "day_cal_free_time", 
+                :colspan => "1" do
+              ''
+            end
+            cols << col
+          end
+        else
+          # See if the event ends in this row
+          if @events_end.member?(qh) && @events_end[qh].size != 0
+            @col_event.delete(col)
+          end
+        end
       end
+      cols.join.html_safe
     end
+
   end
 end
