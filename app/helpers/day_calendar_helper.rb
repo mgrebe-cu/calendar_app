@@ -60,35 +60,39 @@ module DayCalendarHelper
       @events_start = {}
       @events_end = {}
       @event_span = {}
-      events.each do |event|
-        if !event.all_day
-          start_row = (event.start.seconds_since_midnight / (60*15)).to_i
-          if @events_start.member?(start_row)
-            @events_start[start_row] << event
-          else
-            @events_start[start_row] = [event]
+      if !events.nil?
+        events.each do |event|
+          if !event.all_day
+            start_row = (event.start.seconds_since_midnight / (60*15)).to_i
+            if @events_start.member?(start_row)
+              @events_start[start_row] << event
+            else
+              @events_start[start_row] = [event]
+            end
+            end_row = ((event.end.seconds_since_midnight-1) / (60*15)).to_i
+            if @events_end.member?(end_row)
+              @events_end[end_row] << event
+            else
+              @events_end[end_row] = [event]
+            end
+            @event_span[event] = end_row - start_row + 1
           end
-          end_row = ((event.end.seconds_since_midnight-1) / (60*15)).to_i
-          if @events_end.member?(end_row)
-            @events_end[end_row] << event
-          else
-            @events_end[end_row] = [event]
-          end
-          @event_span[event] = end_row - start_row + 1
         end
       end
     end
 
     def all_day_events
       rows = []
-      events.each do |event|
-        if event.all_day
-          row = content_tag :tr do
-            content_tag :td, :class => "day_cal_free_time" do
-              event.title
+      if !events.nil?
+        events.each do |event|
+          if event.all_day
+            row = content_tag :tr do
+              content_tag :td, :class => "day_cal_free_time" do
+                event.title
+              end
             end
+            rows << row
           end
-          rows << row
         end
       end
       rows.join.html_safe
@@ -110,10 +114,15 @@ module DayCalendarHelper
 
     def header_all_day
       content_tag :tr do
-        content_tag :th, :style => "width: 100%", :width => "100%", 
+        c1 = content_tag :th, :width => "5%", :colspan => "2", 
+            :class => "day_cal_header"  do
+              '' 
+        end
+        c2 = content_tag :th, :style => "width: 100%", :width => "100%", 
             :class => "day_cal_header" do
           'All Day Events'
         end
+        c1 + c2
       end
     end
 
@@ -126,15 +135,12 @@ module DayCalendarHelper
     def time_rows
       rows = []
       (0..NUM_QUARTER_HOURS-1).each do |qh|
-        rows << time_row(qh)
+        row = content_tag :tr do
+          [hour_cell(qh), minute_cell(qh), event_cells(qh)].join.html_safe
+        end
+        rows << row
       end
       rows.join.html_safe
-    end
-
-    def time_row(qh)
-      content_tag :tr do
-        [hour_cell(qh), minute_cell(qh), event_cells(qh)].join.html_safe
-      end
     end
 
     def hour_cell(qh)
@@ -173,12 +179,15 @@ module DayCalendarHelper
         # If the column is empty
         if !@col_event.member?(col)
           # See if an event starts in this row and fill it in
-          if @events_start.member?(qh) && @events_start[qh].size != 0
+          if @events_start.member?(qh)
+            # Remove event start from list
             event = @events_start[qh].delete_at(0)
             if @events_start[qh].size == 0
               @events_start.delete(qh)
             end
+            # Reserve column for event
             @col_event[col] = event
+            # Add event tags
             newcol = content_tag :td, 
                 :class => "day_cal_appointment", 
                 :colspan => "1", 
@@ -190,13 +199,16 @@ module DayCalendarHelper
             cols << newcol
           # Otherwise it is free time in this column
           else
+            # If this is the last column of free time
             if col == @max_cols-1 || @col_event.member?(col+1)
+              # Add the free time tag
               newcol = content_tag :td, 
                   :class => "day_cal_free_time", 
                   :colspan => free_count.to_s,
                   :width => (@col_width).to_s + '%' do
                 ''
               end
+            # Otherwise incease the count of free columns
             else
               free_count = free_count + 1
             end
@@ -205,7 +217,13 @@ module DayCalendarHelper
         else
           # See if the event ends in this row
           if @events_end.member?(qh) && @events_end[qh].size != 0
+            # Unreserve the column
             @col_event.delete(col)
+            # Remove the event end from the list
+            @events_end[qh].delete_at(0)
+            if @events_end[qh].size == 0
+              @events_end.delete(qh)
+            end
           end
         end
       end
