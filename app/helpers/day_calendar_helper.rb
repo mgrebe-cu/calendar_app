@@ -10,7 +10,9 @@ module DayCalendarHelper
     NUM_QUARTER_HOURS = 24*4
 
     def table
-      calc_max_cols
+      @max_cols = calc_max_cols(0, NUM_QUARTER_HOURS)
+      @max_cols = 1 if @max_cols ==0
+      @col_width = (100.0/@max_cols + 0.5).to_i
       calc_event_rows
       @col_event = {}
       content_tag :div do
@@ -32,19 +34,19 @@ module DayCalendarHelper
       end
     end
  
-    def calc_max_cols
-      @max_cols = 1
-      (0..NUM_QUARTER_HOURS-1).each do |qh|
+    def calc_max_cols(row, rowspan)
+      max = 0
+      (row..(row+rowspan-1)).each do |qh|
         # Set the row time boundaries so that an event must extend
         # into the row, not just start or end on the boundary.
         row_time_start = date.midnight + qh * 15 * 60 + 1
         row_time_end = row_time_start + 15 * 60 - 2
         cols = calc_time_cols(row_time_start, row_time_end)
-        if cols > @max_cols
-          @max_cols = cols
+        if cols > max
+          max = cols
         end
       end
-      @col_width = (100.0/@max_cols + 0.5).to_i
+      max
     end
 
     def calc_time_cols(row_time_start, row_time_end)
@@ -188,12 +190,17 @@ module DayCalendarHelper
             if @events_start[qh].size == 0
               @events_start.delete(qh)
             end
-            # Reserve column for event
-            @col_event[col] = event
+            # Find the number of columns it can take
+            max = calc_max_cols(qh, @event_span[event]) - 1
+            my_cols = @max_cols - max
+            for rescol in col..(col+my_cols-1) do
+              # Reserve column for event
+              @col_event[rescol] = event
+            end
             # Add event tags
             newcol = content_tag :td, 
                 :class => "day_cal_appointment", 
-                :colspan => "1", 
+                :colspan => my_cols.to_s, 
                 :rowspan => @event_span[event].to_s,
                 :width =>  @col_width.to_s + '%' do
               event.title
