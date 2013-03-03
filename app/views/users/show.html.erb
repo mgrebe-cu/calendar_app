@@ -6,7 +6,8 @@
             <%= render 'shared/event_form' %>
 
             <script type="text/javascript">
-                $('.timepicker').timepicker({minuteStep: 5});
+                $('#event_start').timepicker({minuteStep: 5, defaultTime: '10:00 AM'});
+                $('#event_end').timepicker({minuteStep: 5, defaultTime: '11:00 AM'});
                 $('.datepicker').datepicker({autoclose: true, todayBtn: true});
                 $(document).ready(function(){ 
                     $('.day_cal_div').attr("scrollTop",200);
