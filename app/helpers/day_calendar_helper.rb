@@ -29,7 +29,7 @@ module DayCalendarHelper
     end
  
     def all_day_table
-      content_tag :table do
+      content_tag :table, :width => "100%" do
         header_all_day + all_day_events
       end
     end
@@ -92,7 +92,8 @@ module DayCalendarHelper
         events.each do |event|
           if event.all_day
             row = content_tag :tr do
-              content_tag :td, :class => "day_cal_free_time" do
+              content_tag :td, :colspan => "2", 
+                    :class => "day_cal_all_event" do
                 event.title
               end
             end
@@ -100,7 +101,9 @@ module DayCalendarHelper
           end
         end
       end
-      rows.join.html_safe
+      content_tag :tr do
+        rows.join.html_safe
+      end
     end
 
     def header
@@ -119,15 +122,10 @@ module DayCalendarHelper
 
     def header_all_day
       content_tag :tr do
-        c1 = content_tag :th, :width => "5%", :colspan => "2", 
-            :class => "day_cal_header"  do
-              '' 
-        end
-        c2 = content_tag :th, :style => "width: 100%", :width => "100%", 
+        content_tag :th, :width => "100%", 
             :class => "day_cal_header" do
           'All Day Events'
         end
-        c1 + c2
       end
     end
 
