@@ -13,6 +13,9 @@
                     $('.event-popover').popover();
                 }) ;
                 
+                $('#event_start_date').change(function() {
+                    $('#event_end_date').val($('#event_start_date').val());
+                });
                 $('#event_all_day').click(function() {
                     if (!this.checked) {
                         $('#event_start').attr('disabled',false);

@@ -106,12 +106,12 @@
   } 
 }
 
-.day_cal_div {
+.day_div {
   max-height: 800px;
   overflow: auto;
 }
 
-.day_cal_header {
+.day_header {
   border-style: solid;
   border-width: 1px;
   border-color: #FFF #444 #444 #FFF;
@@ -121,7 +121,7 @@
   font-size: 11px;
 }
 
-.day_cal_hour_cell {
+.day_hour_cell {
   font: 18px bold Tahoma, Helvetica;
   vertical-align: top;
   text-align: center;
@@ -134,7 +134,7 @@
   height: 60px;
 }
 
-.day_cal_min_cell {
+.day_min_cell {
   border-style: solid;
   border-width: 1px;
   border-color: #FFF #444 #444 #FFF;
@@ -144,7 +144,7 @@
   height: 15px;
 }
 
-.day_cal_free_time {
+.day_free_time {
   border-bottom: 1px solid #444;
   padding: 2px 10px 2px 5px;
   font-size: 8px;
@@ -152,7 +152,7 @@
   height: 15px;
 }
 
-.day_cal_all_event {
+.day_all_event {
   border-bottom: 1px solid #444;
   padding: 2px 10px 2px 5px;
   font-size: 12px;
@@ -161,7 +161,7 @@
   width: 100%;
 }
 
-.day_cal_appointment {
+.day_appointment {
   border-bottom: 1px solid #444;
   border-right: 1px solid #444;
   padding: 2px 10px 2px 5px;

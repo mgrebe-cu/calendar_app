@@ -21,7 +21,7 @@ module DayCalendarHelper
     end
  
     def hour_table
-      content_tag :div, :class => "day_cal_div" do
+      content_tag :div, :class => "day_div" do
         content_tag :table do
           header + time_body
         end
@@ -93,8 +93,15 @@ module DayCalendarHelper
           if event.all_day
             row = content_tag :tr do
               content_tag :td, :colspan => "2", 
-                    :class => "day_cal_all_event" do
-                event.title
+                  :title => "#{event.title}",
+                  :max => {:height => "15px"},
+                  :data => {:toggle => "popover", 
+                          :content => "#{event.where}#{event.when}#{event.my_notes}",
+                          :true => "true",
+                          :trigger => "hover",
+                          :placement => "top"},
+                  :class => "day_all_event event-popover" do
+                event.title + event.where
               end
             end
             rows << row
@@ -109,11 +116,11 @@ module DayCalendarHelper
     def header
       content_tag :tr do
         c1 = content_tag :th, :width => "1%", :colspan => "2", 
-            :class => "day_cal_header"  do
+            :class => "day_header"  do
               'Time' 
         end
         c2 = content_tag :th, :style => "width: 100%", :width => "100%", 
-            :colspan => @max_cols.to_s, :class => "day_cal_header" do
+            :colspan => @max_cols.to_s, :class => "day_header" do
               ''
         end
         c1 + c2
@@ -123,7 +130,7 @@ module DayCalendarHelper
     def header_all_day
       content_tag :tr do
         content_tag :th, :width => "100%", 
-            :class => "day_cal_header" do
+            :class => "day_header" do
           'All Day Events'
         end
       end
@@ -148,7 +155,7 @@ module DayCalendarHelper
 
     def hour_cell(qh)
       if qh % 4 == 0
-        content_tag :td, :class => "day_cal_hour_cell", 
+        content_tag :td, :class => "day_hour_cell", 
               :width => "1%", :rowspan => 4 do
           if (qh/4 == 0)
             ''
@@ -166,7 +173,7 @@ module DayCalendarHelper
     end
 
     def minute_cell(qh)
-      content_tag :td, :class => "day_cal_min_cell" do
+      content_tag :td, :class => "day_min_cell" do
         if (qh%4 == 0)
           '00'
         else
@@ -197,11 +204,21 @@ module DayCalendarHelper
             end
             # Add event tags
             newcol = content_tag :td, 
-                :class => "day_cal_appointment", 
+                :title => "#{event.title}",
+                :max => {:height => @event_span[event].to_s + 'px'},
+                :data => {:toggle => "popover", 
+                          :content => "#{event.where}#{event.when}#{event.my_notes}",
+                          :true => "true",
+                          :trigger => "hover",
+                          :placement => "top"},
+                :class => "day_appointment event-popover", 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[event].to_s,
                 :width =>  @col_width.to_s + '%' do
-              event.title
+              c1 = content_tag :div, event.title
+              c2 = content_tag :div, event.where
+              c3 = content_tag :div, event.when
+              c1+c2+c3
             end
             cols << newcol
           # Otherwise it is free time in this column
@@ -210,7 +227,7 @@ module DayCalendarHelper
             if col == @max_cols-1 || @col_event.member?(col+1)
               # Add the free time tag
               newcol = content_tag :td, 
-                  :class => "day_cal_free_time", 
+                  :class => "day_free_time", 
                   :colspan => free_count.to_s,
                   :width => (@col_width).to_s + '%' do
                 ''
