@@ -24,12 +24,14 @@
                     <% else %>
                         <div class="events-times">
                     <% end %>
-                    <a href="#" class="event-popover" data-toggle="popover" 
-                       title="<%= "#{event.title}" %>"  
-                       data-content="<%="#{event.where}#{event.when}#{event.my_notes}" %>" 
-                       data-trigger="hover" data-placement="top" data-html="true">
+
+                    <%= link_to edit_event_path(event), :class => "event-popover", 
+                        :title => "#{event.title}",
+                        :data => {:toggle => "popover", 
+                            :content => "#{event.where}#{event.when}#{event.my_notes}",
+                            :trigger => "hover", :placement => "top", :html => "true"} do %>
                         <i class="icon-plus-sign"></i><%= event.short_title %>
-                    </a>
+                    <% end %>
                     <% if event.all_day %>                    
                         </div>
                     <% end %>

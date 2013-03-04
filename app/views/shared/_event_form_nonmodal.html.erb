@@ -18,3 +18,6 @@
         <%= f.text_area :notes, label: 'Notes', :id => "message_area", :cols => 10, :rows => 5 %>
         <%= f.submit "Save", class: "btn btn-primary pull-right" %>
 <% end %>
+<%= button_to 'Delete', @event, :class => "btn",
+              :method => :delete, :confirm => "Are you sure?" %>
+
