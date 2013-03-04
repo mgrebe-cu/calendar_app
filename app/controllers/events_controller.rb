@@ -58,7 +58,10 @@ class EventsController < ApplicationController
 
     def update
         @event = Event.find_by_id(params[:id])
-        #raise params.inspect
+
+        @event.location = params[:event][:location]
+        @event.all_day = params[:event][:all_day]
+        @event.notes = params[:event][:notes]
         parse_params
 
         if @event.save
