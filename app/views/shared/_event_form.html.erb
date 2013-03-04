@@ -1,6 +1,7 @@
 <!-- Modal -->
 <div id="eventModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <%= bootstrap_form_for(@event, html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
+    <%= bootstrap_form_for(@event, remote: request.xhr?, 
+            html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
         <div class="modal-header">
             <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</button>
             <h3>New Event</h3>

@@ -1,10 +1,9 @@
 class EventsController < ApplicationController
+    before_filter :signed_in_user
+    before_filter :correct_user,   only: :destroy
 
-    def create
-        calendar = Calendar.where(default: true, user_id: current_user.id)[0]
-        @event = calendar.events.build(params[:event])
+    def parse_params
         zone = Time.now.zone
-
         begin 
             @event.start_date = Date.strptime(params[:event][:start_date],'%m/%d/%Y')
         rescue
@@ -37,6 +36,13 @@ class EventsController < ApplicationController
         rescue
             @event.end = nil
         end
+    end
+
+    def create
+        calendar = Calendar.where(default: true, user_id: current_user.id)[0]
+        @event = calendar.events.build(params[:event])
+
+        parse_params
 
         if @event.save
             redirect_to current_user
@@ -46,10 +52,38 @@ class EventsController < ApplicationController
         end
     end
 
+    def edit
+        @event = Event.find_by_id(params[:id])
+    end
+
+    def update
+        @event = Event.find_by_id(params[:id])
+        #raise params.inspect
+        parse_params
+
+        if @event.save
+            redirect_to current_user
+        else
+            flash[:error] = "Event update failed!"
+            redirect_to current_user
+        end
+    end
+
     def destroy
-        event = Event.find_by_id(params[:id])
-        event.destroy
+        @event.destroy
         redirect_to user_path(current_user)
+    end
+
+  private
+
+    def correct_user
+        @event = Event.find_by_id(params[:id])
+        if @event.nil?
+            redirect_to root_url
+        else
+            @calendar = current_user.calendars.find_by_id(@event.calendar_id)
+            redirect_to root_url if @calendar.nil?
+        end
     end
 
 end

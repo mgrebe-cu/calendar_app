@@ -31,6 +31,8 @@
                         designation = 'AM';
                     else
                         hours -= 12;
+                    hours = (hours < 10) ? ("0" + hours) : hours
+                    minutes = (minutes < 10) ? ("0" + minutes) : minutes
                     $('#event_end').val(hours + ':' + minutes + ' ' + designation);
                 });
                 
