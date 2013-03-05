@@ -17,4 +17,6 @@ $('#event_end_date').val("<%= @event.end_date.strftime('%m/%d/%Y') %>");
 <% end %>
 $('#message_area').val("<%= @event.notes %>");
 $('#event-form').attr('action',"/events/<%= @event.id %>");
+$('.delete_btn').remove();
+$('.btn-primary').after('<%= j render(:partial => "events/delete_btn", :object => :event) %>');
 $('#eventModal').modal();
