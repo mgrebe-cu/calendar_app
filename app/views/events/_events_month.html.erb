@@ -30,7 +30,7 @@
                         :data => {:toggle => "popover", 
                             :content => "#{event.where}#{event.when}#{event.my_notes}",
                             :trigger => "hover", :placement => "top", :html => "true",
-                            :remote => "true" } do %>
+                            :remote => "true"} do %>
                         <i class="icon-plus-sign"></i><%= event.short_title %>
                     <% end %>
                     <% if event.all_day %>                    
