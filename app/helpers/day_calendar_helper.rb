@@ -101,7 +101,10 @@ module DayCalendarHelper
                           :trigger => "hover",
                           :placement => "top"},
                   :class => "day_all_event event-popover" do
-                event.title + event.where
+                content_tag :a, :href => "/events/#{event.id}/edit", 
+                  :data => {:remote => true} do
+                    event.title + '  ' + event.where
+                end
               end
             end
             rows << row
@@ -218,7 +221,10 @@ module DayCalendarHelper
               c1 = content_tag :div, event.title
               c2 = content_tag :div, event.where
               c3 = content_tag :div, event.when
-              c1+c2+c3
+              content_tag :a, :href => "/events/#{event.id}/edit", 
+                :data => {:remote => true} do
+                  c1+c2+c3
+              end              
             end
             cols << newcol
           # Otherwise it is free time in this column

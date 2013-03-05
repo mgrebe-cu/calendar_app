@@ -159,6 +159,19 @@
   background-color: #D7F2FF;
   height: 15px;
   width: 100%;
+  a:link {
+    color:#000000;
+    text-decoration:none;
+  } 
+  a:visited {
+    color:#000000;
+    text-decoration:none;
+  } 
+  a:hover {
+    color:#FFF;
+    background:#EEE;
+    text-decoration:none;
+  } 
 }
 
 .day_appointment {
@@ -171,6 +184,19 @@
   font-family: "Lucida Grande", arial, helvetica, sans-serif;
   font-size: 12px;
   vertical-align: top;
+  a:link {
+    color:#000000;
+    text-decoration:none;
+  } 
+  a:visited {
+    color:#000000;
+    text-decoration:none;
+  } 
+  a:hover {
+    color:#FFF;
+    background:#EEE;
+    text-decoration:none;
+  } 
   }
 
 

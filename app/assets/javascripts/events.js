@@ -1,5 +1,3 @@
-  // $('.timepicker').timepicker({minuteStep: 5});
-
 $(document).ready(function(){ 
     $('.day_cal_div').attr("scrollTop",200);
     $('.event-popover').popover();
@@ -34,7 +32,6 @@ $(document).ready(function(){
         minutes = (minutes < 10) ? ("0" + minutes) : minutes;
         $('#event_end').val(hours + ':' + minutes + ' ' + designation);
     });
-
     $('#event_start_date').change(function() {
         $('#event_end_date').val($('#event_start_date').val());
     });
@@ -49,6 +46,6 @@ $(document).ready(function(){
             $('#event_end').val('');
         }
     });
-
+    $('.day_div').scrollTop(665);
 }) ;
 
