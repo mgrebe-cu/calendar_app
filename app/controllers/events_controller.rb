@@ -54,7 +54,7 @@ class EventsController < ApplicationController
 
     def edit
         @event = Event.find_by_id(params[:id])
-        session[:return_to] ||= request.referer
+        #session[:return_to] ||= request.referer
         respond_to do |format|
             format.html
             format.js
@@ -73,10 +73,12 @@ class EventsController < ApplicationController
         parse_params
 
         if @event.save
-            redirect_to session[:return_to]
+            #redirect_to session[:return_to]
+            redirect_to request.referer
         else
             flash[:error] = "Event update failed!"
-            redirect_to current_user
+            #redirect_to session[:return_to]
+            redirect_to request.referer
         end
     end
 
