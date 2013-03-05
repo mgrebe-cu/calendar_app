@@ -1,23 +1,29 @@
 <!-- Modal -->
-<%= bootstrap_form_for(@event, remote: request.xhr?, 
+<div id="editModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <%= bootstrap_form_for(@event, 
         html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
-        <h3>Edit Event</h3>
-        <%= f.text_field :title, label: 'Title' %>
-        <%= f.text_field :location, label: 'Location' %>
-        <%= f.text_field :start_date, class: "datepicker input-small", 
-            label: 'Start Date', value: @event.start_date.strftime("%m/%d/%Y")%>
-        <%= f.text_field :end_date, class: "datepicker input-small", 
-            label: 'End Date', value: @event.end_date.strftime("%m/%d/%Y") %>
-        <%= f.control_group :all_day do %>
-            <%= f.check_box :all_day, label: 'All Day Event' %>
-        <% end %>
-        <%= f.text_field :start, class: "timepicker input-small", 
-            label: 'Start Time', value: @event.start.strftime("%I:%M %P") %>
-        <%= f.text_field :end, class: "timepicker input-small", 
-            label: 'End Time', value: @event.end.strftime("%I:%M %P") %>
-        <%= f.text_area :notes, label: 'Notes', :id => "message_area", :cols => 10, :rows => 5 %>
-        <%= f.submit "Save", class: "btn btn-primary pull-right" %>
+        <div class="modal-header">
+            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3>Edit Event</h3>
+        </div>
+        <div class="modal-body">
+            <%= f.text_field :title, label: 'Title' %>
+            <%= f.text_field :location, label: 'Location' %>
+            <%= f.text_field :start_date, class: "datepicker input-small", 
+                label: 'Start Date', value: @event.start_date.strftime("%m/%d/%Y")%>
+            <%= f.text_field :end_date, class: "datepicker input-small", 
+                label: 'End Date', value: @event.end_date.strftime("%m/%d/%Y") %>
+            <%= f.control_group :all_day do %>
+                <%= f.check_box :all_day, class: "my_all_day", label: 'All Day Event' %>
+            <% end %>
+            <%= f.text_field :start, class: "timepicker input-small", 
+                label: 'Start Time', value: @event.start.strftime("%I:%M %P") %>
+            <%= f.text_field :end, class: "timepicker input-small", 
+                label: 'End Time', value: @event.end.strftime("%I:%M %P") %>
+            <%= f.text_area :notes, label: 'Notes', :id => "message_area", :cols => 10, :rows => 5 %>
+        </div>
+        <div class="modal-footer">
+            <%= f.submit "Save", class: "btn btn-primary pull-right" %>
+        </div>
 <% end %>
-<%= button_to 'Delete', @event, :class => "btn",
-              :method => :delete, :confirm => "Are you sure?" %>
-
+</div>

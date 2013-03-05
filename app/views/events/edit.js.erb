@@ -1,0 +1,22 @@
+$('#event_title').val("<%= @event.title %>");
+$('#event_location').val("<%= @event.location %>");
+$('#event_start_date').val("<%= @event.start_date.strftime('%m/%d/%Y') %>");
+$('#event_end_date').val("<%= @event.end_date.strftime('%m/%d/%Y') %>");
+<% if @event.all_day %>
+    $('#event_all_day').attr('checked', true);
+    $('#event_start').attr('disabled',true);
+    $('#event_end').attr('disabled',true);
+    $('#event_start').val("");
+    $('#event_end').val("");
+<% else %>
+    $('#event_all_day').attr('checked', false);
+    $('#event_start').attr('disabled',false);
+    $('#event_end').attr('disabled',false);
+    $('#event_start').val("<%= @event.start.strftime('%I:%M %P') %>");
+    $('#event_end').val("<%= @event.end.strftime('%I:%M %P') %>");
+<% end %>
+$('#message_area').val("<%= @event.notes %>");
+$('#event-form').attr('action',"/events/<%= @event.id %>");
+$('#event-form').attr('method',"post");
+$('_method').attr('value',"put");
+$('#eventModal').modal();
