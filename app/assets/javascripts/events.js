@@ -47,5 +47,19 @@ $(document).ready(function(){
         }
     });
     $('.day_div').scrollTop(340);
+    $("#event-form").validate({
+        rules: {
+           "event[title]": {
+                required:true
+            },
+           "event[start_date]": {
+                required:true
+            },
+           "event[end_date]": {
+                required:true
+            }
+    }
+    });
+
 }) ;
 
