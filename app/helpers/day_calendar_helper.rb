@@ -241,7 +241,7 @@ module DayCalendarHelper
             end
             # Add event tags
             newcol = content_tag :td, 
-                :max => {:height => @event_span[event].to_s + 'px'},
+                :max => {:height => (@event_span[event]*15).to_s + 'px'},
                 :class => "day_appointment", 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[event].to_s,

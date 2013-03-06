@@ -1,4 +1,6 @@
-# Based on code by Ryan Bates from railscasts.com
+# The module is rails helper for displaying a calendar
+# month view.  It is based on code by Ryan Bates 
+# from railscasts.com.
 
 module CalendarHelper
   def calendar(date = Date.today, &block)
