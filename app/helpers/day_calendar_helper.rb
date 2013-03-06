@@ -93,16 +93,17 @@ module DayCalendarHelper
           if event.all_day
             row = content_tag :tr do
               content_tag :td, :colspan => "2", 
-                  :title => "#{event.title}",
                   :max => {:height => "15px"},
+                  :class => "day_all_event" do
+                content_tag :a, :href => "/events/#{event.id}/edit", 
+                  :title => "#{event.title}",
                   :data => {:toggle => "popover", 
                           :content => "#{event.where}#{event.when}#{event.my_notes}",
                           :true => "true",
                           :trigger => "hover",
-                          :placement => "top"},
-                  :class => "day_all_event event-popover" do
-                content_tag :a, :href => "/events/#{event.id}/edit", 
-                  :data => {:remote => true} do
+                          :placement => "top",
+                          :remote => true },
+                  :class => "event-popover" do
                     event.title + '  ' + event.where
                 end
               end
@@ -208,14 +209,8 @@ module DayCalendarHelper
             end
             # Add event tags
             newcol = content_tag :td, 
-                :title => "#{event.title}",
                 :max => {:height => @event_span[event].to_s + 'px'},
-                :data => {:toggle => "popover", 
-                          :content => "#{event.where}#{event.when}#{event.my_notes}",
-                          :true => "true",
-                          :trigger => "hover",
-                          :placement => "top"},
-                :class => "day_appointment event-popover", 
+                :class => "day_appointment", 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[event].to_s,
                 :width =>  @col_width.to_s + '%' do
@@ -223,7 +218,14 @@ module DayCalendarHelper
               c2 = content_tag :div, event.where
               c3 = content_tag :div, event.when
               content_tag :a, :href => "/events/#{event.id}/edit", 
-                :data => {:remote => true} do
+                :title => "#{event.title}",
+                :data => {:toggle => "popover", 
+                          :content => "#{event.where}#{event.when}#{event.my_notes}",
+                          :true => "true",
+                          :trigger => "hover",
+                          :placement => "top",
+                          :remote => true },
+                :class => "event-popover" do
                   c1+c2+c3
               end              
             end
