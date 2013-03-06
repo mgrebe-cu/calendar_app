@@ -7,10 +7,10 @@ module DayCalendarHelper
   class DayCalendar < Struct.new(:view, :date, :events)
     delegate :content_tag, to: :view
 
-    NUM_QUARTER_HOURS = 24*4
+    NUM_HALF_HOURS = 24*2
 
     def table
-      @max_cols = calc_max_cols(0, NUM_QUARTER_HOURS)
+      @max_cols = calc_max_cols(0, NUM_HALF_HOURS)
       @max_cols = 1 if @max_cols ==0
       @col_width = (100.0/@max_cols + 0.5).to_i
       calc_event_rows
@@ -36,11 +36,11 @@ module DayCalendarHelper
  
     def calc_max_cols(row, rowspan)
       max = 0
-      (row..(row+rowspan-1)).each do |qh|
+      (row..(row+rowspan-1)).each do |half_hour|
         # Set the row time boundaries so that an event must extend
         # into the row, not just start or end on the boundary.
-        row_time_start = date.midnight + qh * 15 * 60 + 1
-        row_time_end = row_time_start + 15 * 60 - 2
+        row_time_start = date.midnight + half_hour * 30 * 60 + 1
+        row_time_end = row_time_start + 30 * 60 - 2
         cols = calc_time_cols(row_time_start, row_time_end)
         if cols > max
           max = cols
@@ -68,13 +68,13 @@ module DayCalendarHelper
       if !events.nil?
         events.each do |event|
           if !event.all_day
-            start_row = (event.start.seconds_since_midnight / (60*15)).to_i
+            start_row = (event.start.seconds_since_midnight / (60*30)).to_i
             if @events_start.member?(start_row)
               @events_start[start_row] << event
             else
               @events_start[start_row] = [event]
             end
-            end_row = ((event.end.seconds_since_midnight-1) / (60*15)).to_i
+            end_row = ((event.end.seconds_since_midnight-1) / (60*30)).to_i
             if @events_end.member?(end_row)
               @events_end[end_row] << event
             else
@@ -147,27 +147,28 @@ module DayCalendarHelper
 
     def time_rows
       rows = []
-      (0..NUM_QUARTER_HOURS-1).each do |qh|
+      (0..NUM_HALF_HOURS-1).each do |half_hour|
         row = content_tag :tr do
-          [hour_cell(qh), minute_cell(qh), event_cells(qh)].join.html_safe
+          [hour_cell(half_hour), minute_cell(half_hour), 
+            event_cells(half_hour)].join.html_safe
         end
         rows << row
       end
       rows.join.html_safe
     end
 
-    def hour_cell(qh)
-      if qh % 4 == 0
+    def hour_cell(half_hour)
+      if half_hour % 2 == 0
         content_tag :td, :class => "day_hour_cell", 
-              :width => "1%", :rowspan => 4 do
-          if (qh/4 == 0)
+              :width => "1%", :rowspan => 2 do
+          if (half_hour/2 == 0)
             ''
-          elsif (qh/4 < 12)
-            (qh/4).to_s + 'am'
-          elsif (qh/4 == 12)
+          elsif (half_hour/2 < 12)
+            (half_hour/2).to_s + 'am'
+          elsif (half_hour/2 == 12)
             'Noon'
-          elsif (qh/4 > 12)
-            ((qh/4) - 12).to_s + 'pm'
+          elsif (half_hour/2 > 12)
+            ((half_hour/2) - 12).to_s + 'pm'
           end
         end
       else
@@ -175,31 +176,31 @@ module DayCalendarHelper
       end
     end
 
-    def minute_cell(qh)
+    def minute_cell(half_hour)
       content_tag :td, :class => "day_min_cell" do
-        if (qh%4 == 0)
+        if (half_hour%2 == 0)
           '00'
         else
-          ((qh%4)*15).to_s
+          '30'
         end
       end
     end
 
-    def event_cells(qh)
+    def event_cells(half_hour)
       cols = []
       free_count = 1
       for col in 0..(@max_cols-1) do
         # If the column is empty
         if !@col_event.member?(col)
           # See if an event starts in this row and fill it in
-          if @events_start.member?(qh)
+          if @events_start.member?(half_hour)
             # Remove event start from list
-            event = @events_start[qh].delete_at(0)
-            if @events_start[qh].size == 0
-              @events_start.delete(qh)
+            event = @events_start[half_hour].delete_at(0)
+            if @events_start[half_hour].size == 0
+              @events_start.delete(half_hour)
             end
             # Find the number of columns it can take
-            max = calc_max_cols(qh, @event_span[event]) - 1
+            max = calc_max_cols(half_hour, @event_span[event]) - 1
             my_cols = @max_cols - max
             for rescol in col..(col+my_cols-1) do
               # Reserve column for event
@@ -248,8 +249,8 @@ module DayCalendarHelper
         end
       end
       # Check if any events end in this row
-      if @events_end.member?(qh)
-        @events_end[qh].each do |event|
+      if @events_end.member?(half_hour)
+        @events_end[half_hour].each do |event|
           # Find the column the ending event is in
           for col in 0..(@max_cols-1) do
             if @col_event.member?(col)

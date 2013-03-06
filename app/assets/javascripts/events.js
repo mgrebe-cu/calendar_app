@@ -46,6 +46,6 @@ $(document).ready(function(){
             $('#event_end').val('');
         }
     });
-    $('.day_div').scrollTop(665);
+    $('.day_div').scrollTop(340);
 }) ;
 
