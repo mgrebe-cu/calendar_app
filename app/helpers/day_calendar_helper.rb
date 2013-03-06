@@ -119,6 +119,7 @@ module DayCalendarHelper
             row = content_tag :tr do
               content_tag :td, :colspan => "2", 
                   :max => {:height => "15px"},
+                  :overflow => "hidden",
                   :class => "day_all_event" do
                 content_tag :a, :href => "/events/#{event.id}/edit", 
                   :title => "#{event.title}",
@@ -126,10 +127,10 @@ module DayCalendarHelper
                           :content => "#{event.where}#{event.when}#{event.my_notes}",
                           :true => "true",
                           :trigger => "hover",
-                          :placement => "top",
+                          :placement => "left",
                           :remote => true },
                   :class => "event-popover" do
-                    event.title + '  ' + event.where
+                    self.event_day_text(event)
                 end
               end
             end
@@ -241,24 +242,24 @@ module DayCalendarHelper
             end
             # Add event tags
             newcol = content_tag :td, 
-                :max => {:height => (@event_span[event]*15).to_s + 'px'},
+                :height => (@event_span[event]*15).to_s + "px",
                 :class => "day_appointment", 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[event].to_s,
                 :width =>  @col_width.to_s + '%' do
-              c1 = content_tag :div, event.title
-              c2 = content_tag :div, event.where
-              c3 = content_tag :div, event.when
               content_tag :a, :href => "/events/#{event.id}/edit", 
                 :title => "#{event.title}",
                 :data => {:toggle => "popover", 
                           :content => "#{event.where}#{event.when}#{event.my_notes}",
                           :true => "true",
                           :trigger => "hover",
-                          :placement => "top",
+                          :placement => "left",
+                          :html => "true",
                           :remote => true },
                 :class => "event-popover" do
-                  c1+c2+c3
+                  content_tag :div, :class => "hide_extra" do
+                    self.event_day_text(event)
+                  end
               end              
             end
             cols << newcol
@@ -297,6 +298,23 @@ module DayCalendarHelper
         end
       end
       cols.join.html_safe
+    end
+
+    # This method produces text for an event with highlighting to 
+    #  be displayed on a single line
+    def event_day_text(event)
+      text = "<b>" + event.title + "</b>" 
+      if !event.location.nil?
+        if event.location.size > 0
+          text += " -  <b>Location:</b> " + event.location
+        end
+      end
+      if !event.all_day
+        text += " - <b>When:</b> From " + 
+        event.start_time.strftime('%I:%M %p') + 
+          " To " + event.end_time.strftime('%I:%M %p') 
+      end              
+      text.html_safe
     end
 
   end

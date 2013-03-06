@@ -109,7 +109,7 @@
 .day_div {
   max-height: 600px;
   overflow: auto;
-}
+ }
 
 .day_header {
   border-style: solid;
@@ -177,10 +177,10 @@
 .day_appointment {
   border-bottom: 1px solid #444;
   border-right: 1px solid #444;
+  border-left: 1px solid #444;
   padding: 2px 10px 2px 5px;
   font-size: 8px;
   background-color: #D7F2FF;
-  height: 15px;
   font-family: "Lucida Grande", arial, helvetica, sans-serif;
   font-size: 12px;
   vertical-align: top;
@@ -198,5 +198,12 @@
     text-decoration:none;
   } 
   }
+
+.hide_extra { 
+  white-space: nowrap; 
+  overflow: hidden; 
+  text-overflow:ellipsis; 
+}
+
 
 
