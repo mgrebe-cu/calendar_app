@@ -1,4 +1,19 @@
-# 
+# The module is rails helper for displaying a calendar
+# day view.  It requires a collection of event objects
+# passed in, as well as the date requested.
+# The event objects are expected to have fields of
+#  * title : string
+#  * location : string
+#  * start : datetime
+#  * end :datetime
+#  * all_day : boolean
+#  * notes : strgin
+#
+# Author::    Mark Grebe  
+# Copyright:: Copyright (c) 2013 Mark Grebe
+# License::   Distributes under the same terms as Ruby
+# Developed for Master of Engineering Project
+# University of Colorado - Boulder - Spring 2013
 module DayCalendarHelper
   def day_calendar(date = Date.today, events)
     DayCalendar.new(self, date, events).table
@@ -9,6 +24,7 @@ module DayCalendarHelper
 
     NUM_HALF_HOURS = 24*2
 
+    # Draw the day calendar table
     def table
       @max_cols = calc_max_cols(0, NUM_HALF_HOURS)
       @max_cols = 1 if @max_cols ==0
@@ -19,7 +35,15 @@ module DayCalendarHelper
         all_day_table + hour_table
       end
     end
+
+    # Draw the table that contains the all day events
+    def all_day_table
+      content_tag :table, :width => "100%" do
+        header_all_day + all_day_events
+      end
+    end
  
+    # Draw the table that contains the day events
     def hour_table
       content_tag :div, :class => "day_div" do
         content_tag :table do
@@ -27,13 +51,9 @@ module DayCalendarHelper
         end
       end
     end
- 
-    def all_day_table
-      content_tag :table, :width => "100%" do
-        header_all_day + all_day_events
-      end
-    end
- 
+
+    # Calculate the maximum number of rows that are required in the
+    #  calendar table. 
     def calc_max_cols(row, rowspan)
       max = 0
       (row..(row+rowspan-1)).each do |half_hour|
@@ -49,6 +69,8 @@ module DayCalendarHelper
       max
     end
 
+    # Calculate the number of columns that are required for a
+    #  particular row in the table.
     def calc_time_cols(row_time_start, row_time_end)
       cols = 0
       if !events.nil?
@@ -61,6 +83,8 @@ module DayCalendarHelper
       cols
     end
 
+    # Create hashs which hold the rows that events start and end it,
+    #  as well as how many rows they span
     def calc_event_rows
       @events_start = {}
       @events_end = {}
@@ -86,6 +110,7 @@ module DayCalendarHelper
       end
     end
 
+    # Display the all day events in the table
     def all_day_events
       rows = []
       if !events.nil?
@@ -117,6 +142,7 @@ module DayCalendarHelper
       end
     end
 
+    # Draw the header for the day calendar table
     def header
       content_tag :tr do
         c1 = content_tag :th, :width => "1%", :colspan => "2", 
@@ -131,6 +157,7 @@ module DayCalendarHelper
       end
     end
 
+    # Draw the header for the all day events
     def header_all_day
       content_tag :tr do
         content_tag :th, :width => "100%", 
@@ -140,12 +167,14 @@ module DayCalendarHelper
       end
     end
 
+    # Wrap the event table in a body
     def time_body
       content_tag :tbody do
         time_rows
       end
     end
 
+    # Draw all of the rows in the calendar table
     def time_rows
       rows = []
       (0..NUM_HALF_HOURS-1).each do |half_hour|
@@ -158,6 +187,7 @@ module DayCalendarHelper
       rows.join.html_safe
     end
 
+    # Draw the hour cell with the hour text
     def hour_cell(half_hour)
       if half_hour % 2 == 0
         content_tag :td, :class => "day_hour_cell", 
@@ -177,6 +207,7 @@ module DayCalendarHelper
       end
     end
 
+    # Draw the half hour cell with either 00 or 30 minutes
     def minute_cell(half_hour)
       content_tag :td, :class => "day_min_cell" do
         if (half_hour%2 == 0)
@@ -187,6 +218,7 @@ module DayCalendarHelper
       end
     end
 
+    # Draw the event/free time cells
     def event_cells(half_hour)
       cols = []
       free_count = 1
