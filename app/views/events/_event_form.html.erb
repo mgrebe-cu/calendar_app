@@ -14,8 +14,8 @@
             <%= f.control_group :all_day do %>
                 <%= f.check_box :all_day, label: 'All Day Event' %>
             <% end %>
-            <%= f.text_field :start, class: "timepicker input-small", label: 'Start Time' %>
-            <%= f.text_field :end, class: "timepicker input-small", label: 'End Time' %>
+            <%= f.text_field :start_time, class: "timepicker input-small", label: 'Start Time' %>
+            <%= f.text_field :end_time, class: "timepicker input-small", label: 'End Time' %>
             <%= f.text_area :notes, label: 'Notes', :id => "message_area", :cols => 10, :rows => 5 %>
         </div>
         <div class="modal-footer">

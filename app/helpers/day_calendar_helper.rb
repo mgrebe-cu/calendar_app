@@ -75,7 +75,7 @@ module DayCalendarHelper
       cols = 0
       if !events.nil?
         events.each do |event|
-          if event.start <= row_time_end && event.end >= row_time_start
+          if event.start_time <= row_time_end && event.end_time >= row_time_start
             cols = cols + 1 
           end
         end
@@ -92,13 +92,13 @@ module DayCalendarHelper
       if !events.nil?
         events.each do |event|
           if !event.all_day
-            start_row = (event.start.seconds_since_midnight / (60*30)).to_i
+            start_row = (event.start_time.seconds_since_midnight / (60*30)).to_i
             if @events_start.member?(start_row)
               @events_start[start_row] << event
             else
               @events_start[start_row] = [event]
             end
-            end_row = ((event.end.seconds_since_midnight-1) / (60*30)).to_i
+            end_row = ((event.end_time.seconds_since_midnight-1) / (60*30)).to_i
             if @events_end.member?(end_row)
               @events_end[end_row] << event
             else

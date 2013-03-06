@@ -7,10 +7,10 @@
             at <%= event.location %>
         <% end %>
         <br>
-        <% if event.all_day || event.start.nil? || event.end.nil? %>
+        <% if event.all_day || event.start_time.nil? || event.end_time.nil? %>
             All day
         <% else %>
-            <%= event.start.strftime('%I:%M %p') %> to <%= event.end.strftime('%I:%M %p') %>
+            <%= event.start_time.strftime('%I:%M %p') %> to <%= event.end_time.strftime('%I:%M %p') %>
         <% end %>
         <%= link_to "delete", event, method: :delete,
                             data: { confirm: 'You sure?' },

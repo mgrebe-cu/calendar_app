@@ -16,8 +16,8 @@ FactoryGirl.define do
         sequence(:title) { |n| "Event #{n}"}
         sequence(:location) { |n| generate(:random_string)}
         sequence(:notes) { |n| LoremIpsum.generate }
-        start 3.hour.ago
-        end 1.hour.ago
+        start_time 3.hour.ago
+        end_time 1.hour.ago
         calendar
     end
 end

@@ -20,8 +20,8 @@ class UsersController < ApplicationController
         else
             @format = params[:format].to_sym
         end   
-        @events = @user.get_events.sort! { |a,b| a.start <=> b.start }
-        @events.sort! { |a,b| a.start <=> b.start }
+        @events = @user.get_events.sort! { |a,b| a.start_time <=> b.start_time }
+        @events.sort! { |a,b| a.start_time <=> b.start_time }
         @events_by_date = @events.group_by(&:start_date)
         if @format == :day
             @events = @events_by_date[@date]

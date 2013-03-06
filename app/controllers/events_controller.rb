@@ -17,24 +17,24 @@ class EventsController < ApplicationController
         begin
             if @event.all_day
                 start_t = params[:event][:start_date]
-                @event.start = DateTime.strptime(start_t, "%m/%d/%Y")
+                @event.start_time = DateTime.strptime(start_t, "%m/%d/%Y")
             else
-                start_t = params[:event][:start_date] + ' ' + params[:event][:start] + ' ' + zone
-                @event.start = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p %Z")
+                start_t = params[:event][:start_date] + ' ' + params[:event][:start_time] + ' ' + zone
+                @event.start_time = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p %Z")
             end
         rescue
-            @event.start = nil
+            @event.start_time = nil
         end
         begin
             if @event.all_day
                 end_t = params[:event][:end_date]
-                @event.end = DateTime.strptime(end_t, "%m/%d/%Y")
+                @event.end_time = DateTime.strptime(end_t, "%m/%d/%Y")
             else
-                end_t = params[:event][:end_date] + ' ' + params[:event][:end] + ' ' + zone
-                @event.end = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p %Z")
+                end_t = params[:event][:end_date] + ' ' + params[:event][:end_time] + ' ' + zone
+                @event.end_time = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p %Z")
             end
         rescue
-            @event.end = nil
+            @event.end_time = nil
         end
     end
 

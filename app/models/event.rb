@@ -1,19 +1,19 @@
 class Event < ActiveRecord::Base
     SHORT_LENGTH=15
 
-    attr_accessible :title, :all_day, :calendar_id, :end, :location, :notes, 
-                    :start, :start_date, :end_date
+    attr_accessible :title, :all_day, :calendar_id, :end_time, :location, :notes, 
+                    :start_time, :start_date, :end_date
 
     belongs_to :calendar
 
     validates :calendar_id, presence: true
     validates :title, presence: true
-    validates :start, presence: true, :if => lambda {|s| s.all_day == false }
-    validates :end, presence: true, :if => lambda {|s| s.all_day == false }
+    validates :start_time, presence: true, :if => lambda {|s| s.all_day == false }
+    validates :end_time, presence: true, :if => lambda {|s| s.all_day == false }
     validate :end_cannot_be_before_start
 
     def end_cannot_be_before_start
-        if !:all_day && :start > :end
+        if !:all_day && :start_time > :end_time
             errors.add("Start time can't be after end time")
         end
     end
@@ -22,8 +22,8 @@ class Event < ActiveRecord::Base
         if self.all_day
             "When: All Day"
         else
-            "When: From " + self.start.strftime('%I:%M %p') + 
-            " To " + self.end.strftime('%I:%M %p')
+            "When: From " + self.start_time.strftime('%I:%M %p') + 
+            " To " + self.end_time.strftime('%I:%M %p')
         end
     end
 
