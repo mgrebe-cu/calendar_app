@@ -39,8 +39,9 @@
                     </li>
                 <% end %>
                 <% if event_count > 3 && count > 1 %>
-                    <% event_list += "<b>" + event.title + "</b><br>" %>
-                    <% event_list += "#{event.where}#{event.when}#{event.my_notes}<br><br>" %>
+                    <% event_text = "<b>" + event.title + "</b><br>" %>
+                    <% event_text += "#{event.where}#{event.when}#{event.my_notes}<br><br>" %>
+                    <% event_list += "<a href=\"#{edit_event_path(event)}\" class=\"event-popover\" title=\"#{event.title}\" data-toggle=\"popover\" data-content=\"#{event.where}#{event.when}#{event.my_notes}\" data-trigger=\"hover\" data-placement=\"top\" data-html=\"true\" data-remote=\"true\">#{event_text}</a>" %>
                 <% end %>
                 <% count = count + 1 %>
             <% end %>
