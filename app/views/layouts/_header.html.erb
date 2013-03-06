@@ -34,7 +34,7 @@
             <% end %>
             <%= link_to "List", current_url(:format => :list ) %></li>
             <li>
-            <li><%= link_to '#eventModal', :data => {:toggle => "modal"} do %>
+            <li><%= link_to '#eventModal', :id => "new_event", :data => {:toggle => "modal"} do %>
                 New Event
             <% end %></li>
           </ul>
