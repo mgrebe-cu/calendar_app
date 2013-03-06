@@ -69,9 +69,21 @@ describe "EventPages" do
             click_link "Month"
         end
 
-        describe "page" do
+        describe "todays page" do
             time = Time.now
             heading = time.strftime("%B %Y")
+            it { should have_content(heading) }
+        end
+    end 
+
+    describe "day" do
+        before do
+            click_link "Day"
+        end
+
+        describe "todays page" do
+            time = Time.now
+            heading = time.strftime("%B %-d")
             it { should have_content(heading) }
         end
     end 

@@ -11,4 +11,13 @@ FactoryGirl.define do
         default true
         user
     end
+
+    factory :event do
+        sequence(:title) { |n| "Event #{n}"}
+        sequence(:location) { |n| generate(:random_string)}
+        sequence(:notes) { |n| LoremIpsum.generate }
+        start 3.hour.ago
+        end 1.hour.ago
+        calendar
+    end
 end
