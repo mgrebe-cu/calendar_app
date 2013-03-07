@@ -193,7 +193,7 @@ $(document).ready(function(){
         var endString = params[1] + ' ' + params[2];
         var startDatetime = getDateFromFormat(startString,"M/d/y h:m a");
         var endDatetime = getDateFromFormat(endString,"M/d/y h:m a");
-        return startDatetime < endDatetime;
+        return false; //startDatetime < endDatetime;
         }, $.validator.format("Start must be earlier than End")); 
 
     var eventValidator = $("#event-form").validate({
@@ -211,7 +211,8 @@ $(document).ready(function(){
                 required:true
             },
            "event[start_time]": {
-                required:true
+                required:true,
+                lowerTime:[4]
             },
            "event[end_time]": {
                 required:true

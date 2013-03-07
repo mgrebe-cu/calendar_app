@@ -1,3 +1,13 @@
+class StartTimeValidator < ActiveModel::Validator
+    def validate(record)
+        if (!record.start_time.nil? and !record.end_time.nil?)
+            if !record.all_day and record.start_time > record.end_time
+                record.errors[:start_time] << "Start time can't be after end time"
+            end
+        end
+    end
+end
+
 class Event < ActiveRecord::Base
     SHORT_LENGTH=15
 
@@ -10,13 +20,7 @@ class Event < ActiveRecord::Base
     validates :title, presence: true
     validates :start_time, presence: true, :if => lambda {|s| s.all_day == false }
     validates :end_time, presence: true, :if => lambda {|s| s.all_day == false }
-    validate :end_cannot_be_before_start
-
-    def end_cannot_be_before_start
-        if !:all_day && :start_time > :end_time
-            errors.add("Start time can't be after end time")
-        end
-    end
+    validates_with StartTimeValidator
 
     def when
         if self.all_day

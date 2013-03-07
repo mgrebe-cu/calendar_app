@@ -6,6 +6,7 @@
         <div class="span2">
         </div>
         <div class="span10">
+            <div id="settings_errorbox"><ul></ul></div>
             <%= f.text_field :full_name, label: 'Full Name' %>
             <%= f.select :default_view, User.default_view.options %>
             <div class="control-group">
@@ -30,7 +31,8 @@
         <div class="span2">
         </div>
         <div class="span10">
-             <%= f.password_field :password, label: 'Password' %>
+            <div id="password_errorbox"><ul></ul></div>
+            <%= f.password_field :password, label: 'Password' %>
             <%= f.password_field :password_confirmation, label: 'Password Confirmation' %>
         </div>
     </div>

@@ -10,6 +10,7 @@ describe Event do
                         end_time: "11-09-2001 11:00".to_time(:local), 
                         location: 'Home',
                         notes: nil)
+        @event.save
     end
 
     subject(@event)
@@ -38,16 +39,16 @@ describe Event do
 
     describe "when not all day and end & start not present" do
         before do
-            @event.start_time == nil
-            @event.end_time == nil
+            @event.start_time = nil
+            @event.end_time = nil
         end
         it { should_not be_valid }
     end
 
     describe "when not all day and end < start" do
         before do
-            @event.start_time == "11-09-2001 10:00".to_time(:local)
-            @event.end_time == "11-09-2001 9:00".to_time(:local)
+            @event.start_time = "11-09-2001 10:00".to_time(:local)
+            @event.end_time = "11-09-2001 9:00".to_time(:local)
         end
         it { should_not be_valid }
     end
