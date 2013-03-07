@@ -55,7 +55,7 @@ $(document).ready(function(){
         return passRe.test(value);
         }, $.validator.format("Password must contain a letter and a number")); 
 
-    var passwordValidator = $("#user-form").validate({
+    var userValidator = $("#user-form").validate({
         errorContainer: "#user_errorbox",
         errorLabelContainer: "#user_errorbox ul",
         wrapper: "li",
