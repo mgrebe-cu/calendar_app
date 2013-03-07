@@ -1,31 +1,31 @@
 <% provide(:title, "Sign In") %>
-    <%= form_for(:session, url: sessions_path, html: { class: 'form-horizontal', id: 'signin-form' }) do |f| %>
-        <div class="row">
-            <div class="span4">
-            </div>
-            <div class="span8">
-                <div id="signin_errorbox"><ul></ul></div>
-                <%= f.label :username %>
-                <%= f.text_field :username %>
-                <%= f.label :password %>
-                <%= f.password_field :password, label: 'Password' %>
-            </div>
+<%= form_for(:session, url: sessions_path, html: { class: 'form-horizontal', id: 'signin-form' }) do |f| %>
+    <div class="row">
+        <div class="span4">
         </div>
-        <br>
-        <div class="row">
-            <div class="span5">
-            </div>
-            <div class="span7">
-                <%= f.submit "Sign In", class: "btn btn-large btn-primary" %>
-            </div>
+        <div class="span8">
+            <div id="signin_errorbox"><ul></ul></div>
+            <%= f.label :username %>
+            <%= f.text_field :username %>
+            <%= f.label :password %>
+            <%= f.password_field :password, label: 'Password' %>
         </div>
-        <div class="row">
-            <div class="span4">
-            </div>
-            <div class="span8">
-                <p></p>
-                <p>New user? <%= link_to "Create Account Now!", signup_path %></p>
-            </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="span5">
         </div>
-    <% end %>
+        <div class="span7">
+            <%= f.submit "Sign In", class: "btn btn-large btn-primary" %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span4">
+        </div>
+        <div class="span8">
+            <p></p>
+            <p>New user? <%= link_to "Create Account Now!", signup_path %></p>
+        </div>
+    </div>
+<% end %>
 
