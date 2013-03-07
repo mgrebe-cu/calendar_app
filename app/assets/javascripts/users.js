@@ -17,7 +17,7 @@ $(document).ready(function(){
 
     $.validator.addMethod("validPassword", function(value) {
         var passRe = /^.*(?=.*\d)(?=.*[a-zA-Z]).*$/;
-        return myRe.test(value);
+        return passRe.test(value);
         }, $.validator.format("Password must contain a letter and a number")); 
 
     var passwordValidator = $("#password-form").validate({
@@ -27,7 +27,7 @@ $(document).ready(function(){
         rules: {
            "user[password]": {
                 required:true,
-                //minlength: 6,
+                minlength: 6,
                 maxlength: 20,
                 validPassword: true
             },
