@@ -3,7 +3,7 @@
     <%= bootstrap_form_for(@event, remote: request.xhr?, :method => "put",
             html: { class: 'form-horizontal', id: 'event-form' }) do |f| %>
         <div class="modal-header">
-            <button type="button" class="close pull-right" data-dismiss="modal" aria-hidden="true">×</button>
+            <button type="button" class="close pull-right" id="event_close" data-dismiss="modal" aria-hidden="true">×</button>
             <h3>Edit Event</h3>
         </div>
         <div class="modal-body">

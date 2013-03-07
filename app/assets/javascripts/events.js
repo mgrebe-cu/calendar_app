@@ -1,9 +1,11 @@
 $(document).ready(function(){ 
+    var DEFAULT_START_TIME = '10:00 AM';
+    var DEFAULT_END_TIME = '11:00 AM';
     // Enable bootstrap popovers
     $('.event-popover').popover();
     // Set the time fields to be time pickers
-    $('#event_start_time').timepicker({minuteStep: 5, defaultTime: '10:00 AM'});
-    $('#event_end_time').timepicker({minuteStep: 5, defaultTime: '11:00 AM'});
+    $('#event_start_time').timepicker({minuteStep: 5, defaultTime: DEFAULT_START_TIME});
+    $('#event_end_time').timepicker({minuteStep: 5, defaultTime: DEFAULT_END_TIME});
     // Set the date fields to be date pickers
     $('.datepicker').datepicker({autoclose: true, todayBtn: true});
     // Set end time to an hour after start time when exiting start time
@@ -81,12 +83,16 @@ $(document).ready(function(){
         $('#event_all_day').attr('checked', false);
         $('#event_start_time').attr('enabled',true);
         $('#event_end_time').attr('enabled',true);
-        //$('#event_start_time').val("");
-        //$('#event_end_time').val("");
+        $('#event_start_time').val(DEFAULT_START_TIME);
+        $('#event_end_time').val(DEFAULT_END_TIME);
         $('#message_area').val("");
         eventValidator.resetForm();
         eventValidator.submit = {};
     });
-
+    // Clear any validation warnings if the form is cancelled.
+    $("#event_close").click(function() {
+        eventValidator.resetForm();
+        eventValidator.submit = {};
+    });
 }) ;
 
