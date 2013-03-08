@@ -303,17 +303,7 @@ module DayCalendarHelper
     # This method produces text for an event with highlighting to 
     #  be displayed on a single line
     def event_day_text(event)
-      text = "<b>" + event.title + "</b>" 
-      if !event.location.nil?
-        if event.location.size > 0
-          text += " -  <b>Location:</b> " + event.location
-        end
-      end
-      if !event.all_day
-        text += " - <b>When:</b> From " + 
-        event.start_time.strftime('%I:%M %p') + 
-          " To " + event.end_time.strftime('%I:%M %p') 
-      end              
+      text = "<b>" + event.short_title + "</b>" 
       text.html_safe
     end
 
