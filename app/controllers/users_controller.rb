@@ -25,6 +25,12 @@ class UsersController < ApplicationController
         @events_by_date = @events.group_by(&:start_date)
         if @format == :day
             @events = @events_by_date[@date]
+        elsif @format == :week
+            start_date = @date.beginning_of_week(:sunday)
+            @events = []
+            (0..6).each do |d|
+                @events << @events_by_date[start_date + d.days]
+            end
         end 
     end
 

@@ -1,6 +1,14 @@
-<% if @user.get_event_count != 0 %>
-    <h3>Week Events (<%= @user.get_event_count %>)</h3>
-    <ol class="events">
-        <%= render @events %>
-    </ol>
-<% end %>
+<h2 id="Week">
+    <div class="daytitle" >
+    <%= link_to current_url(format: :week, date: @date - 1.weeks) do %>
+        <i class="icon-arrow-left"></i>
+    <% end %>
+    <%= link_to current_url(format: :month, date: @date) do %>
+        <%= @date.strftime("%B %e - ") + (@date + 6.days).strftime("%B %e") %>
+    <% end %>
+    <%= link_to current_url(format: :week, date: @date + 1.weeks)  do %>
+        <i class="icon-arrow-right"></i>
+    <% end %>
+    </div>
+</h2>    
+<%= week_calendar @date, @events %>

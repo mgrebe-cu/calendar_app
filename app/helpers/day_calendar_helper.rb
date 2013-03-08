@@ -19,21 +19,35 @@ module DayCalendarHelper
     DayCalendar.new(self, date, events).table
   end
 
+  def day_column(date = Date.today, events)
+    DayCalendar.new(self, date, events).column
+  end
+
   class DayCalendar < Struct.new(:view, :date, :events)
     delegate :content_tag, to: :view
 
     NUM_HALF_HOURS = 24*2
 
-    # Draw the day calendar table
-    def table
+    def setup
       @max_cols = calc_max_cols(0, NUM_HALF_HOURS)
       @max_cols = 1 if @max_cols ==0
       @col_width = (100.0/@max_cols + 0.5).to_i
       calc_event_rows
       @col_event = {}
+    end
+
+    # Draw the day calendar table
+    def table
+      setup
       content_tag :div do
         all_day_table + hour_table
       end
+    end
+
+    # Draw a day column for the week view
+    def column
+      setup
+      event_rows
     end
 
     # Draw the table that contains the all day events
@@ -182,6 +196,18 @@ module DayCalendarHelper
         row = content_tag :tr do
           [hour_cell(half_hour), minute_cell(half_hour), 
             event_cells(half_hour)].join.html_safe
+        end
+        rows << row
+      end
+      rows.join.html_safe
+    end
+
+    # Draw all of the rows in the calendar table
+    def event_rows
+      rows = []
+      (0..NUM_HALF_HOURS-1).each do |half_hour|
+        row = content_tag :tr do
+          event_cells(half_hour)
         end
         rows << row
       end
