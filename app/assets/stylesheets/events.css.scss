@@ -111,6 +111,12 @@
   overflow: auto;
  }
 
+.day_col_div {
+  max-height: 720px;
+  max-width: 50px;
+  overflow: hide;
+ }
+
 .day_header {
   border-style: solid;
   border-width: 1px;

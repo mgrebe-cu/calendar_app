@@ -34,18 +34,22 @@ module WeekCalendarHelper
     end
 
     def days
-      days = []
+      days = [hours]
       (0..6).each do |day|
         days << day(@start_date + day.days, day)
       end
       days.join.html_safe
     end
 
+    def hours
+        content_tag :td, :width => "12%" do
+            week_hour_column
+        end
+    end
+
     def day(this_day, day_index)
-        content_tag :td, :width => "14%" do
-            content_tag :table do 
-                day_column(this_day, events[day_index])
-            end
+        content_tag :td, :width => "12%" do
+            day_column(this_day, events[day_index])
         end
     end
 
