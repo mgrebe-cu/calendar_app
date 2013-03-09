@@ -36,7 +36,7 @@ module WeekCalendarHelper
         if @max_cols[day] == 0
             @max_cols[day] = 1
         end
-        @col_width[day] = (100.0/(7*@max_cols[day]) + 0.5).to_i
+        @col_width[day] = (100.0/(num_days*@max_cols[day]) + 0.5).to_i
         @col_event << {}
       end
       @all_day_max = calc_all_day_max

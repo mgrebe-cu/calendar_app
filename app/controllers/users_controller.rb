@@ -24,7 +24,7 @@ class UsersController < ApplicationController
         @events.sort! { |a,b| a.start_time <=> b.start_time }
         @events_by_date = @events.group_by(&:start_date)
         if @format == :day
-            @events = @events_by_date[@date]
+            @events = [@events_by_date[@date]]
         elsif @format == :week
             start_date = @date.beginning_of_week(:sunday)
             @events = []
