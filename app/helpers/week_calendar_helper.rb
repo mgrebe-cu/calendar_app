@@ -48,8 +48,10 @@ module WeekCalendarHelper
 
     # Draw the table that contains the all day events
     def all_day_table
-      content_tag :table, :width => "98%" do
-        header_all_day + all_day_events
+      content_tag :div, :class => "daytitle" do
+        content_tag :table, :width => "98%" do
+          header_all_day + all_day_events
+        end
       end
     end
  
@@ -227,12 +229,16 @@ module WeekCalendarHelper
         end
         columns << c1
         w = (90.0/num_days).to_i
+        this_day = date
         (0..(num_days-1)).each do |day|
             c = content_tag :th, :style => "width: #{w}%", :width => "#{w}%", 
                 :colspan => "1", :class => "day_header" do
-                HEADER[day]
+                content_tag :a, :href => "#" do
+                    this_day.strftime('%b %e')
+                end
             end
             columns << c
+            this_day = this_day + 1.day
         end
         columns.join.html_safe
       end
