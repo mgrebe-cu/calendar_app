@@ -153,7 +153,7 @@ module WeekCalendarHelper
       rows = []
       (1..(@all_day_max)).each do |row|
         cols = []
-        c1 = content_tag :th, :width => "8%", :colspan => "2", 
+        c1 = content_tag :td, :width => "8%", :colspan => "2", 
             :class => "day_header"  do
               '' 
         end
@@ -161,12 +161,11 @@ module WeekCalendarHelper
         (0..(num_days-1)).each do |day|
           if @events_all_day[day].size >= row
             event = @events_all_day[day][row-1]
-            col = content_tag :td do
-              content_tag :td,  
-                  :max => {:height => "15px"},
+            col = content_tag :td, 
+                  :height => "15px",
                   :overflow => "hidden",
                   :style => "width: #{w}%", :width => "#{w}%",
-                  :class => "day_all_event" do
+                  :class => "day_appointment" do
                 content_tag :a, :href => "/events/#{event.id}/edit", 
                   :title => "#{event.title}",
                   :data => {:toggle => "popover", 
@@ -178,9 +177,14 @@ module WeekCalendarHelper
                   :class => "event-popover" do
                     self.event_day_text(event)
                 end
-              end
             end
           else
+            col = content_tag :td, 
+                  :max => {:height => "15px"},
+                  :style => "width: #{w}%", :width => "#{w}%",
+                  :class => "day_free_time" do
+                ''
+            end
           end
           cols << col
         end
@@ -205,7 +209,7 @@ module WeekCalendarHelper
             w = (100.0/num_days).to_i
             c = content_tag :th, :style => "width: #{w}%", :width => "#{w}%", 
                 :colspan => @max_cols[day].to_s, :class => "day_header" do
-                "Day #{day}"
+                ''
             end
             columns << c
         end
@@ -225,7 +229,7 @@ module WeekCalendarHelper
         w = (90.0/num_days).to_i
         (0..(num_days-1)).each do |day|
             c = content_tag :th, :style => "width: #{w}%", :width => "#{w}%", 
-                :colspan => @max_cols[day].to_s, :class => "day_header" do
+                :colspan => "1", :class => "day_header" do
                 HEADER[day]
             end
             columns << c
