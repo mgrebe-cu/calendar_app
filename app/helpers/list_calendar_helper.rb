@@ -27,28 +27,58 @@ module ListCalendarHelper
         rows = []
         events.each do |event|
           row = content_tag :tr do
-            col1 = content_tag :td do
-              event.title
+            cols = []
+
+            col = content_tag :td, :class => "day_appointment" do 
+              content_tag :a, :href => "/events/#{event.id}/edit", 
+                :title => "#{event.title}",
+                :data => {:toggle => "popover", 
+                          :content => "#{event.where}#{event.when}#{event.my_notes}",
+                          :true => "true",
+                          :trigger => "hover",
+                          :placement => "right",
+                          :html => "true",
+                          :remote => true },
+                :class => "event-popover" do
+                  content_tag :div, :class => "hide_extra" do
+                    self.event_day_text(event)
+                  end
+              end              
             end
-            col2 = content_tag :td do
+            cols << col
+            col = content_tag :td, :class => "day_appointment" do
               event.location
             end
-            col3 = content_tag :td do
-              event.start_time.strftime('%m/%d/%Y')
+            cols << col
+            if event.all_day
+              col = content_tag :td, :class => "day_appointment",
+                  :colspan => "4" do
+                "All Day"
+              end
+              cols << col
+            else
+              col = content_tag :td, :class => "day_appointment" do
+                event.start_time.strftime('%m/%d/%Y')
+              end
+              cols << col
+              col = content_tag :td, :class => "day_appointment" do
+                event.start_time.strftime('%I:%M %p')
+              end
+              cols << col
+              col = content_tag :td, :class => "day_appointment" do
+                event.end_time.strftime('%m/%d/%Y')
+              end
+              cols << col
+              col = content_tag :td, :class => "day_appointment" do
+                event.end_time.strftime('%I:%M %p')
+              end
+              cols << col
             end
-            col4 = content_tag :td do
-              event.start_time.strftime('%I:%M %p')
-            end
-            col5 = content_tag :td do
-              event.end_time.strftime('%m/%d/%Y')
-            end
-            col6 = content_tag :td do
-              event.end_time.strftime('%I:%M %p')
-            end
-            col7 = content_tag :td do
+            col = content_tag :td, :class => "day_appointment" do
               event.notes
             end
-            [col1, col2, col3, col4, col5, col6, col7].join.html_safe
+            cols << col
+            cols.join.html_safe
           end
           rows << row
         end
