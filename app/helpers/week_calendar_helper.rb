@@ -20,6 +20,8 @@ module WeekCalendarHelper
   end
 
   class WeekCalendar < Struct.new(:view, :date, :num_days, :events)
+    HEADER = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
+
     delegate :content_tag, to: :view
 
     NUM_HALF_HOURS = 24*2
@@ -28,25 +30,25 @@ module WeekCalendarHelper
     def table
       @max_cols = []
       @col_width = []
+      @col_event = []
       (0..(num_days-1)).each do |day|
         @max_cols[day] = calc_max_cols(0, NUM_HALF_HOURS,day)
         if @max_cols[day] == 0
             @max_cols[day] = 1
         end
         @col_width[day] = (100.0/(7*@max_cols[day]) + 0.5).to_i
+        @col_event << {}
       end
       @all_day_max = calc_all_day_max
       calc_event_rows
-      @col_event = [{},{},{},{},{},{},{}]
       content_tag :div do
-        #all_day_table + hour_table
-        hour_table
+        all_day_table + hour_table
       end
     end
 
     # Draw the table that contains the all day events
     def all_day_table
-      content_tag :table, :width => "100%" do
+      content_tag :table, :width => "98%" do
         header_all_day + all_day_events
       end
     end
@@ -54,7 +56,7 @@ module WeekCalendarHelper
     # Draw the table that contains the day events
     def hour_table
       content_tag :div, :class => "day_div" do
-        content_tag :table do
+        content_tag :table, :style => "table-layout:fixed" do
           header + time_body
         end
       end
@@ -96,18 +98,22 @@ module WeekCalendarHelper
     #  for a day
     def calc_all_day_max
       max = 0
+      @events_all_day = []
       (0..(num_days-1)).each do |day|
         count = 0
+        day_events = []
         if !events[day].nil?
           events[day].each do |event|
             if event.all_day
               count = count + 1
+              day_events << event
             end
           end
         end
         if count > max
           max = count
         end
+        @events_all_day << day_events
       end
       max
     end
@@ -143,20 +149,29 @@ module WeekCalendarHelper
 
     # Display the all day events in the table
     def all_day_events
+      w = (90.0/num_days).to_i
       rows = []
-      if !events.nil?
-        events.each do |event|
-          if event.all_day
-            row = content_tag :tr do
-              content_tag :td, :colspan => "2", 
+      (1..(@all_day_max)).each do |row|
+        cols = []
+        c1 = content_tag :th, :width => "8%", :colspan => "2", 
+            :class => "day_header"  do
+              '' 
+        end
+        cols << c1
+        (0..(num_days-1)).each do |day|
+          if @events_all_day[day].size >= row
+            event = @events_all_day[day][row-1]
+            col = content_tag :td do
+              content_tag :td,  
                   :max => {:height => "15px"},
                   :overflow => "hidden",
+                  :style => "width: #{w}%", :width => "#{w}%",
                   :class => "day_all_event" do
                 content_tag :a, :href => "/events/#{event.id}/edit", 
                   :title => "#{event.title}",
                   :data => {:toggle => "popover", 
                           :content => "#{event.where}#{event.when}#{event.my_notes}",
-                          :true => "true",
+                          :html => "true",
                           :trigger => "hover",
                           :placement => "left",
                           :remote => true },
@@ -165,13 +180,16 @@ module WeekCalendarHelper
                 end
               end
             end
-            rows << row
+          else
           end
+          cols << col
         end
+        row = content_tag :tr do
+          cols.join.html_safe
+        end
+        rows << row
       end
-      content_tag :tr do
-        rows.join.html_safe
-      end
+      rows.join.html_safe
     end
 
     # Draw the header for the day calendar table
@@ -197,11 +215,22 @@ module WeekCalendarHelper
 
     # Draw the header for the all day events
     def header_all_day
+      columns = []
       content_tag :tr do
-        content_tag :th, :width => "100%", 
-            :class => "day_header" do
-          'All Day Events'
+        c1 = content_tag :th, :width => "8%", :colspan => "2", 
+            :class => "day_header"  do
+              '' 
         end
+        columns << c1
+        w = (90.0/num_days).to_i
+        (0..(num_days-1)).each do |day|
+            c = content_tag :th, :style => "width: #{w}%", :width => "#{w}%", 
+                :colspan => @max_cols[day].to_s, :class => "day_header" do
+                HEADER[day]
+            end
+            columns << c
+        end
+        columns.join.html_safe
       end
     end
 

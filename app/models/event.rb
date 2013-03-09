@@ -26,8 +26,8 @@ class Event < ActiveRecord::Base
         if self.all_day
             "<b>When:</b> All Day"
         else
-            "<b>When:</b> From " + self.start_time.strftime('%I:%M %p') + 
-            " To " + self.end_time.strftime('%I:%M %p')
+            "<b>When:</b><br> From: " + self.start_time.strftime('%b %e %Y %I:%M %p') + 
+            '<br>' + " To: " + self.end_time.strftime('%b %e %Y %I:%M %p')
         end
     end
 
@@ -35,7 +35,7 @@ class Event < ActiveRecord::Base
         if self.location.nil? || self.location.size == 0
             ""
         else
-            "<b>Where:</b> " + self.location + "<br>"
+            "<b>Where:</b><br> " + self.location + "<br>"
         end
     end
 
@@ -43,7 +43,7 @@ class Event < ActiveRecord::Base
         if self.notes.nil? || self.notes.size == 0
             ""
         else
-            "<br><b>Notes:</b> " + self.notes
+            "<br><b>Notes:</b><br> " + self.notes
         end
     end
 
