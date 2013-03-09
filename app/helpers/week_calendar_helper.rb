@@ -31,7 +31,7 @@ module WeekCalendarHelper
     delegate :url_for, to: :view
 
     NUM_HALF_HOURS = 24*2
-
+    
     # Draw the day calendar table
     def table
       @max_cols = []
@@ -77,7 +77,7 @@ module WeekCalendarHelper
       (row..(row+rowspan-1)).each do |half_hour|
         # Set the row time boundaries so that an event must extend
         # into the row, not just start or end on the boundary.
-        row_time_start = date.midnight + half_hour * 30 * 60 + 1
+        row_time_start = (date + day.days).midnight + half_hour * 30 * 60 + 1
         row_time_end = row_time_start + 30 * 60 - 2
         cols = calc_time_cols(row_time_start, row_time_end, day)
         if cols > max
@@ -99,7 +99,7 @@ module WeekCalendarHelper
           end
         end
       end
-      cols
+       cols
     end
 
     # Calculate the maximum number of all day events for 
