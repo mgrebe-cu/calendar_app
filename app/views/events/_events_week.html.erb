@@ -4,11 +4,12 @@
         <i class="icon-arrow-left"></i>
     <% end %>
     <%= link_to current_url(format: :month, date: @date) do %>
-        <%= @date.strftime("%B %e - ") + (@date + 6.days).strftime("%B %e") %>
+        <% start_date = @date.beginning_of_week(:sunday) %>
+        <%= start_date.strftime("%B %e - ") + (start_date + 6.days).strftime("%B %e") %>
     <% end %>
     <%= link_to current_url(format: :week, date: @date + 1.weeks)  do %>
         <i class="icon-arrow-right"></i>
     <% end %>
     </div>
 </h2>    
-<%= week_calendar @date, 7, @events %>
+<%= week_calendar @date, 7, @events, params %>

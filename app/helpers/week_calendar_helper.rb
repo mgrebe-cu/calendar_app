@@ -15,14 +15,20 @@
 # Developed for Master of Engineering Project
 # University of Colorado - Boulder - Spring 2013
 module WeekCalendarHelper
-  def week_calendar(date = Date.today, num_days, events)
-    WeekCalendar.new(self, date, num_days, events).table
+  def week_calendar(date = Date.today, num_days, events, params)
+    if num_days == 7
+        cal_date = date.beginning_of_week(:sunday)
+    else
+        cal_date = date
+    end
+    WeekCalendar.new(self, cal_date, num_days, events, params).table
   end
 
-  class WeekCalendar < Struct.new(:view, :date, :num_days, :events)
+  class WeekCalendar < Struct.new(:view, :date, :num_days, :events, :params)
     HEADER = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     delegate :content_tag, to: :view
+    delegate :url_for, to: :view
 
     NUM_HALF_HOURS = 24*2
 
@@ -231,9 +237,12 @@ module WeekCalendarHelper
         w = (90.0/num_days).to_i
         this_day = date
         (0..(num_days-1)).each do |day|
+            link = url_for :params => params.merge(format: :day, date: this_day)
+            #link = "#"
             c = content_tag :th, :style => "width: #{w}%", :width => "#{w}%", 
                 :colspan => "1", :class => "day_header" do
-                content_tag :a, :href => "#" do
+                content_tag :a, :href => link do
+                    #current_url(format: :day, date: this_day)
                     this_day.strftime('%b %e')
                 end
             end
