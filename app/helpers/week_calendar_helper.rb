@@ -183,7 +183,9 @@ module WeekCalendarHelper
                           :placement => "left",
                           :remote => true },
                   :class => "event-popover" do
-                    self.event_day_text(event)
+                    content_tag :div, :class => "hide_extra" do
+                        self.event_day_text(event)
+                     end
                 end
             end
           else
@@ -237,12 +239,10 @@ module WeekCalendarHelper
         w = (90.0/num_days).to_i
         this_day = date
         (0..(num_days-1)).each do |day|
-            link = url_for :params => params.merge(format: :day, date: this_day)
-            #link = "#"
+            link = url_for :params => params.merge(format: :day, date: this_day)            #link = "#"
             c = content_tag :th, :style => "width: #{w}%", :width => "#{w}%", 
                 :colspan => "1", :class => "day_header" do
                 content_tag :a, :href => link do
-                    #current_url(format: :day, date: this_day)
                     this_day.strftime('%b %e')
                 end
             end
