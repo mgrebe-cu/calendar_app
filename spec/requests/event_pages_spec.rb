@@ -39,12 +39,13 @@ describe "EventPages" do
         end
 
         describe "new event" do
-            describe "with invalid information" do
+            describe "with invalid information", :js => true do
                 before do
                     click_link 'New Event'
+                    find_modal_element("#event_title")
                     click_button 'Save'
                 end
-                #it { should have_content('Title is required')}
+                it { should have_content('Title is required')}
                 specify { calendar.events.count == 0 }
             end
 
