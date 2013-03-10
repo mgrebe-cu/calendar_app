@@ -13,11 +13,27 @@ FactoryGirl.define do
     end
 
     factory :event do
-        sequence(:title) { |n| "Event #{n}"}
-        sequence(:location) { |n| generate(:random_string)}
-        sequence(:notes) { |n| LoremIpsum.generate }
+        sequence(:title) { |n| "Test Event #{n}"}
+        sequence(:location) { |n| "Location #{n}"}
+        sequence(:notes) { |n| "Notes about #{n}"}
+        all_day false
+        start_date Time.now
+        end_date Time.now
         start_time 3.hour.ago
         end_time 1.hour.ago
         calendar
     end
+
+    factory :all_day, :class => Event do
+        sequence(:title) { |n| "All Event #{100+n}"}
+        sequence(:location) { |n| "Location #{n}"}
+        sequence(:notes) { |n| "Notes about #{n}"}
+        start_date Time.now
+        end_date Time.now
+        all_day true
+        start_time Time.now
+        end_time Time.now
+        calendar
+    end
+
 end

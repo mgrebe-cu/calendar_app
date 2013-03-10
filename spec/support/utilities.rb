@@ -6,3 +6,7 @@ def sign_in(user)
   fill_in "Password", with: user.password
   click_button "Sign In"
 end
+
+def find_modal_element(modal_element_id)
+  wait_until { page.find(modal_element_id).visible? }
+end

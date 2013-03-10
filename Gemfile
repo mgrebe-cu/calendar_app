@@ -21,6 +21,8 @@ group :development, :test do
   gem 'spork', '0.9.2'
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem "selenium-client", ">= 1.2.18"
+  gem "selenium-webdriver", ">=2.29.0"
 end
 
 # Gems used only for assets and not required
