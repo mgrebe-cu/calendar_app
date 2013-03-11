@@ -17,11 +17,6 @@
             <% count = 0; event_list = "" %>
             <ul class="unstyled">
             <% @events_by_date[date].each do |event| %>
-                <% if event.start_time.to_time.wday < 4 %>
-                <%   place = "right" %>
-                <% else %>
-                <%   place = "left" %>
-                <% end %>
                 <% if event_count <= 3 || count <= 1 %>
                     <li>
                     <% if event.all_day %>                    
@@ -34,7 +29,7 @@
                         :title => "#{event.title}",
                         :data => {:toggle => "popover", 
                             :content => "#{event.where}#{event.when}#{event.my_notes}",
-                            :trigger => "hover", :placement => place, :html => "true",
+                            :trigger => "hover", :placement => "top", :html => "true",
                             :remote => "true"} do %>
                         <div class="hide_extra">
                         <i class="icon-plus-sign"></i><%= event.short_title %></div>
@@ -47,7 +42,7 @@
                 <% if event_count > 3 && count > 1 %>
                     <% event_text = "<b>" + event.title + "</b><br>" %>
                     <% event_text += "#{event.where}#{event.when}#{event.my_notes}<br><br>" %>
-                    <% event_list += "<a href=\"#{edit_event_path(event)}\" class=\"event-popover\" title=\"#{event.title}\" data-toggle=\"popover\" data-content=\"#{event.where}#{event.when}#{event.my_notes}\" data-trigger=\"hover\" data-placement=\"#{place}\" data-html=\"true\" data-remote=\"true\">#{event_text}</a>" %>
+                    <% event_list += "<a href=\"#{edit_event_path(event)}\" class=\"event-popover\" title=\"#{event.title}\" data-toggle=\"popover\" data-content=\"#{event.where}#{event.when}#{event.my_notes}\" data-trigger=\"hover\" data-placement=\"top\" data-html=\"true\" data-remote=\"true\">#{event_text}</a>" %>
                 <% end %>
                 <% count = count + 1 %>
             <% end %>
