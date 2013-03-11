@@ -17,8 +17,8 @@ class EventsController < ApplicationController
             else
                 start_t = params[:event][:start_date] + ' ' + params[:event][:start_time]
                 @event.start_time = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p")
+                @event.start_time = @event.start_time - offset
             end
-            @event.start_time = @event.start_time - offset
         rescue
             @event.start_time = nil
         end
@@ -30,8 +30,8 @@ class EventsController < ApplicationController
             else
                 end_t = params[:event][:end_date] + ' ' + params[:event][:end_time]
                 @event.end_time = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p")
+                @event.end_time = @event.end_time - offset
             end
-            @event.end_time = @event.end_time - offset
         rescue
             @event.end_time = nil
         end
