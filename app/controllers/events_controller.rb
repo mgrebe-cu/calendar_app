@@ -4,16 +4,6 @@ class EventsController < ApplicationController
 
     def parse_params
         zone = Time.now.zone
-        begin 
-            @event.start_date = Date.strptime(params[:event][:start_date],'%m/%d/%Y')
-        rescue
-            @event.start_date = nil
-        end
-        begin 
-            @event.end_date = Date.strptime(params[:event][:end_date],'%m/%d/%Y')
-        rescue
-            @event.end_date = nil
-        end
         begin
             if @event.all_day
                 start_t = params[:event][:start_date]
@@ -35,6 +25,16 @@ class EventsController < ApplicationController
             end
         rescue
             @event.end_time = nil
+        end
+        begin 
+            @event.start_date = @event.start_time.to_date
+        rescue
+            @event.start_date = nil
+        end
+        begin 
+            @event.end_date = @event.end_time.to_date
+        rescue
+            @event.end_date = nil
         end
     end
 
