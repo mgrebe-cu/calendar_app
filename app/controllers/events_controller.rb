@@ -12,7 +12,7 @@ class EventsController < ApplicationController
         begin
             if @event.all_day
                 start_t = params[:event][:start_date]
-                @event.start_time = DateTime.strptime(start_t, "%m/%d/%Y")
+                @event.start_time = DateTime.strptime(start_t, "%m/%d/%Y 12:00 PM")
             else
                 start_t = params[:event][:start_date] + ' ' + params[:event][:start_time]
                 @event.start_time = DateTime.strptime(start_t, "%m/%d/%Y %H:%M %p")
@@ -24,7 +24,7 @@ class EventsController < ApplicationController
         begin
             if @event.all_day
                 end_t = params[:event][:end_date]
-                @event.end_time = DateTime.strptime(end_t, "%m/%d/%Y")
+                @event.end_time = DateTime.strptime(end_t, "%m/%d/%Y 12:00 PM")
             else
                 end_t = params[:event][:end_date] + ' ' + params[:event][:end_time]
                 @event.end_time = DateTime.strptime(end_t, "%m/%d/%Y %H:%M %p")
