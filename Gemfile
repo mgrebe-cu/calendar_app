@@ -12,6 +12,7 @@ gem 'bootstrap-datepicker-rails'
 gem 'bootstrap-timepicker-rails'
 gem 'bootstrap_form'
 gem 'jquery-validation-rails'
+gem 'font-awesome-rails'
 
 group :development, :test do
   gem 'sqlite3', '1.3.5'

@@ -11,6 +11,7 @@ describe Calendar do
 
     it { should respond_to(:default) }
     it { should respond_to(:user_id) }
+    it { should respond_to(:title) }
 
     specify { @calendar.valid? }
 

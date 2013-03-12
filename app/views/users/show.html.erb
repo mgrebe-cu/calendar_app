@@ -1,12 +1,16 @@
 <% provide(:title, @user.full_name) %>
 
 <div class="row">
-    <aside class="span1">
+    <aside class="span2">
         <section>
             <%= render 'events/event_form' %>
         </section>
+        <hr>My Calendars: <i class="icon-plus"></i>
+        <ul class="calendars">
+        <%= render @calendars %>
+        </ul><hr>
     </aside>
-    <div class="span11">
+    <div class="span10">
         <% if @format == :month %>
             <%= render 'events/events_month' %>
         <% elsif @format == :week %>

@@ -11,13 +11,17 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130306030057) do
+ActiveRecord::Schema.define(:version => 20130312230826) do
 
   create_table "calendars", :force => true do |t|
     t.boolean  "default"
     t.integer  "user_id"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",                         :null => false
+    t.datetime "updated_at",                         :null => false
+    t.string   "title",       :default => "Default"
+    t.text     "description"
+    t.integer  "color",       :default => 0
+    t.boolean  "displayed",   :default => true
   end
 
   add_index "calendars", ["user_id"], :name => "index_calendars_on_user_id"
