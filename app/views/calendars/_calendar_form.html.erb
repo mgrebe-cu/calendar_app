@@ -1,0 +1,19 @@
+<%= bootstrap_form_for(@calendar, html: { class: 'form-horizontal', id: 'calendar-form' }) do |f| %>
+    <div class="row">
+        <div class="span2">
+        </div>
+        <div class="span10">
+            <div id="calendar_errorbox"><ul></ul></div>
+            <%= f.text_field :title, label: 'Title' %>
+            <%= f.text_area  :description, label: 'Description', :cols => 40, :rows => 5 %>
+            <%= f.select :color, Calendar.color.options %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="span5">
+        </div>
+        <div class="span4">
+            <%= f.submit "Save Calendar", class: "btn btn-large btn-primary" %>
+        </div>
+    </div>
+<% end %>

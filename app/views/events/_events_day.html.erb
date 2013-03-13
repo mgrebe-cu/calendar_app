@@ -1,13 +1,13 @@
 <h2 id="day">
     <div class="daytitle" >
     <%= link_to current_url(format: :day, date: @date.prev_day) do %>
-        <i class="icon-arrow-left"></i>
+        <i class="icon-arrow-left iconlink"></i>
     <% end %>
     <%= link_to current_url(format: :month, date: @date) do %>
         <%= @date.strftime("%B %e") %>
     <% end %>
     <%= link_to current_url(format: :day, date: @date.next_day)  do %>
-        <i class="icon-arrow-right"></i>
+        <i class="icon-arrow-right iconlink"></i>
     <% end %>
     </div>
 </h2>    

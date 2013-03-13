@@ -5,7 +5,10 @@
         <section>
             <%= render 'events/event_form' %>
         </section>
-        <hr>My Calendars: <i class="icon-plus"></i>
+        <hr>My Calendars: 
+        <%= link_to new_calendar_path do %>
+            <i class="icon-plus iconlink"></i>
+        <% end %>
         <ul class="calendars">
         <%= render @calendars %>
         </ul><hr>

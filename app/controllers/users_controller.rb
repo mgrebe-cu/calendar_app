@@ -13,7 +13,7 @@ class UsersController < ApplicationController
         #     required days.
         @user = User.find(params[:id])
         @calendar = Calendar.where(default: true, user_id: @user.id)[0]
-        @calendars = Calendar.where(user_id: @user.id)[0]
+        @calendars = Calendar.where(user_id: @user.id)
         @date = params[:date] ? Date.parse(params[:date]) : Date.today
         @event = @calendar.events.build
         if (params[:format].nil?)
