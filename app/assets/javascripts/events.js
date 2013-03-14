@@ -141,6 +141,7 @@ $(document).ready(function(){
     $("#new_event").click(function() {
         $('#event_title').val("");
         $('#event_location').val("");
+        $('#event_calendar_id').val("0");
         $('#event_start_date').val("");
         $('#event_end_date').val("");
         $('#event_all_day').attr('checked', false);
