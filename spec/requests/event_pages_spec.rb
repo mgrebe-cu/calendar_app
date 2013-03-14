@@ -134,6 +134,21 @@ describe "EventPages" do
 
         describe "todays page" do
             time = Time.now
+            heading = time.strftime("%B %-d")
+            it { should have_content(event1.title)}
+            it { should have_content(event2.title)}
+            it { should have_content(allday1.title)}
+            it { should have_content(allday2.title)}
+         end
+    end 
+
+    describe "list" do
+        before do
+            visit user_path(user)
+            click_link "List"
+        end
+
+        describe "events page" do
             it { should have_content(event1.title)}
             it { should have_content(event2.title)}
             it { should have_content(allday1.title)}
