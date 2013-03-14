@@ -28,8 +28,8 @@ module ListCalendarHelper
         events.each do |event|
           row = content_tag :tr do
             cols = []
-
-            col = content_tag :td, :class => "day_appointment" do 
+            cell_class = "day_appointment " + calb_class(event.calendar.color)
+            col = content_tag :td, :class => cell_class do 
               content_tag :a, :href => "/events/#{event.id}/edit", 
                 :title => "#{event.title}",
                 :data => {:toggle => "popover", 
@@ -46,35 +46,39 @@ module ListCalendarHelper
               end              
             end
             cols << col
-            col = content_tag :td, :class => "day_appointment" do
+            col = content_tag :td, :class => cell_class do
               event.location
             end
             cols << col
+            col = content_tag :td, :class => cell_class do
+              event.start_time.strftime('%m/%d/%Y')
+            end
+            cols << col
             if event.all_day
-              col = content_tag :td, :class => "day_appointment",
-                  :colspan => "4" do
+              col = content_tag :td, :class => cell_class do
                 "All Day"
               end
-              cols << col
             else
-              col = content_tag :td, :class => "day_appointment" do
-                event.start_time.strftime('%m/%d/%Y')
-              end
-              cols << col
-              col = content_tag :td, :class => "day_appointment" do
+              col = content_tag :td, :class => cell_class do
                 event.start_time.strftime('%I:%M %p')
               end
-              cols << col
-              col = content_tag :td, :class => "day_appointment" do
-                event.end_time.strftime('%m/%d/%Y')
+            end
+            cols << col
+            col = content_tag :td, :class => cell_class do
+              event.end_time.strftime('%m/%d/%Y')
+            end
+            cols << col
+            if event.all_day
+              col = content_tag :td, :class => cell_class do
+                "All Day"
               end
-              cols << col
-              col = content_tag :td, :class => "day_appointment" do
+            else
+              col = content_tag :td, :class => cell_class do
                 event.end_time.strftime('%I:%M %p')
               end
-              cols << col
             end
-            col = content_tag :td, :class => "day_appointment" do
+            cols << col
+            col = content_tag :td, :class => cell_class do
               event.notes
             end
             cols << col
