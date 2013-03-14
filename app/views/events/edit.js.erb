@@ -1,8 +1,8 @@
 $('#event_title').val("<%= @event.title %>");
 $('#event_location').val("<%= @event.location %>");
 $('#event_calendar_id').val("<%= @event.calendar_id %>");
-$('#event_start_date').val("<%= @event.start_date.strftime('%m/%d/%Y') %>");
-$('#event_end_date').val("<%= @event.end_date.strftime('%m/%d/%Y') %>");
+$('#event_start_date').val("<%= @event.start_time.strftime('%m/%d/%Y') %>");
+$('#event_end_date').val("<%= @event.end_time.strftime('%m/%d/%Y') %>");
 <% if @event.all_day %>
     $('#event_all_day').attr('checked', true);
     $('#event_start_time').attr('disabled',true);
