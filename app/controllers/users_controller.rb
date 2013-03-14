@@ -75,6 +75,14 @@ class UsersController < ApplicationController
         end
     end
 
+    def check
+        users = User.where(username: params[:user][:username])
+        response = users.size == 0
+        respond_to do |format|
+            format.json { render :json => response }
+        end
+    end
+
   private
 
     def correct_user

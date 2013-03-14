@@ -7,11 +7,14 @@ $(document).ready(function(){
         wrapper: "li",
         rules: {
            "calendar[title]": {
-                required:true
+                required:true,
+                remote: "/calendarcheck"
             }},
         messages: {
-           "calendar[title]": "Title is required"
-           }
+           "calendar[title]": {
+                required:"Title is required",
+                remote: "Calendar title is already in use"
+           }}
     });
     // Clearing the calendar form for new calendar
     $("#new_calendar").click(function() {

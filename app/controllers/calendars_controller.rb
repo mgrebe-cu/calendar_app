@@ -54,6 +54,14 @@ class CalendarsController < ApplicationController
     redirect_to request.referer
   end
 
+  def check
+      cals = Calendar.where(user_id: current_user.id, title: params[:calendar][:title])
+      response = cals.size == 0
+      respond_to do |format|
+          format.json { render :json => response }
+      end
+  end
+
   private
 
     def correct_user

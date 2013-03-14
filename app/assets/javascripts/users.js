@@ -66,7 +66,8 @@ $(document).ready(function(){
             },
            "user[username]": {
                 required:true,
-                maxlength: 20
+                maxlength: 20,
+                remote: "/usercheck"
             },
            "user[password]": {
                 required:true,
@@ -86,7 +87,8 @@ $(document).ready(function(){
            },
            "user[username]": {
                 required:"Username is required",
-                maxlength:"Username must be less than 20 characters"
+                maxlength:"Username must be less than 20 characters",
+                remote: "Username is already in use"
            },
            "user[password]": {
                 required:"Password is required",

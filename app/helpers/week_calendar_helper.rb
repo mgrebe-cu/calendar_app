@@ -58,7 +58,7 @@ module WeekCalendarHelper
     # Draw the table that contains the all day events
     def all_day_table
       content_tag :div, :class => "daytitle" do
-        content_tag :table, :width => "98%" do
+        content_tag :table, :class => "day_table", :width => "98%" do
           header_all_day + all_day_events
         end
       end
@@ -67,7 +67,7 @@ module WeekCalendarHelper
     # Draw the table that contains the day events
     def hour_table
       content_tag :div, :class => "day_div" do
-        content_tag :table, :style => "table-layout:fixed" do
+        content_tag :table, :class => "day_table" do
           header + time_body
         end
       end
