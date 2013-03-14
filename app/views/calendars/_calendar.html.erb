@@ -1,6 +1,6 @@
 <li>
   <i class="icon-check iconlink" ></i>
-  <i class="icon-circle" ></i><%= calendar.title %>
+  <i class="icon-circle <%= calf_class(calendar.color) %>" ></i><%= calendar.title %>
   <%= link_to edit_calendar_path(calendar), :remote => true do %>
     <i class="icon-cogs iconlink"></i>
   <% end %>
