@@ -10,7 +10,10 @@
     </h2>
     <%= calendar @date do |date| %>
         <%= link_to current_url(format: :day, date: date)  do %>
-            <%= date.day %>
+            <%= date.day %> 
+            <% if date == Date.today %>
+            Today
+            <% end %>
         <% end %>
         <% if @events_by_date[date] %>
             <% event_count = @events_by_date[date].size %>

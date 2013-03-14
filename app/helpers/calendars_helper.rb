@@ -1,3 +1,10 @@
+# This module is a rails helper for setting display colors
+# for calendars.
+# Author::    Mark Grebe  
+# Copyright:: Copyright (c) 2013 Mark Grebe
+# License::   Distributes under the same terms as Ruby
+# Developed for Master of Engineering Project
+# University of Colorado - Boulder - Spring 2013
 CALF_CLASS = Hash.new("calf_blue")
 CALF_CLASS[0] = "calf_blue"
 CALF_CLASS[1] = "calf_red"

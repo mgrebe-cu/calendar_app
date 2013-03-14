@@ -1,19 +1,22 @@
-# The module is rails helper for displaying a calendar
-# day view.  It requires a collection of event objects
-# passed in, as well as the date requested.
+# The module is a rails helper for displaying a calendar
+# day view, either a single day or multiple days for a
+# week or work week view.  It requires a collection of 
+# event objects passed in, as well as the date requested.
 # The event objects are expected to have fields of
 #  * title : string
 #  * location : string
 #  * start : datetime
 #  * end :datetime
 #  * all_day : boolean
-#  * notes : strgin
+#  * notes : string
 #
 # Author::    Mark Grebe  
 # Copyright:: Copyright (c) 2013 Mark Grebe
 # License::   Distributes under the same terms as Ruby
 # Developed for Master of Engineering Project
 # University of Colorado - Boulder - Spring 2013
+include CalendarsHelper
+
 module WeekCalendarHelper
   def week_calendar(date = Date.today, num_days, events, params)
     if num_days == 7
@@ -173,7 +176,7 @@ module WeekCalendarHelper
                   :height => "15px",
                   :overflow => "hidden",
                   :style => "width: #{w}%", :width => "#{w}%",
-                  :class => "day_appointment" do
+                  :class => "day_appointment " + calb_class(event.calendar.color) do
                 content_tag :a, :href => "/events/#{event.id}/edit", 
                   :title => "#{event.title}",
                   :data => {:toggle => "popover", 
@@ -336,7 +339,7 @@ module WeekCalendarHelper
             # Add event tags
             newcol = content_tag :td, 
                 :height => (@event_span[day][event]*15).to_s + "px",
-                :class => "day_appointment", 
+                :class => "day_appointment " + calb_class(event.calendar.color), 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[day][event].to_s,
                 :width =>  (@col_width[day]/my_cols).to_s + '%' do
