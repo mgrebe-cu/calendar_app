@@ -76,6 +76,7 @@ class EventsController < ApplicationController
         # instead?
         @event.title = params[:event][:title]
         @event.location = params[:event][:location]
+        @event.calendar_id = params[:event][:calendar_id]
         @event.all_day = params[:event][:all_day]
         @event.notes = params[:event][:notes]
         parse_params

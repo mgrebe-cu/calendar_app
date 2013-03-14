@@ -18,20 +18,13 @@ class User < ActiveRecord::Base
                                    :message => "must contain a number and a letter" }
     validates :password_confirmation, presence: true
 
-    def get_event_count
-        cals = self.calendars
-        count = 0
-        cals.each do |cal|
-            count += cal.events.count
-        end
-        count
-    end
-
     def get_events
         cals = self.calendars
         events = []
         cals.each do |cal|
-            events += cal.events
+            #if cal.displayed
+                events += cal.events
+            #end
         end
         events
     end
