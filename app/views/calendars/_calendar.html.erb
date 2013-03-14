@@ -1,5 +1,13 @@
 <li>
-  <i class="icon-check iconlink" ></i>
+  <% if calendar.displayed.nil? or calendar.displayed %>
+    <%= link_to calendar_path(calendar.id, displayed: false) do %>
+    <i class="icon-check iconlink" id="check<%= calendar.id%>" ></i>
+    <% end %>
+  <% else %>
+    <%= link_to calendar_path(calendar.id, displayed: true) do %>
+    <i class="icon-check-empty iconlink" id="check<%= calendar.id%>" ></i>
+    <% end %>
+  <% end %>
   <i class="icon-circle <%= calf_class(calendar.color) %>" ></i><%= calendar.title %>
   <%= link_to edit_calendar_path(calendar), :remote => true do %>
     <i class="icon-cogs iconlink"></i>

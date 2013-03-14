@@ -5,23 +5,29 @@ describe "CalendarPages" do
   
     let(:user) { FactoryGirl.create(:user) }
     let(:calendar1) { FactoryGirl.create(:calendar, user: user) }
-    let(:calendar2) { FactoryGirl.create(:calendar, user: user, default: false, color: :red) }
+    let(:calendar2) { FactoryGirl.create(:calendar, user: user, 
+                        default: false, color: :red) }
+    let(:calendar3) { FactoryGirl.create(:calendar, user: user, 
+                        default: false, displayed: false, color: :yellow) }
     let(:allday1) { FactoryGirl.create(:all_day, calendar: calendar1) }
     let(:allday2) { FactoryGirl.create(:all_day, calendar: calendar2) }
     let(:event1) { FactoryGirl.create(:event, calendar: calendar1) }
     let(:event2) { FactoryGirl.create(:event, calendar: calendar2) }
     let(:event3) { FactoryGirl.create(:event, title: "Unique", calendar: calendar1) }
+    let(:event4) { FactoryGirl.create(:event, calendar: calendar3)}
 
     before do
         user.default_view = :day
         user.save
         calendar1.save
         calendar2.save
+        calendar3.save
         allday1.save
         allday2.save
         event1.save
         event2.save
         event3.save
+        event4.save
         sign_in user
     end
 
@@ -91,6 +97,23 @@ describe "CalendarPages" do
         describe "todays page" do
            it { should have_xpath("//a/div/i[@class='icon-circle calf_blue']")}
            it { should have_xpath("//a/div/i[@class='icon-circle calf_red']")}
+           it { should_not have_xpath("//a/div/i[@class='icon-circle calf_yello']")}
+        end
+
+        describe "disable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check iconlink']/..").click
+            end
+           
+            it { should_not have_xpath("//a/div/i[@class='icon-circle calf_blue']")}
+        end
+
+        describe "enable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check-empty iconlink']/..").click
+            end
+           
+            it { should have_xpath("//a/div/i[@class='icon-circle calf_yellow']")}
         end
     end 
 
@@ -103,6 +126,23 @@ describe "CalendarPages" do
         describe "todays page" do
            it { should have_xpath("//td[@class='day_appointment calb_blue']")}
            it { should have_xpath("//td[@class='day_appointment calb_red']")}
+           it { should_not have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
+
+        describe "disable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check iconlink']/..").click
+            end
+           
+           it { should_not have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
+
+        describe "enable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check-empty iconlink']/..").click
+            end
+           
+           it { should have_xpath("//td[@class='day_appointment calb_yellow']")}
         end
     end 
 
@@ -115,7 +155,24 @@ describe "CalendarPages" do
         describe "todays page" do
            it { should have_xpath("//td[@class='day_appointment calb_blue']")}
            it { should have_xpath("//td[@class='day_appointment calb_red']")}
-         end
+           it { should_not have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
+
+        describe "disable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check iconlink']/..").click
+            end
+           
+           it { should_not have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
+
+        describe "enable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check-empty iconlink']/..").click
+            end
+           
+           it { should have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
     end 
 
     describe "list" do
@@ -124,9 +181,26 @@ describe "CalendarPages" do
             click_link "List"
         end
 
-        describe "events page" do
+        describe "eventss page" do
            it { should have_xpath("//td[@class='day_appointment calb_blue']")}
            it { should have_xpath("//td[@class='day_appointment calb_red']")}
+           it { should_not have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
+
+        describe "disable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check iconlink']/..").click
+            end
+           
+           it { should_not have_xpath("//td[@class='day_appointment calb_yellow']")}
+        end
+
+        describe "enable calendar" do
+            before do
+                find(:xpath, "//a/i[@class='icon-check-empty iconlink']/..").click
+            end
+           
+           it { should have_xpath("//td[@class='day_appointment calb_yellow']")}
         end
     end 
 

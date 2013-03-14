@@ -23,7 +23,18 @@ class CalendarsController < ApplicationController
     @calendar = Calendar.find_by_id(params[:id])
     respond_to do |format|
         format.html
-        format.js
+        format.js 
+    end
+  end
+
+  def show
+    @calendar = Calendar.find_by_id(params[:id])
+    @calendar.displayed = params[:displayed]
+    if @calendar.save
+        redirect_to request.referer
+    else
+        flash[:error] = "Error showing/hiding calendar!"  
+        redirect_to request.referer
     end
   end
 

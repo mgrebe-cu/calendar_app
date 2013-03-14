@@ -8,7 +8,7 @@
         <div class="modal-body">
             <div id="calendar_errorbox"><ul></ul></div>
             <%= f.text_field :title, value: "", label: 'Title' %>
-            <%= f.text_area  :description, label: 'Description', :cols => 40, :rows => 5 %>
+            <%= f.text_area  :description, label: 'Description', :cols => 40, :rows => 3 %>
             <%= f.select :color, Calendar.color.options %>
         </div>
         <div class="modal-footer">

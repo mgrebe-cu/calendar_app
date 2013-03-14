@@ -22,9 +22,9 @@ class User < ActiveRecord::Base
         cals = self.calendars
         events = []
         cals.each do |cal|
-            #if cal.displayed
+            if cal.displayed.nil? or cal.displayed
                 events += cal.events
-            #end
+            end
         end
         events
     end
