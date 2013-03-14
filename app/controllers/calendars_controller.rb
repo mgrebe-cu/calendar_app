@@ -4,6 +4,7 @@ class CalendarsController < ApplicationController
   
   def new
     @calendar = Calendar.new
+    @calendar.title = ""
   end
 
   def create
@@ -11,21 +12,35 @@ class CalendarsController < ApplicationController
     @calendar.user_id = current_user.id
     @calendar.default = false
     if @calendar.save
-        flash[:success] = "Calendar Created Succssfully!"
-        redirect_to current_user
+        redirect_to request.referer
     else
-        raise @calendar.inspect
-        render 'new'
+        flash[:error] = "Duplicate Calendar Title Not Allowed!"  
+        redirect_to request.referer
     end
   end
 
   def edit
     @calendar = Calendar.find_by_id(params[:id])
+    respond_to do |format|
+        format.html
+        format.js
+    end
   end
 
   def update
     @calendar = Calendar.find_by_id(params[:id])
-
+    if @calendar.update_attributes(params[:calendar])
+      redirect_to request.referer
+    else
+      flash[:error] = "Calendar update failed!"  
+      redirect_to request.referer
+    end
+  end
+ 
+  def destroy
+    @calendar = Calendar.find_by_id(params[:id])
+    @calendar.destroy
+    redirect_to request.referer
   end
 
   private

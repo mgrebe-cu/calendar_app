@@ -83,7 +83,7 @@ class EventsController < ApplicationController
         if @event.save
             redirect_to request.referer
         else
-            flash[:error] = "Event update failed!"            #redirect_to session[:return_to]
+            flash[:error] = "Event update failed!"
             redirect_to request.referer
         end
     end

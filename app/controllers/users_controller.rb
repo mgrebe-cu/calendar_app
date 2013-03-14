@@ -12,10 +12,11 @@ class UsersController < ApplicationController
         #todo This needs to be refactored should only get events for 
         #     required days.
         @user = User.find(params[:id])
-        @calendar = Calendar.where(default: true, user_id: @user.id)[0]
+        @calendar = Calendar.new
+        @default_calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @calendars = Calendar.where(user_id: @user.id)
         @date = params[:date] ? Date.parse(params[:date]) : Date.today
-        @event = @calendar.events.build
+        @event = @default_calendar.events.build
         if (params[:format].nil?)
             @format = @user.default_view.to_sym
         else

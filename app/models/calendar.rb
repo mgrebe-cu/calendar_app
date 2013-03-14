@@ -12,5 +12,5 @@ class Calendar < ActiveRecord::Base
     validates :title, presence: true
     validates :color, presence: true
     validates :default, :inclusion => { :in => [true, false] }
-
+    validates_uniqueness_of :title, scope: [:user_id]
 end

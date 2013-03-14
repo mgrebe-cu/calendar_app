@@ -1,0 +1,9 @@
+$('#calendar_title').val("<%= @calendar.title %>");
+$('#calendar_description').val("<%= @calendar.description %>");
+$('#calendar_color').val("<%= @calendar.color %>");
+$('#calendar-form').attr('action',"/calendars/<%= @calendar.id %>");
+$('.calendar_delete_btn').remove();
+<% if !@calendar.default %>
+$('.btn-primary').after('<%= j render(:partial => "calendars/delete_btn", :object => :calendar) %>');
+<% end %>
+$('#calendarModal').modal();
