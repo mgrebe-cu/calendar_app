@@ -9,6 +9,9 @@ FactoryGirl.define do
 
     factory :calendar do
         default true
+        sequence(:title) { |n| "Calendar #{n}"}
+        sequence(:description) { |n| "Calendar for tracking #{n} things"}
+        sequence(:color) { |n| n%7 }
         user
     end
 

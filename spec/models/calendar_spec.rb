@@ -4,7 +4,9 @@ describe Calendar do
     let(:user) { FactoryGirl.create(:user) }
     
     before do
-        @calendar = user.calendars.build(default: true)
+        @calendar = user.calendars.build(default: true,
+                        title: "Calendar 1", description: "Stuff for 1 items",
+                        color: :blue, displayed: true)
     end
 
     subject( @calendar )
@@ -36,5 +38,14 @@ describe Calendar do
     describe "when displayed is not present" do
         before { @calendar.displayed = nil }
         it { should_not be_valid }
+    end
+
+    describe "when title is already taken" do
+        before do
+            calendar_with_same_title = @calendar.dup
+            calendar_with_same_title.save
+        end
+
+        it { should_not be_valid}
     end
 end
