@@ -4,17 +4,19 @@ describe "EventPages" do
     subject { page }
   
     let(:user) { FactoryGirl.create(:user) }
-    let(:calendar) { FactoryGirl.create(:calendar, user: user) }
-    let(:allday1) { FactoryGirl.create(:all_day, calendar: calendar) }
-    let(:allday2) { FactoryGirl.create(:all_day, calendar: calendar) }
-    let(:event1) { FactoryGirl.create(:event, calendar: calendar) }
-    let(:event2) { FactoryGirl.create(:event, calendar: calendar) }
-    let(:event3) { FactoryGirl.create(:event, title: "Unique", calendar: calendar) }
+    let(:calendar1) { FactoryGirl.create(:calendar, user: user) }
+    let(:calendar2) { FactoryGirl.create(:calendar, user: user, default: false) }
+    let(:allday1) { FactoryGirl.create(:all_day, calendar: calendar1) }
+    let(:allday2) { FactoryGirl.create(:all_day, calendar: calendar2) }
+    let(:event1) { FactoryGirl.create(:event, calendar: calendar1) }
+    let(:event2) { FactoryGirl.create(:event, calendar: calendar2) }
+    let(:event3) { FactoryGirl.create(:event, title: "Unique", calendar: calendar1) }
 
     before do
         user.default_view = :list
         user.save
-        calendar.save
+        calendar1.save
+        calendar2.save
         allday1.save
         allday2.save
         event1.save
@@ -46,7 +48,7 @@ describe "EventPages" do
                     click_button 'Save'
                 end
                 it { should have_content('Title is required')}
-                specify { calendar.events.count == 0 }
+                specify { calendar1.events.count == 0 }
             end
 
             describe "with valid information" do
@@ -60,7 +62,7 @@ describe "EventPages" do
                     click_button 'Save'
                 end
 
-                specify { calendar.events.count == 1 }
+                specify { calendar1.events.count == 1 }
                 it { should have_content('Test Event')}
                 it { should have_content('03/27/2013')}
                 it { should have_content('10:00 AM')}
@@ -102,8 +104,8 @@ describe "EventPages" do
             time = Time.now
             heading = time.strftime("%B %Y")
             it { should have_content(heading) }
+            it { should have_content(event1.title)}
             it { should have_content(event2.title)}
-            it { should have_content(event3.title)}
             it { should have_content('3 more')}
         end
     end 

@@ -11,7 +11,10 @@ FactoryGirl.define do
         default true
         sequence(:title) { |n| "Calendar #{n}"}
         sequence(:description) { |n| "Calendar for tracking #{n} things"}
-        sequence(:color) { |n| n%7 }
+        sequence(:color) do |n|
+            colors = [:blue, :red, :orange, :yellow, :green, :purple, :brown]
+            colors[n%7]
+        end
         user
     end
 
