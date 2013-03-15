@@ -24,10 +24,15 @@ class Event < ActiveRecord::Base
 
     def when
         if self.all_day
-            "<b>When:</b><br> All Day"
+            if self.start_time == self.end_time
+                "<b>When:</b><br> All Day " + self.start_time.strftime('%b %e %Y')
+            else
+                "<b>When:</b><br> All Day " + self.start_time.strftime('%b %e %Y') + 
+                '<br> To: ' + self.end_time.strftime('%b %e %Y')
+            end
         else
             "<b>When:</b><br> From: " + self.start_time.strftime('%b %e %Y %I:%M %p') + 
-            '<br>' + " To: " + self.end_time.strftime('%b %e %Y %I:%M %p')
+            '<br> To: ' + self.end_time.strftime('%b %e %Y %I:%M %p')
         end
     end
 

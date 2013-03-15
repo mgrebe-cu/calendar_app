@@ -22,17 +22,26 @@ class UsersController < ApplicationController
         else
             @format = params[:format].to_sym
         end   
-        @events = @user.get_events.sort! { |a,b| a.start_time <=> b.start_time }
-        @events.sort! { |a,b| a.start_time <=> b.start_time }
-        @events_by_date = @events.group_by { |d| d.start_time.to_date }
         if @format == :day
-            @events = [@events_by_date[@date]]
+            @events = [events_for_date(@date)]
         elsif @format == :week
             start_date = @date.beginning_of_week(:sunday)
             @events = []
             (0..6).each do |d|
-                @events << @events_by_date[start_date + d.days]
+                @events << events_for_date(start_date + d.days)
             end
+        elsif @format == :month
+            first = @date.beginning_of_month.beginning_of_week(:sunday)
+            last = @date.end_of_month.end_of_week(:sunday)
+            day = first
+            @events_by_date = {}
+            while day <= last
+                @events_by_date[day] = events_for_date(day)
+                day = day + 1.day
+            end 
+        else
+            @events = events_for_current_user.sort { |a,b| a.start_time <=> b.start_time }
+            #@events = @user.get_events.sort! { |a,b| a.start_time <=> b.start_time }
         end 
     end
 
@@ -90,4 +99,27 @@ class UsersController < ApplicationController
       redirect_to(root_url) unless current_user?(@user)
     end
 
+    def events_for_date(event_date)
+        events = []
+        cals = current_user.calendars
+        cals.each do |cal|
+            if cal.displayed.nil? or cal.displayed
+                events = events + cal.events.where("start_time <= :end_of_day AND end_time >= :start_of_day ",
+                    {:end_of_day => event_date.end_of_day, 
+                     :start_of_day => event_date.beginning_of_day})
+            end
+        end
+        events
+    end
+
+    def events_for_current_user
+        events = []
+        cals = current_user.calendars
+        cals.each do |cal|
+            if cal.displayed.nil? or cal.displayed
+                events = events + cal.events
+            end
+        end
+        events
+    end
 end
