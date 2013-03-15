@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130312230826) do
+ActiveRecord::Schema.define(:version => 20130315232121) do
 
   create_table "calendars", :force => true do |t|
     t.boolean  "default"
@@ -41,6 +41,7 @@ ActiveRecord::Schema.define(:version => 20130312230826) do
   end
 
   add_index "events", ["calendar_id"], :name => "index_events_on_calendar_id"
+  add_index "events", ["start_time", "end_time"], :name => "index_events_on_start_time_and_end_time"
 
   create_table "users", :force => true do |t|
     t.string   "full_name"
