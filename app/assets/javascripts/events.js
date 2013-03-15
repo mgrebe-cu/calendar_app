@@ -23,7 +23,6 @@ function getDate(val) {
     hh = parseInt(val.substring(11,13));
     mm = parseInt(val.substring(14,16));
     ampm = val.substring(17,19);
-    console.debug(month, day, year, hh, mm, ampm);
     // Correct hours value
     if (hh<12 && ampm=="PM") { hh=hh-0+12; }
     else if (hh>11 && ampm=="AM") { hh-=12; }
@@ -94,18 +93,26 @@ $(document).ready(function(){
         var endDateString = $("#event_end_date").val();
         var startTimeString = $("#event_start_time").val();
         var endTimeString = $("#event_end_time").val();
-        if (endTimeString.length != 8 || startDateString.length != 10 ||
-            endDateString.length != 10 || 
-            startTimeString.length != 8) {
-            console.debug("Ratsss");
+        var allDay = $("#event_all_day").attr('checked');
+        if (startDateString.length != 10 ||
+            endDateString.length != 10) {
             return false;
         }
-        var startString = startDateString + ' ' + startTimeString;
-        var endString = endDateString + ' ' + endTimeString;
-        var startDatetime = getDate(startString);
-        var endDatetime = getDate(endString);
-        console.debug(startDatetime < endDatetime);
-        return startDatetime < endDatetime;
+        if (allDay) {
+            var startDate = getDate(startDateString + ' 12:00 PM');
+            var endDate = getDate(endDateString + ' 12:00 PM');
+            return startDate <= endDate;           
+        } else {
+            if (endTimeString.length != 8 || 
+                startTimeString.length != 8) {
+                return false;
+            }
+            var startString = startDateString + ' ' + startTimeString;
+            var endString = endDateString + ' ' + endTimeString;
+            var startDatetime = getDate(startString);
+            var endDatetime = getDate(endString);
+            return startDatetime <= endDatetime;           
+        }
         }, $.validator.format("End Date/Time must be later than Start Date/Time")); 
 
     var eventValidator = $("#event-form").validate({
@@ -116,37 +123,21 @@ $(document).ready(function(){
            "event[title]": {
                 required:true
             },
-           "event[start_date]": {
-                required:true,
-                lowerTime:true
-           },
+           // "event[start_date]": {
+           //      lowerTime:true
+           // },
            "event[end_date]": {
-                required:true,
                 lowerTime:true
-           },
-           "event[start_time]": {
-                required:true,
-                lowerTime:true
-            },
-           "event[end_time]": {
-                required:true,
-                lowerTime:true
+           // },
+           // "event[start_time]": {
+           //      lowerTime:true
+           //  },
+           // "event[end_time]": {
+           //      lowerTime:true
             }},
         messages: {
            "event[title]": {
                 required:"Title is required"
-            },
-           "event[start_date]": {
-                required:"Start Date is required"
-            },
-           "event[end_date]": {
-                required:"End Date is required"
-            },
-           "event[start_time]": {
-                required:"Start Time is required"
-            },
-           "event[end_time]": {
-                required:"End Time is required"
             }
             }
     });
