@@ -139,13 +139,21 @@ module WeekCalendarHelper
           if !events[day].nil?
             events[day].each do |event|
               if !event.all_day
-                start_row = (event.start_time.seconds_since_midnight / (60*30)).to_i
+                if event.start_time < (date + day.days)
+                  start_row = 0
+                else
+                  start_row = (event.start_time.seconds_since_midnight / (60*30)).to_i
+                end
                 if @events_start[day].member?(start_row)
                   @events_start[day][start_row] << event
                 else
                   @events_start[day][start_row] = [event]
                 end
-                end_row = ((event.end_time.seconds_since_midnight-1) / (60*30)).to_i
+                if event.end_time >= (date + (day+1).days)
+                  end_row = NUM_HALF_HOURS-1
+                else
+                  end_row = ((event.end_time.seconds_since_midnight-1) / (60*30)).to_i
+                end
                 if @events_end[day].member?(end_row)
                   @events_end[day][end_row] << event
                 else
