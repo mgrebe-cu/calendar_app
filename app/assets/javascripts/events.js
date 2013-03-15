@@ -18,15 +18,16 @@ function getDate(val) {
     }
 
     month = parseInt(val.substring(0,2));
-    day = parseInt(val.substring(3,2));
-    year = parseInt(val.substring(6,4));
-    hh = parseInt(val.substring(11,2));
-    mm = parseInt(val.substring(14,2));
-    ampm = val.substring(17,2);
+    day = parseInt(val.substring(3,5));
+    year = parseInt(val.substring(6,10));
+    hh = parseInt(val.substring(11,13));
+    mm = parseInt(val.substring(14,16));
+    ampm = val.substring(17,19);
+    console.debug(month, day, year, hh, mm, ampm);
     // Correct hours value
     if (hh<12 && ampm=="PM") { hh=hh-0+12; }
     else if (hh>11 && ampm=="AM") { hh-=12; }
-    var newdate=new Date(year,month-1,date,hh,mm,ss);
+    var newdate=new Date(year,month-1,day,hh,mm,0);
     return newdate.getTime();
 }
 // Attach jQuery functions after document loads
@@ -89,22 +90,23 @@ $(document).ready(function(){
     // Client side validation for event form
     // Add method
     $.validator.addMethod("lowerTime", function(value) {
-        if (value.length != 8 || $("event[start_date]").val().length != 10 ||
-            $("event[end_date]").val().length != 10 || 
-            $("event[end_time]").val().length != 8) {
+        var startDateString = $("#event_start_date").val();
+        var endDateString = $("#event_end_date").val();
+        var startTimeString = $("#event_start_time").val();
+        var endTimeString = $("#event_end_time").val();
+        if (endTimeString.length != 8 || startDateString.length != 10 ||
+            endDateString.length != 10 || 
+            startTimeString.length != 8) {
+            console.debug("Ratsss");
             return false;
         }
-        var startString = $("event[start_date]").val() + ' ' + value;
-        var endString = $("event[end_date]").val() + ' ' + $("event[end_time]").val();
+        var startString = startDateString + ' ' + startTimeString;
+        var endString = endDateString + ' ' + endTimeString;
         var startDatetime = getDate(startString);
         var endDatetime = getDate(endString);
-        if (startDatetime == 0 || endDatetime == 0) {
-            return false;
-        }
-        console.debug("Blah blah blahd");
-        console.debug(endDatetime);
+        console.debug(startDatetime < endDatetime);
         return startDatetime < endDatetime;
-        }, $.validator.format("")); 
+        }, $.validator.format("End Date/Time must be later than Start Date/Time")); 
 
     var eventValidator = $("#event-form").validate({
         errorContainer: "#event_errorbox",
@@ -115,28 +117,40 @@ $(document).ready(function(){
                 required:true
             },
            "event[start_date]": {
-                required:true
-            },
+                required:true,
+                lowerTime:true
+           },
            "event[end_date]": {
-                required:true
-            },
+                required:true,
+                lowerTime:true
+           },
            "event[start_time]": {
-                required:true
+                required:true,
+                lowerTime:true
             },
            "event[end_time]": {
-                required:true
+                required:true,
+                lowerTime:true
             }},
         messages: {
-           "event[title]": "Title is required",
-           "event[start_date]": "Start Date is required",
-           "event[end_date]": "End Date is required",
-           "event[start_time]": {
-                required:"Start Time is required",
-                lowerTime:["Start must be earlier than End"]
+           "event[title]": {
+                required:"Title is required"
             },
-           "event[end_time]": "End Time is required"
+           "event[start_date]": {
+                required:"Start Date is required"
+            },
+           "event[end_date]": {
+                required:"End Date is required"
+            },
+           "event[start_time]": {
+                required:"Start Time is required"
+            },
+           "event[end_time]": {
+                required:"End Time is required"
+            }
             }
     });
+
     // Clearing the event form for new event
     $("#new_event").click(function() {
         $('#event_title').val("");
