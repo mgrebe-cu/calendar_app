@@ -18,7 +18,7 @@
 include CalendarsHelper
 
 module WeekCalendarHelper
-  def week_calendar(date = Date.today, num_days, events, params)
+  def week_calendar(date = Time.zone.now.to_date, num_days, events, params)
     if num_days == 7
         cal_date = date.beginning_of_week(:sunday)
     else

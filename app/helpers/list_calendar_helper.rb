@@ -15,7 +15,7 @@
 # Developed for Master of Engineering Project
 # University of Colorado - Boulder - Spring 2013
 module ListCalendarHelper
-  def list_calendar(date = Date.today, events)
+  def list_calendar(date = Time.zone.now.to_date, events)
     ListCalendar.new(self, date, events).table
   end
 
