@@ -15,6 +15,11 @@
         <ul class="calendars">
         <%= render @calendars %>
         </ul><hr>
+        Other Calendars:
+        <%= link_to '#' do %>
+            <i class="icon-plus iconlink"></i>
+        <% end %>
+        <hr>
     </aside>
     <div class="span10">
         <% if @format == :month %>
