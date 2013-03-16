@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316144101) do
+ActiveRecord::Schema.define(:version => 20130316155038) do
 
   create_table "calendars", :force => true do |t|
     t.boolean  "default"
@@ -52,6 +52,8 @@ ActiveRecord::Schema.define(:version => 20130316144101) do
     t.boolean  "rw",          :default => false
     t.datetime "created_at",                     :null => false
     t.datetime "updated_at",                     :null => false
+    t.boolean  "displayed",   :default => true
+    t.string   "title"
   end
 
   add_index "subscriptions", ["calendar_id"], :name => "index_subscriptions_on_calendar_id"
