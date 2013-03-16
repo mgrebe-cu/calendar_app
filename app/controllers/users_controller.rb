@@ -3,14 +3,17 @@ class UsersController < ApplicationController
                 only: [:edit, :show, :update]
     before_filter :correct_user,   
                 only: [:edit, :show, :update]
+    before_filter :admin_user, only: [:index, :destroy]
+
+    def index
+        @users = User.paginate(page: params[:page])
+    end
 
     def new
         @user = User.new
     end
 
     def show
-        #todo This needs to be refactored should only get events for 
-        #     required days.
         @user = User.find(params[:id])
         @calendar = Calendar.new
         @default_calendar = Calendar.where(default: true, user_id: @user.id)[0]
@@ -91,11 +94,21 @@ class UsersController < ApplicationController
         end
     end
 
+    def destroy
+        User.find(params[:id]).destroy
+        flash[:success] = "User destroyed."
+        redirect_to users_url
+    end
+
   private
 
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user)
+    end
+
+    def admin_user
+      redirect_to(root_url) unless current_user.admin?
     end
 
     def events_for_date(event_date)
