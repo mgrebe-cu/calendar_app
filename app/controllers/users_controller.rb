@@ -41,7 +41,6 @@ class UsersController < ApplicationController
             end 
         else
             @events = events_for_current_user.sort { |a,b| a.start_time <=> b.start_time }
-            #@events = @user.get_events.sort! { |a,b| a.start_time <=> b.start_time }
         end 
     end
 

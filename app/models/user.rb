@@ -18,17 +18,6 @@ class User < ActiveRecord::Base
                                    :message => "must contain a number and a letter" }
     validates :password_confirmation, presence: true
 
-    def get_events
-        cals = self.calendars
-        events = []
-        cals.each do |cal|
-            if cal.displayed.nil? or cal.displayed
-                events += cal.events
-            end
-        end
-        events
-    end
-
 private 
     def set_default_time_zone
       self.time_zone = 'Central Time (US & Canada)'
