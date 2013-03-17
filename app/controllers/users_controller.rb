@@ -54,9 +54,9 @@ class UsersController < ApplicationController
             cal.save
             sign_in @user
             flash[:success] = "Welcome to Calendaring, " + @user.full_name + "!"
-            redirect_to @user
+            redirect_to request.referer
         else
-            render 'new'
+            redirect_to request.referer
         end
     end
 
@@ -121,7 +121,7 @@ class UsersController < ApplicationController
                      :start_of_day => event_date.beginning_of_day})
             end
         end
-        events
+        events.sort! { |a,b| a.start_time <=> b.start_time }
     end
 
     def events_for_current_user

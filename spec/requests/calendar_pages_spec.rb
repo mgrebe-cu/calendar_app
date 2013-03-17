@@ -86,6 +86,14 @@ describe "CalendarPages" do
             specify { user.calendars.count == 1 }
             it { should_not have_content(calendar2.title)}
         end
+
+        describe "new shared calendar" do
+            before do
+                find(:xpath, "(//a/i[@class='icon-plus iconlink'])[2]/..").click
+            end
+
+            it { should have_content("Subscribe to a Calendar")}
+        end
     end
 
     describe "month" do

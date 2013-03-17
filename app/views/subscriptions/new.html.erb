@@ -1,0 +1,9 @@
+<% provide(:title, 'New Subscription') %>
+
+<h1>Subscribe to a Calendar</h1>
+<% @calendars_by_user.each do |user, calendars| %>
+    <div class="span2">
+    <b> <%= user %> </b>
+    <%= render partial: 'subscriptions/calendar', collection: calendars %>
+    </div>
+<% end %>

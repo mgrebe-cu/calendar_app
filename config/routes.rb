@@ -10,6 +10,7 @@ CalendarApp::Application.routes.draw do
   resources :sessions, only: [:new, :create, :destroy]
   resources :calendars
   resources :events, only: [:create, :edit, :update, :destroy]
+  resources :subscriptions, only: [:new, :create, :destroy]
  
   root to: 'static_pages#home'
 
