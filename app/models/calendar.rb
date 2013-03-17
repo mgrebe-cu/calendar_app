@@ -6,7 +6,8 @@ class Calendar < ActiveRecord::Base
     attr_accessible :default, :title, :description, :color, :displayed, :description, :public
 
     belongs_to :user
-    has_many :events, :dependent => :destroy
+    has_many :events, dependent: :destroy
+    has_many :subscriptions, dependent: :destroy
 
     validates :user_id, presence: true
     validates :title, presence: true

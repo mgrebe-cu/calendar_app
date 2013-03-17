@@ -9,7 +9,8 @@ class User < ActiveRecord::Base
                     :password_confirmation, :default_view, :time_zone
     has_secure_password
 
-    has_many :calendars, :dependent => :destroy
+    has_many :calendars, dependent: :destroy
+    has_many :subscriptions, dependent: :destroy
 
     validates :full_name,  presence: true, length: { maximum: 50 }
     validates :username,  presence: true, length: { maximum: 20 }, uniqueness: true
