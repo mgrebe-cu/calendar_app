@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130316155038) do
+ActiveRecord::Schema.define(:version => 20130317000327) do
 
   create_table "calendars", :force => true do |t|
     t.boolean  "default"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(:version => 20130316155038) do
     t.text     "description"
     t.integer  "color",       :default => 0
     t.boolean  "displayed",   :default => true
+    t.boolean  "public",      :default => false
   end
 
   add_index "calendars", ["user_id"], :name => "index_calendars_on_user_id"
@@ -33,12 +34,11 @@ ActiveRecord::Schema.define(:version => 20130316155038) do
     t.datetime "end_time"
     t.string   "location"
     t.text     "notes"
-    t.datetime "created_at",                     :null => false
-    t.datetime "updated_at",                     :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.string   "title"
     t.date     "start_date"
     t.date     "end_date"
-    t.boolean  "public",      :default => false
   end
 
   add_index "events", ["calendar_id"], :name => "index_events_on_calendar_id"

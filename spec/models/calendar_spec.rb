@@ -18,6 +18,9 @@ describe Calendar do
     it { should respond_to(:color) }
     it { should respond_to(:displayed) }
 
+    it { should be_displayed }
+    it { should_not be_public }
+
     specify { @calendar.valid? }
 
     describe "when user id is not present" do
