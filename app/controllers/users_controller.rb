@@ -18,6 +18,7 @@ class UsersController < ApplicationController
         @calendar = Calendar.new
         @default_calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @calendars = Calendar.where(user_id: @user.id)
+        @subscribed_calendars = get_subscribed_calendars
         @date = params[:date] ? Date.parse(params[:date]) : Time.zone.now.to_date
         @event = @default_calendar.events.build
         if (params[:format].nil?)
@@ -113,7 +114,7 @@ class UsersController < ApplicationController
 
     def events_for_date(event_date)
         events = []
-        cals = current_user.calendars
+        cals = current_user.calendars + get_subscribed_calendars
         cals.each do |cal|
             if cal.displayed.nil? or cal.displayed
                 events = events + cal.events.where("start_time <= :end_of_day AND end_time >= :start_of_day ",
@@ -126,12 +127,20 @@ class UsersController < ApplicationController
 
     def events_for_current_user
         events = []
-        cals = current_user.calendars
+        cals = current_user.calendars + get_subscribed_calendars
         cals.each do |cal|
             if cal.displayed.nil? or cal.displayed
                 events = events + cal.events
             end
         end
         events
+    end
+
+    def get_subscribed_calendars
+        cals = []
+        current_user.subscriptions.each do |sub|
+            cals << Calendar.find(sub.calendar_id)
+        end
+        cals
     end
 end

@@ -28,7 +28,7 @@ module ListCalendarHelper
         events.each do |event|
           row = content_tag :tr do
             cols = []
-            cell_class = "day_appointment " + calb_class(event.calendar.color)
+            cell_class = "day_appointment " + calb_class(event.calendar)
             col = content_tag :td, :class => cell_class do 
               content_tag :a, :href => "/events/#{event.id}/edit", 
                 :title => "#{event.title}",

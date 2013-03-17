@@ -23,7 +23,7 @@
                 <% if event_count <= 3 || count <= 1 %>
                     <li>
                     <% if event.all_day %>                    
-                        <div class="events-allday <%= calb_class(event.calendar.color) %>">
+                        <div class="events-allday <%= calb_class(event.calendar) %>">
                     <% else %>
                         <div class="events-times">
                     <% end %>
@@ -35,7 +35,7 @@
                             :trigger => "hover", :placement => "left", :html => "true",
                             :remote => "true"} do %>
                         <div class="hide_extra">
-                        <i class="icon-circle <%= calf_class(event.calendar.color) %>"></i>
+                        <i class="icon-circle <%= calf_class(event.calendar) %>"></i>
                         <%= event.short_title %></div>
                     <% end %>
                     <% if event.all_day %>                    
@@ -44,7 +44,7 @@
                     </li>
                 <% end %>
                 <% if event_count > 3 && count > 1 %>
-                    <% event_text = '<i class="icon-circle ' + calf_class(event.calendar.color) + '"></i>' %>
+                    <% event_text = '<i class="icon-circle ' + calf_class(event.calendar) + '"></i>' %>
                     <% event_text += "<b>" + event.title + "</b><br>" %>
                     <% event_text += "#{event.where}#{event.when}#{event.my_notes}<br><br>" %>
                     <% event_list += "<a href=\"#{edit_event_path(event)}\" class=\"event-popover\" title=\"#{event.title}\" data-toggle=\"popover\" data-content=\"#{event.where}#{event.when}#{event.my_notes}\" data-trigger=\"hover\" data-placement=\"left\" data-html=\"true\" data-remote=\"true\">#{event_text}</a>" %>

@@ -1,6 +1,6 @@
 class EventsController < ApplicationController
     before_filter :signed_in_user
-    before_filter :correct_user,   only: :destroy
+    before_filter :correct_user,   only: [:update, :destroy]
 
     def parse_params
         # Find the offset so we store times in UTC
@@ -45,6 +45,7 @@ class EventsController < ApplicationController
         rescue
             @event.end_date = nil
         end
+        @event.calendar_id = params[:event][:calendar_id]
     end
 
     def create
@@ -52,7 +53,6 @@ class EventsController < ApplicationController
         @event = calendar.events.build(params[:event])
 
         parse_params
-
         if @event.save
             redirect_to request.referer
         else

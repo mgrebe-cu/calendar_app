@@ -144,14 +144,24 @@ $(document).ready(function(){
 
     // Clearing the event form for new event
     $("#new_event").click(function() {
+        $('#event_title').attr('readonly', false);
+        $('#event_location').attr('readonly', false);
+        $('#event_calendar_id').attr('disabled',false);
+        $('#event_start_date').attr('readonly', false);
+        $('#event_end_date').attr('readonly', false);
+        $('#event_start_time').attr('readonly',false);
+        $('#event_end_time').attr('readonly',false);
+        $('#message_area').attr('readonly',false);
+        $('#event_all_day').attr('disabled',false);
+        $('#event_model_title').text('Create Event');
         $('#event_title').val("");
         $('#event_location').val("");
         $('#event_calendar_id').val("0");
         $('#event_start_date').val("");
         $('#event_end_date').val("");
         $('#event_all_day').attr('checked', false);
-        $('#event_start_time').attr('enabled',true);
-        $('#event_end_time').attr('enabled',true);
+        $('#event_start_time').attr('disabled',false);
+        $('#event_end_time').attr('disabled',false);
         $('#event_start_time').val(DEFAULT_START_TIME);
         $('#event_end_time').val(DEFAULT_END_TIME);
         $('#message_area').val("");

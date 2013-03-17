@@ -19,7 +19,9 @@
         <%= link_to new_subscription_path do %>
             <i class="icon-plus iconlink"></i>
         <% end %>
-        <hr>
+        <ul class="calendars">
+        <%= render @subscribed_calendars %>
+        </ul><hr>
     </aside>
     <div class="span10">
         <% if @format == :month %>

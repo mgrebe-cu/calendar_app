@@ -1,3 +1,26 @@
+<% if current_user_has_rw?(@event) %>
+$('#event_title').attr('readonly', false);
+$('#event_location').attr('readonly', false);
+$('#event_calendar_id').attr('disabled',false);
+$('#event_start_date').attr('readonly', false);
+$('#event_end_date').attr('readonly', false);
+$('#event_start_time').attr('readonly',false);
+$('#event_end_time').attr('readonly',false);
+$('#message_area').attr('readonly',false);
+$('#event_all_day').attr('disabled',false);
+$('#event_model_title').text('Edit Event');
+<% else %>
+$('#event_title').attr('readonly', true);
+$('#event_location').attr('readonly', true);
+$('#event_calendar_id').attr('disabled',true);
+$('#event_start_date').attr('readonly', true);
+$('#event_end_date').attr('readonly', true);
+$('#event_start_time').attr('readonly',true);
+$('#event_end_time').attr('readonly',true);
+$('#message_area').attr('readonly',true);
+$('#event_all_day').attr('disabled',true);
+$('#event_model_title').text('View Event');
+<% end %>
 $('#event_title').val("<%= @event.title %>");
 $('#event_location').val("<%= @event.location %>");
 $('#event_calendar_id').val("<%= @event.calendar_id %>");
@@ -19,5 +42,10 @@ $('#event_end_date').val("<%= @event.end_time.strftime('%m/%d/%Y') %>");
 $('#message_area').val("<%= @event.notes %>");
 $('#event-form').attr('action',"/events/<%= @event.id %>");
 $('.event_delete_btn').remove();
-$('.btn-primary').after('<%= j render(:partial => "events/delete_btn", :object => :event) %>');
+<% if current_user_has_rw?(@event) %>
+    $('.btn-primary').show();
+    $('.btn-primary').after('<%= j render(:partial => "events/delete_btn", :object => :event) %>');
+<% else %>
+    $('.btn-primary').hide();
+<% end %>
 $('#eventModal').modal();

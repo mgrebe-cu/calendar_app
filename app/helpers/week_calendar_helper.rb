@@ -184,7 +184,7 @@ module WeekCalendarHelper
                   :height => "15px",
                   :overflow => "hidden",
                   :style => "width: #{w}%", :width => "#{w}%",
-                  :class => "day_appointment " + calb_class(event.calendar.color) do
+                  :class => "day_appointment " + calb_class(event.calendar) do
                 content_tag :a, :href => "/events/#{event.id}/edit", 
                   :title => "#{event.title}",
                   :data => {:toggle => "popover", 
@@ -347,7 +347,7 @@ module WeekCalendarHelper
             # Add event tags
             newcol = content_tag :td, 
                 :height => (@event_span[day][event]*15).to_s + "px",
-                :class => "day_appointment " + calb_class(event.calendar.color), 
+                :class => "day_appointment " + calb_class(event.calendar), 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[day][event].to_s,
                 :width =>  (@col_width[day]/my_cols).to_s + '%' do
