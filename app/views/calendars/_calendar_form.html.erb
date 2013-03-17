@@ -10,6 +10,9 @@
             <%= f.text_field :title, value: "", label: 'Title' %>
             <%= f.text_area  :description, label: 'Description', :cols => 40, :rows => 3 %>
             <%= f.select :color, Calendar.color.options %>
+            <%= f.control_group :public do %>
+                <%= f.check_box :public, label: 'Make calendar read-only to everyone' %>
+            <% end %>
         </div>
         <div class="modal-footer">
             <%= f.submit "Save", class: "btn btn-primary pull-right" %>

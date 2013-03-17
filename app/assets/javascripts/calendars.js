@@ -8,7 +8,14 @@ $(document).ready(function(){
         rules: {
            "calendar[title]": {
                 required:true,
-                remote: "/calendarcheck"
+                remote: {
+                    url: "/calendarcheck",
+                    data: {
+                        calcheck: function() {
+                        return $('#calendar-form').attr('action');
+                        }
+                    }
+                }
             }},
         messages: {
            "calendar[title]": {
@@ -16,11 +23,13 @@ $(document).ready(function(){
                 remote: "Calendar title is already in use"
            }}
     });
+
     // Clearing the calendar form for new calendar
     $("#new_calendar").click(function() {
         $('#calendar_title').val("");
         $('#calendar_description').val("");
         $('#calendar_color').val("0");
+        $('#calendar_public').attr('checked', false);
         calendarValidator.resetForm();
         calendarValidator.submit = {};
     });

@@ -55,11 +55,17 @@ class CalendarsController < ApplicationController
   end
 
   def check
+    id = params[:calcheck].split('/').last.to_i
+    cal = Calendar.where(id: id)
+    if cal.size != 0 and cal[0].title == params[:calendar][:title]
+      response = true
+    else
       cals = Calendar.where(user_id: current_user.id, title: params[:calendar][:title])
       response = cals.size == 0
-      respond_to do |format|
-          format.json { render :json => response }
-      end
+    end
+    respond_to do |format|
+      format.json { render :json => response }
+    end
   end
 
   private
