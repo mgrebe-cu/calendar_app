@@ -18,16 +18,16 @@
 include CalendarsHelper
 
 module WeekCalendarHelper
-  def week_calendar(date = Time.zone.now.to_date, num_days, events, params)
+  def week_calendar(date = Time.zone.now.to_date, num_days, events, params, user)
     if num_days == 7
         cal_date = date.beginning_of_week(:sunday)
     else
         cal_date = date
     end
-    WeekCalendar.new(self, cal_date, num_days, events, params).table
+    WeekCalendar.new(self, cal_date, num_days, events, params, user).table
   end
 
-  class WeekCalendar < Struct.new(:view, :date, :num_days, :events, :params)
+  class WeekCalendar < Struct.new(:view, :date, :num_days, :events, :params, :user)
     HEADER = %w[Sunday Monday Tuesday Wednesday Thursday Friday Saturday]
 
     delegate :content_tag, to: :view
@@ -184,7 +184,7 @@ module WeekCalendarHelper
                   :height => "15px",
                   :overflow => "hidden",
                   :style => "width: #{w}%", :width => "#{w}%",
-                  :class => "day_appointment " + calb_class(event.calendar) do
+                  :class => "day_appointment " + calb_class(event.calendar, user) do
                 content_tag :a, :href => "/events/#{event.id}/edit", 
                   :title => "#{event.title}",
                   :data => {:toggle => "popover", 
@@ -347,7 +347,7 @@ module WeekCalendarHelper
             # Add event tags
             newcol = content_tag :td, 
                 :height => (@event_span[day][event]*15).to_s + "px",
-                :class => "day_appointment " + calb_class(event.calendar), 
+                :class => "day_appointment " + calb_class(event.calendar, user), 
                 :colspan => my_cols.to_s, 
                 :rowspan => @event_span[day][event].to_s,
                 :width =>  (@col_width[day]/my_cols).to_s + '%' do

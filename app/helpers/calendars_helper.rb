@@ -24,19 +24,31 @@ CALB_CLASS[5] = "calb_purple"
 CALB_CLASS[6] = "calb_brown"
 
 module CalendarsHelper
-    def calf_class(calendar)
-        if calendar.color.nil?
-            return CALF_CLASS[0]
+    def calf_class(calendar, user)
+        if calendar.user_id == user.id
+            if calendar.color.nil?
+                return CALF_CLASS[0]
+            else
+                return CALF_CLASS[calendar.color.value]
+            end
         else
-            return CALF_CLASS[calendar.color.value]
+            sub = Subscription.where("user_id = ? AND calendar_id = ?",
+                    user.id, calendar.id)
+            return CALF_CLASS[sub.first.color.value]
         end
     end
 
-    def calb_class(calendar)
-        if calendar.color.nil?
-            return CALB_CLASS[0]
+    def calb_class(calendar, user)
+        if calendar.user_id == user.id
+            if calendar.color.nil?
+                return CALB_CLASS[0]
+            else
+                return CALB_CLASS[calendar.color.value]
+            end
         else
-            return CALB_CLASS[calendar.color.value]
+            sub = Subscription.where("user_id = ? AND calendar_id = ?",
+                    user.id, calendar.id)
+            return CALB_CLASS[sub.first.color.value]
         end
     end
 

@@ -5,11 +5,12 @@ class SubscriptionsController < ApplicationController
     def new
         # Query to find pulic candards other than those owned by curent user
         pub_cal = "public == 't' AND user_id != #{current_user.id}"
-        @calendars = Calendar.where(pub_cal)
+        @calendars = Calendar.where("public == 't' AND user_id != ?",
+                      current_user.id)
         # Remove any from the list the user is already subscribed to
         @calendars.reject! do |c|
-            already_sub = "user_id == #{current_user.id} AND calendar_id == #{c.id}"
-            Subscription.where(already_sub).size != 0
+            Subscription.where("user_id == ? AND calendar_id == ?",
+                current_user.id, c.id).size != 0
         end
         @calendars_by_user = 
             @calendars.group_by { |c| User.where(id: c.user_id)[0].full_name }

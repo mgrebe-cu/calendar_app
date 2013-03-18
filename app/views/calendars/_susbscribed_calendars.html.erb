@@ -8,7 +8,7 @@
     <i class="icon-check-empty iconlink" id="check<%= shared_calendar.id%>" ></i>
     <% end %>
   <% end %>
-  <i class="icon-circle <%= calf_class(calendar) %>" ></i><%= subscribed_calendar.title %>
+  <i class="icon-circle <%= calf_class(calendar, user) %>" ></i><%= subscribed_calendar.title %>
   <%= link_to edit_subscription_path(subscribed_calendar.id), :remote => true do %>
     <i class="icon-cogs iconlink"></i>
   <% end %>

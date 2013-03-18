@@ -15,11 +15,11 @@
 # Developed for Master of Engineering Project
 # University of Colorado - Boulder - Spring 2013
 module ListCalendarHelper
-  def list_calendar(date = Time.zone.now.to_date, events)
-    ListCalendar.new(self, date, events).table
+  def list_calendar(date = Time.zone.now.to_date, events, user)
+    ListCalendar.new(self, date, events, user).table
   end
 
-  class ListCalendar < Struct.new(:view, :date, :events)
+  class ListCalendar < Struct.new(:view, :date, :events, :user)
     delegate :content_tag, to: :view
 
     def table
@@ -28,7 +28,7 @@ module ListCalendarHelper
         events.each do |event|
           row = content_tag :tr do
             cols = []
-            cell_class = "day_appointment " + calb_class(event.calendar)
+            cell_class = "day_appointment " + calb_class(event.calendar, user)
             col = content_tag :td, :class => cell_class do 
               content_tag :a, :href => "/events/#{event.id}/edit", 
                 :title => "#{event.title}",
