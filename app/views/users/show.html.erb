@@ -20,7 +20,8 @@
             <i class="icon-plus iconlink"></i>
         <% end %>
         <ul class="calendars">
-        <%= render @subscribed_calendars %>
+        <%= render partial: 'calendars/subscribed_calendar', 
+            collection: @subscribed_calendars %>
         </ul><hr>
     </aside>
     <div class="span10">

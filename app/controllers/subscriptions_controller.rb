@@ -31,6 +31,17 @@ class SubscriptionsController < ApplicationController
         end
     end
 
+  def show
+    @subscription = Subscription.find_by_id(params[:id])
+    @subscription.displayed = params[:displayed]
+    if @subscription.save
+        redirect_to request.referer
+    else
+        flash[:error] = "Error showing/hiding subscription!"  
+        redirect_to request.referer
+    end
+  end
+
   private
     def auth_user
         @calendar = Calendar.find(params[:calendar_id])
