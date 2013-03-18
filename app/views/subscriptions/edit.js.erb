@@ -1,0 +1,6 @@
+$('#subscription_title').val("<%= @subscription.title %>");
+$('#subscription_color').val("<%= @subscription.color %>");
+$('#subscription-form').attr('action',"/subscriptions/<%= @subscription.id %>");
+$('.subscription_delete_btn').remove();
+$('.btn-primary').after('<%= j render(:partial => "subscriptions/delete_btn", :object => :subscription) %>');
+$('#subscriptionModal').modal();

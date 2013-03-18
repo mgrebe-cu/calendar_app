@@ -16,6 +16,7 @@ class UsersController < ApplicationController
     def show
         @user = User.find(params[:id])
         @calendar = Calendar.new
+        @subscription = Subscription.new
         @default_calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @calendars = Calendar.where(user_id: @user.id)
         @subscribed_calendars = get_subscribed_calendars

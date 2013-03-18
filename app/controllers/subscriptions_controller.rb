@@ -42,6 +42,30 @@ class SubscriptionsController < ApplicationController
     end
   end
 
+  def edit
+    @subscription = Subscription.find_by_id(params[:id])
+    respond_to do |format|
+        format.html
+        format.js 
+    end
+  end
+
+  def update
+    @subscription = Subscription.find_by_id(params[:id])
+    if @subscription.update_attributes(params[:subscription])
+      redirect_to request.referer
+    else
+      flash[:error] = "Subscription update failed!"  
+      redirect_to request.referer
+    end
+  end
+ 
+  def destroy
+    @subscription = Subscription.find_by_id(params[:id])
+    @subscription.destroy
+    redirect_to request.referer
+  end
+
   private
     def auth_user
         @calendar = Calendar.find(params[:calendar_id])
