@@ -114,9 +114,19 @@ class UsersController < ApplicationController
 
     def events_for_date(event_date)
         events = []
-        cals = current_user.calendars + get_subscribed_calendars
+        cals = @user.calendars
         cals.each do |cal|
             if cal.displayed.nil? or cal.displayed
+                events = events + cal.events.where("start_time <= :end_of_day AND end_time >= :start_of_day ",
+                    {:end_of_day => event_date.end_of_day, 
+                     :start_of_day => event_date.beginning_of_day})
+            end
+        end
+        cals = get_subscribed_calendars
+        cals.each do |cal|
+            sub = Subscription.where("calendar_id == ? AND user_id == ?",
+                     cal.id, @user.id).first
+            if sub.displayed?
                 events = events + cal.events.where("start_time <= :end_of_day AND end_time >= :start_of_day ",
                     {:end_of_day => event_date.end_of_day, 
                      :start_of_day => event_date.beginning_of_day})
@@ -127,7 +137,7 @@ class UsersController < ApplicationController
 
     def events_for_current_user
         events = []
-        cals = current_user.calendars + get_subscribed_calendars
+        cals = @user.calendars + get_subscribed_calendars
         cals.each do |cal|
             if cal.displayed.nil? or cal.displayed
                 events = events + cal.events
@@ -138,7 +148,7 @@ class UsersController < ApplicationController
 
     def get_subscribed_calendars
         cals = []
-        current_user.subscriptions.each do |sub|
+        @user.subscriptions.each do |sub|
             cals << Calendar.find(sub.calendar_id)
         end
         cals
