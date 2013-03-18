@@ -1,0 +1,16 @@
+<li>
+  <% sub = subscription_for_cal_user(subscribed_calendar.id, @user.id) %>
+  <% if sub.displayed? %>
+    <%= link_to subscription_path(sub.id, displayed: false) do %>
+    <i class="icon-check iconlink" id="check<%= subscribed_calendar.id%>" ></i>
+    <% end %>
+  <% else %>
+    <%= link_to subscription_path(sub.id, displayed: true) do %>
+    <i class="icon-check-empty iconlink" id="check<%= subscribed_calendar.id%>" ></i>
+    <% end %>
+  <% end %>
+  <i class="icon-circle <%= calf_class(subscribed_calendar, @user) %>" ></i><%= subscribed_calendar.title %>
+  <%= link_to edit_subscription_path(sub.id), :remote => true do %>
+    <i class="icon-cogs iconlink"></i>
+  <% end %>
+</li>
