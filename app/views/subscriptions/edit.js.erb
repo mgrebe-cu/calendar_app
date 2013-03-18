@@ -1,5 +1,10 @@
 $('#subscription_title').val("<%= @subscription.title %>");
 $('#subscription_color').val("<%= @subscription.color %>");
+<% cal = Calendar.find(@subscription.calendar_id) %>
+<% user = User.find(cal.user_id) %>
+$('#subscription_user').text("<%= user.full_name %> (<%= user.username %>)")
+$('#subscription_calendar').text("<%= cal.title %>")
+$('#subscription_type').text("Public (View-Only)")
 $('#subscription-form').attr('action',"/subscriptions/<%= @subscription.id %>");
 $('.subscription_delete_btn').remove();
 $('.btn-primary').after('<%= j render(:partial => "subscriptions/delete_btn", :object => :subscription) %>');
