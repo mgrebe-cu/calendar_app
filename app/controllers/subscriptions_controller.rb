@@ -13,7 +13,7 @@ class SubscriptionsController < ApplicationController
                 current_user.id, c.id).size != 0
         end
         @calendars_by_user = 
-            @calendars.group_by { |c| User.where(id: c.user_id)[0].full_name }
+            @calendars.group_by { |c| User.where(id: c.user_id)[0].username }
         store_referer
     end
 

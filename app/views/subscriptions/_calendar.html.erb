@@ -1,4 +1,10 @@
-<%= calendar.title %>
-<%= button_to "Add Subscription", {controller: 'subscriptions', 
-  action: 'create', calendar_id: calendar.id, user_id: current_user.id }, method: :post %>
-
+<div class="row">
+    <div class = "span2">
+        <%= calendar.title %>
+    </div>
+    <div class = "span1">
+        <%= button_to "Add Subscription", {controller: 'subscriptions', 
+                action: 'create', calendar_id: calendar.id, 
+                user_id: current_user.id }, method: :post %>
+    </div>
+</div>

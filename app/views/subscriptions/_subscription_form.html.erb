@@ -10,11 +10,13 @@
             <%= f.text_field :title, value: "", label: 'Title' %>
             <%= f.select :color, Calendar.color.options %>
         </div>
-        <div>Subscribtion Info:</div>
-        <ul>
-        <li>Subscribed From User:<span id = "subscription_user"></span></li>
-        <li>Subscribed From Calendar:<span id = "subscription_calendar"></span></li>
-        <li>Subscribed From Type: <span id = "subscription_type"></span></li>
+        <ul class="subscription_info">
+        <li><b>Subscribed From User: </b>
+            <span id = "subscription_user" class="subscription_item"></span></li>
+        <li><b>Subscribed From Calendar: </b>
+            <span id = "subscription_calendar" class="subscription_item"></span></li>
+        <li><b>Subscribed From Type: </b>
+            <span id = "subscription_type" class="subscription_item"></span></li>
         </ul>
         <div class="modal-footer">
             <%= f.submit "Save", class: "btn btn-primary pull-right" %>
