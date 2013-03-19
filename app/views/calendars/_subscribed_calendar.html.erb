@@ -10,7 +10,9 @@
     <% end %>
   <% end %>
   <i class="icon-circle <%= calf_class(subscribed_calendar, @user) %>" ></i><%= sub.title %>
+  <span class="tooltip_class" data-toggle="tooltip" title="Calendar Settings">
   <%= link_to edit_subscription_path(sub.id), :remote => true do %>
     <i class="icon-cogs iconlink"></i>
   <% end %>
+</span>
 </li>

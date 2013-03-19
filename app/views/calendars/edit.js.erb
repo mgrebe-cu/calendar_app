@@ -8,6 +8,10 @@ $('#calendar_model_title').text('Edit Calendar');
 <% else %>
     $('#calendar_public').attr('checked', false);
 <% end %>
+$('#calendar_shared').html("<%= j render('calendars/shares') %>")
+$(document).ready(function(){ 
+    $('.tooltip_class').tooltip();
+});
 $('.calendar_delete_btn').remove();
 <% if !@calendar.default %>
 $('.btn-primary').after('<%= j render(:partial => "calendars/delete_btn", :object => :calendar) %>');

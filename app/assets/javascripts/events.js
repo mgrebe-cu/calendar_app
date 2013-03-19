@@ -35,6 +35,7 @@ $(document).ready(function(){
     var DEFAULT_END_TIME = '11:00 AM';
     // Enable bootstrap popovers
     $('.event-popover').popover();
+    $('.tooltip_class').tooltip();
     // Set the time fields to be time pickers
     $('#event_start_time').timepicker({minuteStep: 5, defaultTime: DEFAULT_START_TIME});
     $('#event_end_time').timepicker({minuteStep: 5, defaultTime: DEFAULT_END_TIME});

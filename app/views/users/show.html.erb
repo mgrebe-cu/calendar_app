@@ -11,17 +11,24 @@
         <section>
             <%= render 'subscriptions/subscription_form' %>
         </section>
+        <section>
+            <%= render 'subscriptions/share_form' %>
+        </section>
         <hr>My Calendars: 
+        <span class="tooltip_class" data-toggle="tooltip" title="Add Calendar">
         <%= link_to '#calendarModal', :id => "new_calendar", :data => {:toggle => "modal"} do %>
             <i class="icon-plus iconlink"></i>
         <% end %>
+        </span>
         <ul class="calendars">
         <%= render @calendars %>
         </ul><hr>
         Shared Calendars:
+        <span class="tooltip_class" data-toggle="tooltip" title="Add Shared Calendar">
         <%= link_to new_subscription_path do %>
             <i class="icon-plus iconlink"></i>
         <% end %>
+        </span>
         <ul class="calendars">
         <%= render partial: 'calendars/subscribed_calendar', 
             collection: @subscribed_calendars %>

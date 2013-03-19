@@ -1,0 +1,7 @@
+<% shares = Subscription.where(calendar_id: @calendar.id) %>
+&emsp;<b>Shared With Users:</b>&nbsp;<span data-toggle="tooltip" title="Add User">
+<%= link_to '#shareModal', :data => {:toggle => "modal"} do %>
+<i class="icon-plus iconlink"></i>
+<% end %>
+<span><br>
+<%= render partial: 'calendars/share', collection: shares %>

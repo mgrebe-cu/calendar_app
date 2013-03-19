@@ -1,0 +1,14 @@
+&emsp;&emsp;
+<%= User.find(share.user_id).full_name %>
+&nbsp;(<%= User.find(share.user_id).username %>)
+&nbsp;
+<% if share.rw? %>
+(View and Modify)
+<% else %>
+(View Only)
+<% end %>
+&nbsp;
+<span class="tooltip_class" data-toggle="tooltip" title="Delete Share">
+<i class="icon-trash  iconlink" id="close<%= share.id%>" ></i>
+</span>
+<br>

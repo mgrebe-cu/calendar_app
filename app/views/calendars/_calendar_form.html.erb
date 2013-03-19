@@ -13,6 +13,7 @@
             <%= f.control_group :public do %>
                 <%= f.check_box :public, label: 'Make calendar read-only to everyone' %>
             <% end %>
+        <div id="calendar_shared"></div>
         </div>
         <div class="modal-footer">
             <%= f.submit "Save", class: "btn btn-primary pull-right" %>

@@ -1,0 +1,16 @@
+<div id="shareModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <%= bootstrap_form_for(@subscription, remote: request.xhr?, :method => "put",
+            html: { class: 'form-horizontal', id: 'subscription-form' }) do |f| %>
+        <div class="modal-header">
+            <button type="button" class="close pull-right" id="subscription_close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="subscription_model_title">Add Subscribed User</h3>
+        </div>
+        <div class="modal-body">
+            <div id="subscription_errorbox"><ul></ul></div>
+            <%= f.text_field :username, value: "", label: 'Username' %>
+        </div>
+        <div class="modal-footer">
+            <%= f.submit "Save", class: "btn btn-primary pull-right" %>
+         </div>
+    <% end %>
+</div>
