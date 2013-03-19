@@ -20,6 +20,7 @@ CalendarApp::Application.routes.draw do
   match '/signin',  to: 'sessions#new'
   match '/signout', to: 'sessions#destroy', via: :delete
   match '/calendarcheck', to: 'calendars#check'
+  match '/subscriptioncheck', to: 'subscriptions#check'
   match '/usercheck', to: 'users#check'
 
   # The priority is based upon order of creation:

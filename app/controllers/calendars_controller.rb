@@ -61,7 +61,8 @@ class CalendarsController < ApplicationController
       response = true
     else
       cals = Calendar.where(user_id: current_user.id, title: params[:calendar][:title])
-      response = cals.size == 0
+      subs = Subscription.where(user_id: current_user.id, title: params[:calendar][:title])
+      response = (cals.size == 0 and subs.size == 0)
     end
     respond_to do |format|
       format.json { render :json => response }

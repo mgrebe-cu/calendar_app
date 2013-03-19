@@ -66,6 +66,21 @@ class SubscriptionsController < ApplicationController
     redirect_to request.referer
   end
 
+  def check
+    id = params[:subcheck].split('/').last.to_i
+    sub = Subscription.where(id: id)
+    if sub.size != 0 and sub[0].title == params[:subscription][:title]
+      response = true
+    else
+      cals = Calendar.where(user_id: current_user.id, title: params[:subscription][:title])
+      subs = Subscription.where(user_id: current_user.id, title: params[:subscription][:title])
+      response = (cals.size == 0 and subs.size == 0)
+    end
+    respond_to do |format|
+      format.json { render :json => response }
+    end
+  end
+
   private
     def auth_user
         @calendar = Calendar.find(params[:calendar_id])
