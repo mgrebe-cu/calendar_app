@@ -51,15 +51,15 @@ describe "CalendarPages" do
             describe "with valid information", :js => true do
                 before do
                     find(:xpath, "//a/i[@class='icon-plus iconlink']/..").click
-                    fill_in "calendar[title]", with: "Test Calendar"
+                    fill_in "calendar[title]", with: "New Calendar"
                     fill_in "calendar[description]",  with: "Testing"
                     select 'Green', from: 'calendar[color]'
                     click_button 'Save'
-                    visit user_path(user)
+                    find_modal_element('#new_event')
                 end
 
                 specify { user.calendars.count == 3 }
-                it { should have_content('Test Calendar')}
+                it { should have_content('New Calendar')}
 
             end
         end
@@ -71,6 +71,7 @@ describe "CalendarPages" do
                 fill_in "calendar[title]", with: "Edited Calendar"
                 select 'Green', from: 'calendar[color]'
                 click_button 'Save'
+                find_modal_element('#new_event')
             end
             it { should have_xpath("//i[@class='icon-circle calf_green']")}
             it { should have_content('Edited Calendar')}

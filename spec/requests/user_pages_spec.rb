@@ -49,7 +49,6 @@ describe "UserPages" do
                 before { click_button submit_button }
 
                 it { should have_selector('title', text: 'Create New Account') }
-                it { should have_content("can't be blank") }
             end
         end
     end

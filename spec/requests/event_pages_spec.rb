@@ -73,9 +73,11 @@ describe "EventPages" do
 
         describe "edit event", :js => true do
             before do
-                click_link 'Test Event'
+                click_link event2.title
                 find_modal_element("#event_title")
                 fill_in "event[title]", with: "Edited Event"
+                fill_in "event[start_time]", with: "10:00 AM"
+                fill_in "event[end_time]", with: "11:00 PM"
                 click_button 'Save'
             end
             

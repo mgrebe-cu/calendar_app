@@ -56,7 +56,7 @@ class UsersController < ApplicationController
             cal.save
             sign_in @user
             flash[:success] = "Welcome to Calendaring, " + @user.full_name + "!"
-            redirect_to request.referer
+            redirect_to @user
         else
             redirect_to request.referer
         end
