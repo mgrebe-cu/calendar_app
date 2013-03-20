@@ -1,16 +1,22 @@
 class SubscriptionsController < ApplicationController
     before_filter :auth_user,   
                 only: [:create]
+    # todo : include security on other methods
 
   def new
     # Query to find pulic calendards other than those owned by curent user
-    pub_cal = "public == 't' AND user_id != #{current_user.id}"
     @calendars = Calendar.where("public == 't' AND user_id != ?",
                   current_user.id)
     # Remove any from the list the user is already subscribed to
     @calendars.reject! do |c|
         Subscription.where("user_id == ? AND calendar_id == ?",
           current_user.id, c.id).size != 0
+    end
+    # Calendars that have specific access given to this user
+    subs = Subscription.where("user_id == ? AND subscribed == 'f'",
+          current_user.id);
+    subs.each do |sub|
+      @calendars << Calendar.find_by_id(sub.calendar_id)
     end
     @calendars_by_user = 
       @calendars.group_by { |c| User.where(id: c.user_id)[0].username }
@@ -85,8 +91,11 @@ class SubscriptionsController < ApplicationController
         redirect_to(root_url)
       else
         if !@calendar.public?
-          if current_user.id != @calendar.user_id
-            redirect_to(root_url)
+          if Subscription.where("user_id == ? AND calendar_id == ?",
+              current_user.id, @calendar.id).size == 0
+            if current_user.id != @calendar.user_id
+              redirect_to(root_url)
+            end
           end
         end
       end
@@ -101,9 +110,12 @@ class SubscriptionsController < ApplicationController
     end
 
     def create_subscription
-      @subscription = @calendar.subscriptions.build(user_id: current_user.id)
+      @subscription = @calendar.subscriptions.find_by_user_id(current_user.id)
+      if @subscription.nil?
+        @subscription = @calendar.subscriptions.build(user_id: current_user.id)
+        @subscription.rw = false
+      end
       @subscription.subscribed = true
-      @subscription.rw = false
       @subscription.title = @calendar.title
       if @subscription.save
         redirect_back_or current_user
@@ -119,7 +131,6 @@ class SubscriptionsController < ApplicationController
         #to do error message
       else
         @subscription = @calendar.subscriptions.build(user_id: @user.id)
-        @subscription.subscribed = true
         if !params[:subscription][:rw].nil?
           @subscription.rw = params[:subscription][:rw]
         else

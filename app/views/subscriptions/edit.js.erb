@@ -4,7 +4,13 @@ $('#subscription_color').val("<%= @subscription.color %>");
 <% user = User.find(cal.user_id) %>
 $('#subscription_user').text("<%= user.full_name %> (<%= user.username %>)")
 $('#subscription_calendar').text("<%= cal.title %>")
+<% if @subscription.rw? %>
+$('#subscription_type').text("View-Modify")
+<% elsif Calendar.find_by_id(@subscription.calendar_id).public? %>
 $('#subscription_type').text("Public (View-Only)")
+<% else %>
+$('#subscription_type').text("View-Only")
+<% end %>
 $('#subscription-form').attr('action',"/subscriptions/<%= @subscription.id %>");
 $('.subscription_delete_btn').remove();
 $('.btn-primary').after('<%= j render(:partial => "subscriptions/delete_btn", :object => :subscription) %>');
