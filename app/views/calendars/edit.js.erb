@@ -11,9 +11,13 @@ $('#calendar_model_title').text('Edit Calendar');
 $('#calendar_shared').html("<%= j render('calendars/shares') %>")
 $(document).ready(function(){ 
     $('.tooltip_class').tooltip();
-});
+    $('#new_share').click(function() {
+        $('#subscription_username').val("");
+    });
+ });
+$('#calendar_id').val("<%= @calendar.id %>")
 $('.calendar_delete_btn').remove();
 <% if !@calendar.default %>
-$('.btn-primary').after('<%= j render(:partial => "calendars/delete_btn", :object => :calendar) %>');
+$('.btn-cal').after('<%= j render(:partial => "calendars/delete_btn", :object => :calendar) %>');
 <% end %>
 $('#calendarModal').modal();

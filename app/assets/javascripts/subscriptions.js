@@ -29,5 +29,21 @@ $(document).ready(function(){
         subscriptionValidator.resetForm();
         subscriptionValidator.submit = {};
     });
+
+        // Clearing the calendar form for new calendar
+    $("#new_calendar").click(function() {
+        $('#calendar_title').val("");
+        $('#calendar_description').val("");
+        $('#calendar_color').val("0");
+        $('#calendar_public').attr('checked', false);
+        $('#calendar_model_title').text('Create Calendar');
+        $('#calendar_shared').html("");
+        calendarValidator.resetForm();
+        calendarValidator.submit = {};
+    });
+
+    $("#share_save").click(function(event) {
+        $("#shareModal").modal('hide');
+    });
 }) ;
 

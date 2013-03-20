@@ -1,16 +1,21 @@
 <div id="shareModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <%= bootstrap_form_for(@subscription, remote: request.xhr?, :method => "put",
+    <%= bootstrap_form_for(@subscription, remote: true, 
             html: { class: 'form-horizontal', id: 'share-form' }) do |f| %>
         <div class="modal-header">
             <button type="button" class="close pull-right" id="share_close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h3 id="share_model_title">Add Subscribed User</h3>
+            <h3 id="share_model_title">Add User To Share With</h3>
         </div>
         <div class="modal-body">
             <div id="share_errorbox"><ul></ul></div>
             <%= f.text_field :username, value: "", label: 'Username' %>
+            <%= f.control_group :rw, label: { text: 'Access' } do %>
+                <%= f.radio_button :rw, false, label: 'View', inline: true %>
+                <%= f.radio_button :rw, true, label: 'View/Modify', inline: true %>
+            <% end %>
+            <input type="hidden" name="calendar_id" id="calendar_id" />
         </div>
         <div class="modal-footer">
-            <%= f.submit "Save", class: "btn btn-primary pull-right" %>
+            <%= f.submit "Save", class: "btn btn-primary pull-right", id: "share_save" %>
          </div>
     <% end %>
 </div>
