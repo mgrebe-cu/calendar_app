@@ -1,6 +1,6 @@
 // Attach jQuery functions after document loads
 $(document).ready(function(){ 
-     // Client side validation for calendar form
+     // Client side validation for subscription form
     var subscriptionValidator = $("#subscription-form").validate({
         errorContainer: "#subscription_errorbox",
         errorLabelContainer: "#subscription_errorbox ul",
@@ -21,6 +21,24 @@ $(document).ready(function(){
            "subscription[title]": {
                 required:"Title is required",
                 remote: "Calendar title is already in use"
+           }}
+    });
+
+     // Client side validation for share form
+    var shareValidator = $("#share-form").validate({
+        errorContainer: "#share_errorbox",
+        errorLabelContainer: "#share_errorbox ul",
+        wrapper: "li",
+        rules: {
+           "subscription[username]": {
+                required:true,
+                remote: "/userverify"
+                }
+            },
+        messages: {
+           "subscription[username]": {
+                required:"Title is required",
+                remote: "Not a valid user"
            }}
     });
 

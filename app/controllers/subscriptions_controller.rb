@@ -3,7 +3,7 @@ class SubscriptionsController < ApplicationController
                 only: [:create]
 
   def new
-    # Query to find pulic candards other than those owned by curent user
+    # Query to find pulic calendards other than those owned by curent user
     pub_cal = "public == 't' AND user_id != #{current_user.id}"
     @calendars = Calendar.where("public == 't' AND user_id != ?",
                   current_user.id)
@@ -115,15 +115,19 @@ class SubscriptionsController < ApplicationController
 
     def create_share
       @user = User.where(username: params[:subscription][:username]).first
-      @subscription = @calendar.subscriptions.build(user_id: @user.id)
-      @subscription.subscribed = true
-      if !params[:subscription][:rw].nil?
-        @subscription.rw = params[:subscription][:rw]
+      if @user.nil?
+        #to do error message
       else
-        @subscription.rw = false
-      end
-      @subscription.title = @calendar.title
-      @subscription.save
+        @subscription = @calendar.subscriptions.build(user_id: @user.id)
+        @subscription.subscribed = true
+        if !params[:subscription][:rw].nil?
+          @subscription.rw = params[:subscription][:rw]
+        else
+          @subscription.rw = false
+        end
+        @subscription.title = @calendar.title
+        @subscription.save
       render :partial => "subscriptions/create"
+      end
     end
 end

@@ -96,6 +96,14 @@ class UsersController < ApplicationController
         end
     end
 
+    def verify
+        users = User.where(username: params[:subscription][:username])
+        response = (users.size != 0)
+        respond_to do |format|
+            format.json { render :json => response }
+        end
+    end
+
     def destroy
         User.find(params[:id]).destroy
         flash[:success] = "User destroyed."
