@@ -2,7 +2,9 @@ class SubscriptionsController < ApplicationController
     before_filter :signed_in_user
     before_filter :auth_user,   
                 only: [:create]
-    # todo : include security on other methods
+    before_filter :sub_user, only: [:show, :edit]
+    before_filter :update_user, only: [:update]
+    before_filter :destroy_user, only: [:destroy]
 
   def new
     # Query to find pulic calendards other than those owned by curent user
@@ -33,7 +35,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def show
-    @subscription = Subscription.find_by_id(params[:id])
     @subscription.displayed = params[:displayed]
     if @subscription.save
       redirect_to request.referer
@@ -44,7 +45,6 @@ class SubscriptionsController < ApplicationController
   end
 
   def edit
-    @subscription = Subscription.find_by_id(params[:id])
     respond_to do |format|
       format.html
       format.js 
@@ -53,7 +53,6 @@ class SubscriptionsController < ApplicationController
 
   def update
     if request.xhr?
-      @subscription = Subscription.find(params[:id])
       @subscription.rw = !@subscription.rw
       if !@subscription.save
         flash[:error] = "Subscription update failed!"  
@@ -61,7 +60,6 @@ class SubscriptionsController < ApplicationController
       end
       @calendar = Calendar.find_by_id(@subscription.calendar_id)
     else
-      @subscription = Subscription.find(params[:id])
       if @subscription.update_attributes(params[:subscription])
         redirect_to request.referer
       else
@@ -72,9 +70,8 @@ class SubscriptionsController < ApplicationController
   end
  
   def destroy
-    @subscription = Subscription.find_by_id(params[:id])
     @calendar = Calendar.find_by_id(@subscription.calendar_id)
-    if @calendar.public?
+    if @calendar.public? or request.xhr?
       @subscription.destroy
     else
       @subscription.subscribed = false
@@ -114,6 +111,30 @@ class SubscriptionsController < ApplicationController
             end
           end
         end
+      end
+    end
+
+    def sub_user
+      @subscription = Subscription.find_by_id(params[:id])
+      redirect_to(root_url) if @subscription.user_id != current_user.id
+    end
+
+    def update_user
+      @subscription = Subscription.find_by_id(params[:id])
+      if request.xhr?
+        if Calendar.find_by_id(@subscription.calendar_id).user_id != current_user.id
+          redirect_to(root_url)
+        end
+      else
+        redirect_to(root_url) if @subscription.user_id != current_user.id
+      end
+    end
+
+    def destroy_user
+      @subscription = Subscription.find_by_id(params[:id])
+      if current_user.id != @subscription.user_id and
+         current_user.id != Calendar.find_by_id(@subscription.calendar_id).user_id
+          redirect_to(root_url)
       end
     end
 
