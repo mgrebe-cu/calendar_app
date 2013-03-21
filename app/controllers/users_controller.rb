@@ -159,19 +159,20 @@ class UsersController < ApplicationController
     def get_subscribed_calendars
         cals = []
         @user.subscriptions.each do |sub|
-            cals << Calendar.find(sub.calendar_id)
+            if sub.subscribed?
+                cals << Calendar.find(sub.calendar_id)
+            end
         end
         cals
     end
 
     def list_all_calendars 
-        Struct.new("CalList",:id,:title)
         all_calendars = []
         @calendars.each do |calendar|
             all_calendars << Struct::CalList.new(calendar.id, calendar.title)
         end
         @user.subscriptions.each do |sub|
-            if sub.rw?
+            if sub.subscribed? and sub.rw?
                 all_calendars << Struct::CalList.new(sub.calendar_id, sub.title)
             end
         end

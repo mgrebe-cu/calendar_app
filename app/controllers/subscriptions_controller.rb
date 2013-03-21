@@ -1,4 +1,5 @@
 class SubscriptionsController < ApplicationController
+    before_filter :signed_in_user
     before_filter :auth_user,   
                 only: [:create]
     # todo : include security on other methods
@@ -73,7 +74,12 @@ class SubscriptionsController < ApplicationController
   def destroy
     @subscription = Subscription.find_by_id(params[:id])
     @calendar = Calendar.find_by_id(@subscription.calendar_id)
-    @subscription.destroy
+    if @calendar.public?
+      @subscription.destroy
+    else
+      @subscription.subscribed = false
+      @subscription.save
+    end
     if !request.xhr?
       redirect_to request.referer
     end

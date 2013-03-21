@@ -72,8 +72,6 @@ class EventsController < ApplicationController
     def update
         @event = Event.find_by_id(params[:id])
 
-        # todo  Is there a way to update the params struct with parse 
-        # instead?
         @event.title = params[:event][:title]
         @event.location = params[:event][:location]
         @event.calendar_id = params[:event][:calendar_id]
