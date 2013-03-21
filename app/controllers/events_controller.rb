@@ -102,6 +102,10 @@ class EventsController < ApplicationController
             redirect_to root_url
         else
             @calendar = current_user.calendars.find_by_id(@event.calendar_id)
+            if @calendar.nil?
+                @calendar = 
+                    current_user.subscriptions.find_by_calendar_id(@event.calendar_id)
+            end
             redirect_to root_url if @calendar.nil?
         end
     end

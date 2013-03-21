@@ -60,8 +60,16 @@ $(document).ready(function(){
         calendarValidator.submit = {};
     });
 
+    // Hide the share modal when save button is clicked
     $("#share_save").click(function(event) {
         $("#shareModal").modal('hide');
     });
+
+    // Clear any validation warnings if the form is cancelled.
+    $("#share_close").click(function() {
+        shareValidator.resetForm();
+        shareValidator.submit = {};
+    });
+
 }) ;
 
