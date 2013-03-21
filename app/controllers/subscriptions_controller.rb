@@ -51,12 +51,22 @@ class SubscriptionsController < ApplicationController
   end
 
   def update
-    @subscription = Subscription.find_by_id(params[:id])
-    if @subscription.update_attributes(params[:subscription])
-      redirect_to request.referer
+    if request.xhr?
+      @subscription = Subscription.find(params[:id])
+      @subscription.rw = !@subscription.rw
+      if !@subscription.save
+        flash[:error] = "Subscription update failed!"  
+        redirect_to request.referer
+      end
+      @calendar = Calendar.find_by_id(@subscription.calendar_id)
     else
-      flash[:error] = "Subscription update failed!"  
-      redirect_to request.referer
+      @subscription = Subscription.find(params[:id])
+      if @subscription.update_attributes(params[:subscription])
+        redirect_to request.referer
+      else
+        flash[:error] = "Subscription update failed!"  
+        redirect_to request.referer
+      end
     end
   end
  

@@ -8,10 +8,14 @@
 (View Only)
 <% end %>
 &nbsp;
-
+<%= link_to share, method: :put, remote: true do %>
+<span class="tooltip_class" data-toggle="tooltip" title="Change Share Access">
+<i class="icon-edit iconlink" id="change<%= share.id%>" ></i>
+</span>
+<% end %>
 <%= link_to share, method: :delete, remote: true, data: { confirm: "You sure?" } do %>
 <span class="tooltip_class" data-toggle="tooltip" title="Delete Share">
-<i class="icon-trash  iconlink" id="close<%= share.id%>" ></i>
+<i class="icon-trash iconlink" id="close<%= share.id%>" ></i>
 </span>
 <% end %>
 <br>
