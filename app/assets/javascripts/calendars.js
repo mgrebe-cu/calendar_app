@@ -32,6 +32,7 @@ $(document).ready(function(){
         $('#calendar_public').attr('checked', false);
         $('#calendar_model_title').text('Create Calendar');
         $('#calendar_shared').html("");
+        $('#calendar-form').attr('action',"/calendars");
         calendarValidator.resetForm();
         calendarValidator.submit = {};
     });

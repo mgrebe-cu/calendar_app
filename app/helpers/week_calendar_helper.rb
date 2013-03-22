@@ -195,7 +195,7 @@ module WeekCalendarHelper
                           :remote => true },
                   :class => "event-popover" do
                     content_tag :div, :class => "hide_extra" do
-                        self.event_day_text(event)
+                        self.event_day_text(event,1)
                      end
                 end
             end
@@ -362,7 +362,7 @@ module WeekCalendarHelper
                           :remote => true },
                 :class => "event-popover" do
                   content_tag :div, :class => "hide_extra" do
-                    self.event_day_text(event)
+                    self.event_day_text(event, @max_cols[day])
                   end
               end              
             end
@@ -406,8 +406,18 @@ module WeekCalendarHelper
 
     # This method produces text for an event with highlighting to 
     #  be displayed on a single line
-    def event_day_text(event)
-      text = "<b>" + event.short_title + "</b>" 
+    def event_day_text(event, cols)
+      if cols == 1
+        max_size = 84/num_days
+      else
+        max_size = 42/(num_days * cols)
+      end
+      if event.title.size > (max_size)
+        text = event.title[0..(max_size - 1)] + '..'
+      else
+        text = event.title
+      end
+      text = "<b>" + text + "</b>" 
       text.html_safe
     end
 

@@ -166,6 +166,7 @@ $(document).ready(function(){
         $('#event_start_time').val(DEFAULT_START_TIME);
         $('#event_end_time').val(DEFAULT_END_TIME);
         $('#message_area').val("");
+        $('#event-form').attr('action',"/events");
         eventValidator.resetForm();
         eventValidator.submit = {};
     });
