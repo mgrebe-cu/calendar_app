@@ -142,8 +142,14 @@ class SubscriptionsController < ApplicationController
       share_num = 1
       while true
         title = "Share" + share_num.to_s
-        tbd
+        cals = Calendar.where(user_id: current_user.id, title: title)
+        subs = Subscription.where(user_id: current_user.id, title: title)
+        if cals.size == 0 and subs.size == 0
+          break
+        end
+        share_num = share_num + 1
       end
+      title
     end
 
     def create_subscription
@@ -153,7 +159,7 @@ class SubscriptionsController < ApplicationController
         @subscription.rw = false
       end
       @subscription.subscribed = true
-      @subscription.title = @calendar.title
+      @subscription.title = unique_title
       if @subscription.save
         redirect_back_or current_user
       else
@@ -173,7 +179,7 @@ class SubscriptionsController < ApplicationController
         else
           @subscription.rw = false
         end
-        @subscription.title = @calendar.title
+        @subscription.title = unique_title
         @subscription.save
       render :partial => "subscriptions/create"
       end

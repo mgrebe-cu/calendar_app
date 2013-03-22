@@ -19,7 +19,7 @@ class UsersController < ApplicationController
         @subscription = Subscription.new
         @default_calendar = Calendar.where(default: true, user_id: @user.id)[0]
         @calendars = @user.calendars 
-        @all_calendars = list_all_calendars
+        list_all_calendars
         @subscribed_calendars = get_subscribed_calendars
         @date = params[:date] ? Date.parse(params[:date]) : Time.zone.now.to_date
         @event = @default_calendar.events.build
@@ -167,15 +167,18 @@ class UsersController < ApplicationController
     end
 
     def list_all_calendars 
-        all_calendars = []
+        @all_calendars = []
+        @readonly_calendars = []
         @calendars.each do |calendar|
-            all_calendars << Struct::CalList.new(calendar.id, calendar.title)
+            @all_calendars << [calendar.title, calendar.id]
         end
         @user.subscriptions.each do |sub|
-            if sub.subscribed? and sub.rw?
-                all_calendars << Struct::CalList.new(sub.calendar_id, sub.title)
+            if sub.subscribed?
+                @all_calendars << [sub.title, sub.calendar.id]
+                if !sub.rw?
+                    @readonly_calendars << sub.title
+                end
             end
         end
-        all_calendars
     end
 end

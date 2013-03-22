@@ -5,4 +5,3 @@ require File.expand_path('../application', __FILE__)
 CalendarApp::Application.initialize!
 
 ENV['TZ'] = 'utc'
-Struct.new("CalList",:id,:title)
