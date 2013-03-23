@@ -3,4 +3,5 @@
   <%= user.username %>
     | <%= link_to "delete", user, method: :delete,
                                   data: { confirm: "You sure?" } %>
+    | <%= link_to "settings", edit_user_path(user) %>
 </li>
