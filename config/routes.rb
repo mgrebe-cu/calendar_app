@@ -23,6 +23,7 @@ CalendarApp::Application.routes.draw do
   match '/subscriptioncheck', to: 'subscriptions#check'
   match '/usercheck', to: 'users#check'
   match '/userverify', to: 'users#verify'
+  match '/usersearch', to: 'users#search'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

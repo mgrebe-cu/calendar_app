@@ -105,6 +105,17 @@ class UsersController < ApplicationController
         end
     end
 
+    def search
+        users = User.where("username LIKE :prefix", prefix: "#{params[:q]}%")
+        usernames = []
+        users.each do |user|
+            usernames << user.username
+        end
+        respond_to do |format|
+            format.json { render :json => usernames }
+        end
+    end
+
     def destroy
         User.find(params[:id]).destroy
         flash[:success] = "User destroyed."

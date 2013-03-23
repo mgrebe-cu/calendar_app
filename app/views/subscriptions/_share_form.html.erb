@@ -7,7 +7,7 @@
         </div>
         <div class="modal-body">
             <div id="share_errorbox"><ul></ul></div>
-            <%= f.text_field :username, value: "", label: 'Username' %>
+            <%= f.text_field :username, value: "", autocomplete: "off", label: 'Username' %>
             <%= f.control_group :rw, label: { text: 'Access' } do %>
                 <%= f.radio_button :rw, false, label: 'View', inline: true %>
                 <%= f.radio_button :rw, true, label: 'View/Modify', inline: true %>
