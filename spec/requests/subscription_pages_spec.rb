@@ -13,6 +13,8 @@ describe "SubscriptionPages" do
     let(:event2) { FactoryGirl.create(:event, calendar: calendar2) }
 
     before do
+        user1.default_view = :day
+        user2.default_view = :day
         user1.save
         user2.save
         calendar1.save
@@ -37,7 +39,28 @@ describe "SubscriptionPages" do
         it { should have_content(event1.title)}
     end
 
-    describe "Shhare calendar", :js => true do
+    describe "Subscribe to non-public" do
+
+        before do
+            sub = Subscription.new
+            sub.user_id = user1.id
+            sub.calendar_id = calendar2.id
+            sub.rw = false
+            sub.displayed = true
+            sub.subscribed = false
+            sub.save
+            sign_in user1
+            visit user_path(user1)
+            find(:xpath, "(//a/i[@class='icon-plus iconlink'])[2]/..").click
+            click_button 'Add Subscription'
+        end
+
+        it { should have_content('Share1')}
+        it { should have_content(allday2.title)}
+        it { should have_content(event2.title)}
+    end
+
+    describe "Share calendar", :js => true do
         before do
             sign_in user2
             find(:xpath, "//i[@class='icon-cogs iconlink']/..").click
@@ -60,6 +83,14 @@ describe "SubscriptionPages" do
             end
 
             it { should_not have_content("View Only")}
+        end
+
+        describe "Change access on shared calendar" do
+            before do
+                find(:xpath, "//i[@class='icon-edit iconlink']/..").click
+            end
+
+            it { should have_content("View and Modify")}
         end
 
     end
