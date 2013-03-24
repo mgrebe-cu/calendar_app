@@ -12,23 +12,25 @@ FactoryGirl.define do
         sequence(:title) { |n| "Calendar #{n}"}
         sequence(:description) { |n| "Calendar for tracking #{n} things"}
         sequence (:color) { |n| :blue }
+        public false
         user
     end
 
     factory :event do
-        sequence(:title) { |n| "Test Event #{n}"}
+        sequence(:title) { |n| "#{n} Test"}
         sequence(:location) { |n| "Location #{n}"}
         sequence(:notes) { |n| "Notes about #{n}"}
         all_day false
-        start_date Time.now
-        end_date Time.now
-        start_time 3.hour.ago
-        end_time 1.hour.ago
+        start_date Time.zone.now
+        end_date Time.zone.now
+        sequence(:start_time) { |n| Time.zone.now.midnight + (9+n%8).hours }
+        sequence(:end_time) { |n| Time.zone.now.midnight + (9+n%8).hours + 
+                                ((n%4 + 1) * 30).minutes }
         calendar
     end
 
     factory :all_day, :class => Event do
-        sequence(:title) { |n| "All Event #{100+n}"}
+        sequence(:title) { |n| "#{n} All"}
         sequence(:location) { |n| "Location #{n}"}
         sequence(:notes) { |n| "Notes about #{n}"}
         start_date Time.now

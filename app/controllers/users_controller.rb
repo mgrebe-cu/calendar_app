@@ -158,9 +158,17 @@ class UsersController < ApplicationController
 
     def events_for_current_user
         events = []
-        cals = @user.calendars + get_subscribed_calendars
+        cals = @user.calendars 
         cals.each do |cal|
             if cal.displayed.nil? or cal.displayed
+                events = events + cal.events
+            end
+        end
+        cals = get_subscribed_calendars
+        cals.each do |cal|
+            sub = Subscription.where("calendar_id == ? AND user_id == ?",
+                     cal.id, @user.id).first
+            if sub.displayed?
                 events = events + cal.events
             end
         end

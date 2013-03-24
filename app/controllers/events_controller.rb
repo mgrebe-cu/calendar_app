@@ -5,6 +5,10 @@ class EventsController < ApplicationController
     def parse_params
         # Find the offset so we store times in UTC
         offset = Time.zone.now.time_zone.utc_offset
+        # Make sure and check if our timezone currently has daylight savings time
+        if Time.zone.now.dst?
+            offset = offset + 60*60
+        end
         begin
             if @event.all_day
                 start_t = params[:event][:start_date]

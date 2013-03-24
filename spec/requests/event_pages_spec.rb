@@ -108,7 +108,7 @@ describe "EventPages" do
             it { should have_content(heading) }
             it { should have_content(event1.title)}
             it { should have_content(event2.title)}
-            it { should have_content('3 more')}
+            it { should have_content("3 more")}
         end
     end 
 
@@ -121,8 +121,8 @@ describe "EventPages" do
         describe "todays page" do
             time = Time.now
             heading = time.strftime("%B %-d")
-            it { should have_content(event1.title)}
-            it { should have_content(event2.title)}
+            it { should have_content(event1.title[0..1])}
+            it { should have_content(event2.title[0..1])}
             it { should have_content(allday1.title)}
             it { should have_content(allday2.title)}
         end
