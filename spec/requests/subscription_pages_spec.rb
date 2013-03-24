@@ -23,7 +23,7 @@ describe "SubscriptionPages" do
         event2.save
     end
 
-    describe "subscribe to public" do
+    describe "Subscribe to public" do
 
         before do
             sign_in user2
@@ -37,34 +37,30 @@ describe "SubscriptionPages" do
         it { should have_content(event1.title)}
     end
 
-    describe "subscribe to other calendar", :js => true do
+    describe "Shhare calendar", :js => true do
         before do
             sign_in user2
-            find(:xpath, "//a/i[@class='icon-cogs iconlink']/..").click
-            #page.has_css?("#calendar_title", :visible => true)
-            sleep 1
-            click_link "Plus"
-            #find(:xpath, "(//a/i[@class='icon-plus iconlink'])[3]/..").click
-            #page.has_css?("#subscription_username", :visible => true)
-            sleep 1
-                fill_in "Username", with: user1.username
+            find(:xpath, "//i[@class='icon-cogs iconlink']/..").click
+            page.has_css?("#calendar_title", :visible => true)
+            find(:xpath, "(//i[@class='icon-plus iconlink'])/..").click
+            page.has_css?("#subscription_username", :visible => true)
+            fill_in "Username", with: user1.username
             within "#share-form" do
                 click_button "Save"
             end
-            #page.has_css?("#calendar_title", :visible => true)
-            sleep 1
-            within "#subscription-form" do
-                click_button "Save"
-            end
-            sign_out
-            sign_in user1
-            visit user_path(user1)
-            find(:xpath, "(//a/i[@class='icon-plus iconlink'])[2]/..").click
-            click_button 'Add Subscription'
+            page.has_css?("#calendar_title", :visible => true)
         end
 
-        it { should have_content('Share1')}
-        it { should have_content(allday2.title)}
-        it { should have_content(event2.title)}
+        it { should have_content("View Only")}
+
+        describe "Delete shared calendar" do
+            before do
+                find(:xpath, "//i[@class='icon-trash iconlink']/..").click
+                page.driver.browser.switch_to.alert.accept
+            end
+
+            it { should_not have_content("View Only")}
+        end
+
     end
 end
