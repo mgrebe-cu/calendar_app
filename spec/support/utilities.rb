@@ -10,7 +10,3 @@ end
 def sign_out
   click_link "Signout"
 end
-
-def find_modal_element(modal_element_id)
-  wait_until { page.find(modal_element_id).visible? }
-end

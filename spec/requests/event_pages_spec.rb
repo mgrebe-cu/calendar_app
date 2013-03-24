@@ -44,7 +44,7 @@ describe "EventPages" do
             describe "with invalid information", :js => true do
                 before do
                     click_link 'New Event'
-                    find_modal_element("#event_title")
+                    page.has_css?("#event_title", :visible => true)
                     click_button 'Save'
                 end
                 it { should have_content('Title is required')}
@@ -74,7 +74,7 @@ describe "EventPages" do
         describe "edit event", :js => true do
             before do
                 click_link event2.title
-                find_modal_element("#event_title")
+                page.has_css?("#event_title", :visible => true)
                 fill_in "event[title]", with: "Edited Event"
                 fill_in "event[start_time]", with: "10:00 AM"
                 fill_in "event[end_time]", with: "11:00 PM"
@@ -87,7 +87,7 @@ describe "EventPages" do
         describe "delete event", :js => true do
             before do
                 click_link 'Unique'
-                find_modal_element("#event_title")
+                page.has_css?("#event_title", :visible => true)
                 click_link 'Delete'
             end
             

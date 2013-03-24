@@ -41,7 +41,7 @@ describe "CalendarPages" do
             describe "with invalid information", :js => true do
                 before do
                     find(:xpath, "//a/i[@class='icon-plus iconlink']/..").click
-                    find_modal_element("#calendar_title")
+                    page.has_css?("#calendar_title", :visible => true)
                     click_button 'Save'
                 end
                 it { should have_content('Title is required')}
@@ -55,7 +55,7 @@ describe "CalendarPages" do
                     fill_in "calendar[description]",  with: "Testing"
                     select 'Green', from: 'calendar[color]'
                     click_button 'Save'
-                    find_modal_element('#new_event')
+                    page.has_css?('#new_event', :visible => true)
                 end
 
                 specify { user.calendars.count == 3 }
@@ -67,11 +67,11 @@ describe "CalendarPages" do
         describe "edit calendar", :js => true do
             before do
                 find(:xpath, "(//a/i[@class='icon-cogs iconlink'])[2]/..").click
-                find_modal_element("#calendar_title")
+                page.has_css?("#calendar_title", :visible => true)
                 fill_in "calendar[title]", with: "Edited Calendar"
                 select 'Green', from: 'calendar[color]'
                 click_button 'Save'
-                find_modal_element('#new_event')
+                page.has_css?('#new_event', :visible => true)
             end
             it { should have_xpath("//i[@class='icon-circle calf_green']")}
             it { should have_content('Edited Calendar')}
@@ -80,7 +80,7 @@ describe "CalendarPages" do
         describe "delete calendar", :js => true do
             before do
                 find(:xpath, "(//a/i[@class='icon-cogs iconlink'])[2]/..").click
-                find_modal_element("#calendar_title")
+                page.has_css?("#calendar_title", :visible => true)
                 click_link 'Delete'
             end
             
