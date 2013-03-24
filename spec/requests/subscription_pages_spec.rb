@@ -37,6 +37,20 @@ describe "SubscriptionPages" do
         it { should have_content('Share1')}
         it { should have_content(allday1.title)}
         it { should have_content(event1.title)}
+
+        describe "edit subscription", :js => true do
+            before do
+                find(:xpath, "(//a/i[@class='icon-cogs iconlink'])[2]/..").click
+                page.has_css?("#subscription_title", :visible => true)
+                fill_in "subscription[title]", with: "Edited"
+                select 'Purple', from: 'subscription[color]'
+                click_button 'Save'
+                page.has_css?('#new_event', :visible => true)
+            end
+            it { should have_xpath("//i[@class='icon-circle calf_purple']")}
+            it { should have_content('Edited')}
+        end
+
     end
 
     describe "Subscribe to non-public" do
