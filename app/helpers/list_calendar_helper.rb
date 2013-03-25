@@ -1,5 +1,5 @@
 # The module is rails helper for displaying a calendar
-# day view.  It requires a collection of event objects
+# list view.  It requires a collection of event objects
 # passed in, as well as the date requested.
 # The event objects are expected to have fields of
 #  * title : string

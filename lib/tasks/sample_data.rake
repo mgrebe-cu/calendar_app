@@ -10,7 +10,7 @@ end
 
 def make_users
   admin = User.create!(full_name: "Example User",
-                       username:  "user",
+                       username:  "exuser",
                        password:  "foobar1",
                        password_confirmation: "foobar1")
   admin.toggle!(:admin)

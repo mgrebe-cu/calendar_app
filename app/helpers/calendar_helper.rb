@@ -1,7 +1,9 @@
 # The module is rails helper for displaying a calendar
-# month view.  It is based on code by Ryan Bates 
-# from railscasts.com.
-
+# month view. 
+# Author::    Mark Grebe  
+# Developed for Master of Engineering Project
+# University of Colorado - Boulder - Spring 2013
+# Based on code by Ryan Bates from railscasts.com
 module CalendarHelper
   def calendar(date = Time.zone.now.to_date, &block)
     Calendar.new(self, date, block).table

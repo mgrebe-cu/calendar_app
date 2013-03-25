@@ -1,5 +1,5 @@
 # The module is a rails helper for displaying a calendar
-# day view, either a single day or multiple days for a
+# week view, either a single day or multiple days for a
 # week or work week view.  It requires a collection of 
 # event objects passed in, as well as the date requested.
 # The event objects are expected to have fields of

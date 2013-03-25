@@ -1,3 +1,9 @@
+# This module is a rails helper for sessions
+# Author::    Mark Grebe  
+# Copyright:: Based on code from Ruby on Rails Tutorial by Michael Hartl
+# License::   Distributes under the same terms as Ruby
+# Developed for Master of Engineering Project
+# University of Colorado - Boulder - Spring 2013
 module SessionsHelper
 
   def sign_in(user)
