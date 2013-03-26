@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+     // Client side validation for signin form
     var signinValidator = $("#signin-form").validate({
         errorContainer: "#signin_errorbox",
         errorLabelContainer: "#signin_errorbox ul",

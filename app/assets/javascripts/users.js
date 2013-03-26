@@ -1,4 +1,5 @@
 $(document).ready(function(){ 
+     // Client side validation for user settings form
     var settingsValidator = $("#settings-form").validate({
         errorContainer: "#settings_errorbox",
         errorLabelContainer: "#settings_errorbox ul",
@@ -15,6 +16,7 @@ $(document).ready(function(){
            }}
     });
 
+     // Client side validation for password change form
     $.validator.addMethod("validPassword", function(value) {
         var passRe = /^.*(?=.*\d)(?=.*[a-zA-Z]).*$/;
         return passRe.test(value);
@@ -50,6 +52,7 @@ $(document).ready(function(){
        }
     });
 
+     // Client side validation for user form
     $.validator.addMethod("validPassword", function(value) {
         var passRe = /^.*(?=.*\d)(?=.*[a-zA-Z]).*$/;
         return passRe.test(value);

@@ -124,17 +124,8 @@ $(document).ready(function(){
            "event[title]": {
                 required:true
             },
-           // "event[start_date]": {
-           //      lowerTime:true
-           // },
            "event[end_date]": {
                 lowerTime:true
-           // },
-           // "event[start_time]": {
-           //      lowerTime:true
-           //  },
-           // "event[end_time]": {
-           //      lowerTime:true
             }},
         messages: {
            "event[title]": {

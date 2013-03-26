@@ -25,6 +25,7 @@ module ListCalendarHelper
     def table
       content_tag :table do
         rows = []
+        rows << header
         events.each do |event|
           row = content_tag :tr do
             cols = []
@@ -88,6 +89,39 @@ module ListCalendarHelper
         end
         rows.join.html_safe
       end
+    end
+
+    def header
+      cols = []
+      col = content_tag :th, :class => "day_header" do
+        'Title'
+      end
+      cols << col
+      col = content_tag :th, :class => "day_header"  do
+        'Location'
+      end
+      cols << col
+      col = content_tag :th, :class => "day_header"  do
+        'Start Day'
+      end
+      cols << col
+      col = content_tag :th, :class => "day_header"  do
+        'Start Time'
+      end
+      cols << col
+      col = content_tag :th, :class => "day_header"  do
+        'End Day'
+      end
+      cols << col
+      col = content_tag :th, :class => "day_header"  do
+        'End Time'
+      end
+      cols << col
+      col = content_tag :th, :class => "day_header"  do
+        'Notes'
+      end
+      cols << col
+      cols
     end
 
     # This method produces text for an event with highlighting to 
