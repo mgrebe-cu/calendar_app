@@ -1,7 +1,15 @@
+# This class is a rails controller for event objects
+# Author::    Mark Grebe  
+# Copyright:: Copyright (c) 2013 Mark Grebe
+# License::   Distributes under the same terms as Ruby
+# Developed for Master of Engineering Project
+# University of Colorado - Boulder - Spring 2013
 class EventsController < ApplicationController
     before_filter :signed_in_user
     before_filter :correct_user,   only: [:update, :destroy]
 
+    # This utility method converts the time and date fields from the event form
+    # into the start and end times.
     def parse_params
         # Find the offset so we store times in UTC
         offset = Time.zone.now.time_zone.utc_offset
@@ -48,6 +56,7 @@ class EventsController < ApplicationController
         @event.calendar_id = params[:event][:calendar_id]
     end
 
+    # Create a new event
     def create
         calendar = Calendar.where(default: true, user_id: current_user.id)[0]
         @event = calendar.events.build(params[:event])
@@ -61,6 +70,8 @@ class EventsController < ApplicationController
         end
     end
 
+    # Start editing an event.  Send the javascript response which will fill
+    #  in the event edit form with the current event fields.
     def edit
         @event = Event.find_by_id(params[:id])
         respond_to do |format|
@@ -69,6 +80,7 @@ class EventsController < ApplicationController
         end
     end
 
+    # Update an event which was edit.
     def update
         @event = Event.find_by_id(params[:id])
 
@@ -87,6 +99,7 @@ class EventsController < ApplicationController
         end
     end
 
+    # Delete an event
     def destroy
         @event.destroy
         redirect_to request.referer
@@ -94,6 +107,8 @@ class EventsController < ApplicationController
 
   private
 
+    # Valaidte the user, making sure they have read/write access to the calendar which
+    #  owns the event being accessed
     def correct_user
         @event = Event.find_by_id(params[:id])
         if @event.nil?
