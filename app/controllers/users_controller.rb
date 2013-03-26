@@ -93,11 +93,26 @@ class UsersController < ApplicationController
             redirect_to @user
         # Password Update
         else
-            if @user.update_attributes(params[:user])
-                flash[:success] = "Settings updated"
-                sign_in @user
-                redirect_to @user
+            # Validate the user, or allow an admin to change a users
+            # password without specifying the old one.  (Except for theirs
+            # or another admin user)
+            if (current_user.admin? and !current_user?(@user) and !@user.admin?) or
+                 @user.authenticate(params[:user][:old_password])
+                params[:user].delete(:old_password)
+                if @user.update_attributes(params[:user])
+                    if !(current_user.admin? and !current_user?(@user))
+                        flash[:success] = "Password updated"
+                        sign_in @user
+                        redirect_to @user
+                    else
+                        flash[:success] = "User Password updated"
+                        redirect_to current_user
+                    end
+                else
+                    render 'edit'
+                end
             else
+                flash[:error] = "Incorrect current password"
                 render 'edit'
             end
         end
@@ -121,7 +136,7 @@ class UsersController < ApplicationController
         end
     end
 
-    # AJAX routine to user for Typeahed finding of usernames
+    # AJAX routine to user for Typeahead finding of usernames
     def search
         users = User.where("username LIKE :prefix", prefix: "#{params[:q]}%")
         usernames = []
