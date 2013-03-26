@@ -11,6 +11,7 @@ class UsersController < ApplicationController
                 only: [:edit, :show, :update]
     before_filter :admin_user, only: [:index, :destroy]
 
+    # List users for admin access
     def index
         @users = User.paginate(page: params[:page])
     end
@@ -19,6 +20,7 @@ class UsersController < ApplicationController
         @user = User.new
     end
 
+    # Display a users calendars in the proper view
     def show
         @user = User.find(params[:id])
         @calendar = Calendar.new
@@ -33,15 +35,18 @@ class UsersController < ApplicationController
             @format = @user.default_view.to_sym
         else
             @format = params[:format].to_sym
-        end   
+        end 
+        # Handle the day view  
         if @format == :day
             @events = [events_for_date(@date)]
+        # Handle the week view
         elsif @format == :week
             start_date = @date.beginning_of_week(:sunday)
             @events = []
             (0..6).each do |d|
                 @events << events_for_date(start_date + d.days)
             end
+        # Handle the month view
         elsif @format == :month
             first = @date.beginning_of_month.beginning_of_week(:sunday)
             last = @date.end_of_month.end_of_week(:sunday)
@@ -51,14 +56,17 @@ class UsersController < ApplicationController
                 @events_by_date[day] = events_for_date(day)
                 day = day + 1.day
             end 
+        # Handle the list view
         else
             @events = events_for_current_user.sort { |a,b| a.start_time <=> b.start_time }
         end 
     end
 
+    # Create a new user
     def create
         @user = User.new(params[:user])
         if @user.save
+            # Create the default calendar for the user
             cal = @user.calendars.build(default: true)
             cal.save
             sign_in @user
@@ -95,6 +103,7 @@ class UsersController < ApplicationController
         end
     end
 
+    # AJAX routine to check the username, making sure it does not exist already
     def check
         users = User.where(username: params[:user][:username])
         response = users.size == 0
@@ -103,6 +112,7 @@ class UsersController < ApplicationController
         end
     end
 
+    # AJAX routine to verify the username, making sure it does exist 
     def verify
         users = User.where(username: params[:subscription][:username])
         response = (users.size != 0)
@@ -111,6 +121,7 @@ class UsersController < ApplicationController
         end
     end
 
+    # AJAX routine to user for Typeahed finding of usernames
     def search
         users = User.where("username LIKE :prefix", prefix: "#{params[:q]}%")
         usernames = []
@@ -122,6 +133,7 @@ class UsersController < ApplicationController
         end
     end
 
+    # Destroy a user
     def destroy
         User.find(params[:id]).destroy
         flash[:success] = "User destroyed."
@@ -129,16 +141,18 @@ class UsersController < ApplicationController
     end
 
   private
-
+    # Determine if a current user can display this users's pages
     def correct_user
       @user = User.find(params[:id])
       redirect_to(root_url) unless current_user?(@user) or current_user.admin?
     end
 
+    # Determine if current user is an admin user
     def admin_user
       redirect_to(root_url) unless current_user.admin?
     end
 
+    # Retrieve the events for a date for day, week, or month views
     def events_for_date(event_date)
         events = []
         cals = @user.calendars
@@ -162,6 +176,7 @@ class UsersController < ApplicationController
         events.sort! { |a,b| a.start_time <=> b.start_time }
     end
 
+    # Retrieve all events for a user in lists form
     def events_for_current_user
         events = []
         cals = @user.calendars 
@@ -181,6 +196,7 @@ class UsersController < ApplicationController
         events
     end
 
+    # Retrieve an array of all calendars user is subscribed to
     def get_subscribed_calendars
         cals = []
         @user.subscriptions.each do |sub|
@@ -191,6 +207,9 @@ class UsersController < ApplicationController
         cals
     end
 
+    # Create an array of all calendars user is subscribed to for
+    # use in dropdown menu.  Also create a list of those calendars
+    # that are readonly, so that they may be disabled from selection.
     def list_all_calendars 
         @all_calendars = []
         @readonly_calendars = []
