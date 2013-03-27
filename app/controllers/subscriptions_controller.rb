@@ -15,7 +15,7 @@ class SubscriptionsController < ApplicationController
   def new
     # Query to find pulic calendards other than those owned by curent user
     @calendars = Calendar.where(public: true)
-    # Remove any of users own from the list
+    # Remove any of users own calendars from the list
     @calendars.reject! do |c|
       c.user_id == current_user.id
     end
