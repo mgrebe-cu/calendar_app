@@ -159,7 +159,11 @@ class UsersController < ApplicationController
     # Determine if a current user can display this users's pages
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user) or current_user.admin?
+      if params[:action] == "show"
+          redirect_to(root_url) unless current_user?(@user)
+      else
+          redirect_to(root_url) unless current_user?(@user) or current_user.admin?
+      end
     end
 
     # Determine if current user is an admin user

@@ -97,13 +97,14 @@ describe "UserPages" do
                 before { click_button 'Change password' }
 
                 it { should have_selector('title', text: 'Edit settings') }
-                it { should have_content("can't be blank") }
+                it { should have_content("Incorrect current password") }
             end
 
             describe "with valid information" do
                 before do
-                    fill_in "Password",     with: "foobar2"
-                    fill_in "Confirmation", with: "foobar2"
+                    fill_in "Current Password", with: "foo1bar"
+                    fill_in "New Password",     with: "foobar2"
+                    fill_in "New Password Confirmation", with: "foobar2"
                     click_button 'Change password'
                 end
 
