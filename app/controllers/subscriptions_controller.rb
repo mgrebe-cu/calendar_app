@@ -21,12 +21,14 @@ class SubscriptionsController < ApplicationController
     end
     # Remove any from the list the user is already subscribed to
     @calendars.reject! do |c|
-        Subscription.where("user_id == ? AND calendar_id == ?",
-          current_user.id, c.id).size != 0
+        Subscription.where(user_id: current_user.id, calendar_id: c.id).size != 0
     end
     # Calendars that have specific access given to this user
-    subs = Subscription.where("user_id == ? AND subscribed == 'f'",
-          current_user.id);
+    subs = Subscription.where(user_id: current_user.id)
+    # Remove any from the list the user is already subscribed to
+    subs.reject! do |s|
+      s.subscribed?
+    end
     subs.each do |sub|
       @calendars << Calendar.find_by_id(sub.calendar_id)
     end
