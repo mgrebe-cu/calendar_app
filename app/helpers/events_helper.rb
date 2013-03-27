@@ -7,12 +7,16 @@
 module EventsHelper
     # Determine if the current user is able to modify an event
     def current_user_has_rw?(event)
-        sub = Subscription.find_by_calendar_id(event.calendar_id)
-        if !sub.nil?
-            sub.rw 
+        cal = Calendar.find_by_id(event.calendar_id)
+        if current_user.id == cal.user_id
+            true
         else
-            cal = Calendar.find_by_id(event.calendar_id)
-            current_user.id == cal.user_id
-        end
+            sub = Subscription.find_by_calendar_id(event.calendar_id)
+            if sub.nil?
+                false
+            else
+                sub.rw
+            end
+        end 
     end
 end
