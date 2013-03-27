@@ -180,8 +180,7 @@ class UsersController < ApplicationController
         end
         cals = get_subscribed_calendars
         cals.each do |cal|
-            sub = Subscription.where("calendar_id == ? AND user_id == ?",
-                     cal.id, @user.id).first
+            sub = Subscription.where(calendar_id: cal.id, user_id: @user.id).first
             if sub.displayed?
                 events = events + cal.events.where("start_time <= :end_of_day AND end_time >= :start_of_day ",
                     {:end_of_day => event_date.end_of_day, 
@@ -202,8 +201,7 @@ class UsersController < ApplicationController
         end
         cals = get_subscribed_calendars
         cals.each do |cal|
-            sub = Subscription.where("calendar_id == ? AND user_id == ?",
-                     cal.id, @user.id).first
+            sub = Subscription.where(calendar_id: cal.id, user_id: @user.id).first
             if sub.displayed?
                 events = events + cal.events
             end
