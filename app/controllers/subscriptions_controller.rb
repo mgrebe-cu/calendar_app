@@ -134,7 +134,7 @@ class SubscriptionsController < ApplicationController
         if !@calendar.public?
           if Subscription.where(user_id: current_user.id, 
                                 calendar_id: @calendar.id).size == 0
-\            if current_user.id != @calendar.user_id
+            if current_user.id != @calendar.user_id
               redirect_to(root_url)
             end
           end
